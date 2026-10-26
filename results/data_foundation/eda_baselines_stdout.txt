@@ -1,0 +1,45 @@
+n_municipalities 300
+good muni-years 4023 munis with >=5 good years 293
+climate_missing_fraction_2010_2024 {'temp_mean': 0.0, 'precip_mm': 0.0, 'humid_mean': 0.0, 'id_temp_mean': 0.0515, 'id_humid_mean': 0.0518}
+case_weeks_missing_fraction_2010_2024 0.0
+peak_var_overall {'n_years': {'count': 293.0, 'mean': 13.65, 'std': 2.17, 'min': 5.0, '25%': 13.0, '50%': 15.0, '75%': 15.0, 'max': 15.0}, 'peak_circ_sd': {'count': 293.0, 'mean': 6.43, 'std': 1.87, 'min': 2.12, '25%': 5.19, '50%': 6.35, '75%': 7.27, 'max': 13.07}, 'peak_mad_from_circmean': {'count': 293.0, 'mean': 4.19, 'std': 1.51, 'min': 1.0, '25%': 3.0, '50%': 4.0, '75%': 5.0, 'max': 9.0}, 'frac_years_peak_off_gt4wk': {'count': 293.0, 'mean': 0.44, 'std': 0.16, 'min': 0.0, '25%': 0.33, '50%': 0.47, '75%': 0.54, 'max': 0.87}, 'com_circ_sd': {'count': 293.0, 'mean': 5.32, 'std': 1.85, 'min': 1.87, '25%': 3.97, '50%': 5.05, '75%': 6.17, 'max': 12.05}}
+peak_var_by_region_median {'peak_circ_sd': {'Center-West': 6.18, 'North': 6.86, 'Northeast': 8.02, 'South': 5.87, 'Southeast': 5.94}, 'peak_mad_from_circmean': {'Center-West': 4.0, 'North': 4.0, 'Northeast': 5.0, 'South': 4.0, 'Southeast': 4.0}, 'frac_years_peak_off_gt4wk': {'Center-West': 0.47, 'North': 0.5, 'Northeast': 0.53, 'South': 0.35, 'Southeast': 0.4}, 'com_circ_sd': {'Center-West': 4.71, 'North': 6.09, 'Northeast': 6.84, 'South': 4.36, 'Southeast': 4.88}}
+                       jsd         peak_err        mae_share         mae_counts         
+                      mean  median     mean median      mean  median       mean   median
+model                                                                                   
+seasonal_LOYO       0.1170  0.0996   6.0149    5.0    0.0117  0.0113    59.1122  14.1538
+seasonal_past_only  0.1339  0.1125   6.3178    5.0    0.0125  0.0119    60.9256  15.2830
+uniform             0.1884  0.1681  11.6915   13.0    0.0156  0.0152    95.5926  19.1698
+                      jsd                                 peak_err                           
+model       seasonal_LOYO seasonal_past_only uniform seasonal_LOYO seasonal_past_only uniform
+region                                                                                       
+Center-West         0.115              0.132   0.196         5.807              6.293  11.191
+North               0.144              0.173   0.197         7.019              7.373   8.537
+Northeast           0.115              0.134   0.163         7.110              7.582  14.718
+South               0.126              0.147   0.202         5.709              6.043  11.826
+Southeast           0.107              0.118   0.189         5.441              5.589  11.730
+model     seasonal_LOYO  seasonal_past_only  uniform
+epi_year                                            
+2010              0.131                 NaN    0.229
+2011              0.093               0.184    0.181
+2012              0.116               0.167    0.155
+2013              0.121               0.144    0.257
+2014              0.102               0.122    0.169
+2015              0.134               0.148    0.216
+2016              0.144               0.146    0.260
+2017              0.119               0.127    0.142
+2018              0.127               0.129    0.135
+2019              0.124               0.139    0.198
+2020              0.115               0.121    0.186
+2021              0.124               0.128    0.165
+2022              0.132               0.138    0.174
+2023              0.088               0.090    0.157
+2024              0.101               0.101    0.220
+n eval muni-years (common set): 3757
+JSD noise floor mean/median: 0.0143 0.0067
+year_total
+(99.0, 300.0]           0.0490
+(300.0, 1000.0]         0.0174
+(1000.0, 5000.0]        0.0048
+(5000.0, 10000000.0]    0.0009
+Name: jsd_floor, dtype: float64

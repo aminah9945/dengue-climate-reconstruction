@@ -1,0 +1,8 @@
+,jsd,jsd,jsd,peak_err,peak_err,peak_err
+model,seasonal_LOYO,seasonal_past_only,uniform,seasonal_LOYO,seasonal_past_only,uniform
+region,,,,,,
+Center-West,0.115,0.132,0.196,5.807,6.293,11.191
+North,0.144,0.173,0.197,7.019,7.373,8.537
+Northeast,0.115,0.134,0.163,7.11,7.582,14.718
+South,0.126,0.147,0.202,5.709,6.043,11.826
+Southeast,0.107,0.118,0.189,5.441,5.589,11.73

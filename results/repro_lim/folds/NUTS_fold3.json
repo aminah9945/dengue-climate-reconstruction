@@ -1,0 +1,230 @@
+{
+ "rows": [
+  {
+   "model": "DM",
+   "fit": "NUTS",
+   "fold": 3,
+   "n_rows": 1248,
+   "MAE": 8.338614192973345,
+   "RMSE": 51.3546446713559,
+   "MAE_median": 9.356170003494455,
+   "RMSE_median": 55.05551322171102,
+   "COV80": 0.9415064102564102,
+   "CRPS": 6.7513294796054675,
+   "JSD_mean": 0.10962168487798343,
+   "peak_month_err": 2.0384615384615383,
+   "runtime_s": 1090.2,
+   "fit_s": 1090.0
+  },
+  {
+   "model": "uniform",
+   "fit": "-",
+   "fold": 3,
+   "n_rows": 1248,
+   "MAE": 10.260971405907096,
+   "RMSE": 54.80202003263716,
+   "MAE_median": NaN,
+   "RMSE_median": NaN,
+   "COV80": NaN,
+   "CRPS": NaN,
+   "JSD_mean": 0.15904375639541252,
+   "peak_month_err": 3.4423076923076925,
+   "runtime_s": 0.0,
+   "fit_s": 0.0
+  },
+  {
+   "model": "historical_mean_shares",
+   "fit": "-",
+   "fold": 3,
+   "n_rows": 1248,
+   "MAE": 7.954783591804676,
+   "RMSE": 51.33473109394609,
+   "MAE_median": NaN,
+   "RMSE_median": NaN,
+   "COV80": NaN,
+   "CRPS": NaN,
+   "JSD_mean": 0.1056049257788638,
+   "peak_month_err": 1.5384615384615385,
+   "runtime_s": 0.0,
+   "fit_s": 0.0
+  }
+ ],
+ "canc": [
+  {
+   "fit": "NUTS",
+   "fold": 3,
+   "country_idx": 7,
+   "n_test_years": 4,
+   "max_abs_diff": 2.7755575615628914e-17
+  },
+  {
+   "fit": "NUTS",
+   "fold": 3,
+   "country_idx": 9,
+   "n_test_years": 4,
+   "max_abs_diff": 5.551115123125783e-17
+  },
+  {
+   "fit": "NUTS",
+   "fold": 3,
+   "country_idx": 10,
+   "n_test_years": 2,
+   "max_abs_diff": 1.3877787807814457e-17
+  },
+  {
+   "fit": "NUTS",
+   "fold": 3,
+   "country_idx": 15,
+   "n_test_years": 2,
+   "max_abs_diff": 2.7755575615628914e-17
+  },
+  {
+   "fit": "NUTS",
+   "fold": 3,
+   "country_idx": 21,
+   "n_test_years": 4,
+   "max_abs_diff": 2.7755575615628914e-17
+  },
+  {
+   "fit": "NUTS",
+   "fold": 3,
+   "country_idx": 25,
+   "n_test_years": 2,
+   "max_abs_diff": 5.551115123125783e-17
+  },
+  {
+   "fit": "NUTS",
+   "fold": 3,
+   "country_idx": 26,
+   "n_test_years": 2,
+   "max_abs_diff": 1.3877787807814457e-17
+  },
+  {
+   "fit": "NUTS",
+   "fold": 3,
+   "country_idx": 40,
+   "n_test_years": 2,
+   "max_abs_diff": 2.7755575615628914e-17
+  },
+  {
+   "fit": "NUTS",
+   "fold": 3,
+   "country_idx": 50,
+   "n_test_years": 3,
+   "max_abs_diff": 1.3877787807814457e-17
+  },
+  {
+   "fit": "NUTS",
+   "fold": 3,
+   "country_idx": 57,
+   "n_test_years": 4,
+   "max_abs_diff": 5.551115123125783e-17
+  },
+  {
+   "fit": "NUTS",
+   "fold": 3,
+   "country_idx": 59,
+   "n_test_years": 4,
+   "max_abs_diff": 1.3877787807814457e-17
+  },
+  {
+   "fit": "NUTS",
+   "fold": 3,
+   "country_idx": 72,
+   "n_test_years": 3,
+   "max_abs_diff": 1.1102230246251565e-16
+  },
+  {
+   "fit": "NUTS",
+   "fold": 3,
+   "country_idx": 73,
+   "n_test_years": 3,
+   "max_abs_diff": 2.7755575615628914e-17
+  },
+  {
+   "fit": "NUTS",
+   "fold": 3,
+   "country_idx": 81,
+   "n_test_years": 3,
+   "max_abs_diff": 2.7755575615628914e-17
+  },
+  {
+   "fit": "NUTS",
+   "fold": 3,
+   "country_idx": 93,
+   "n_test_years": 2,
+   "max_abs_diff": 2.7755575615628914e-17
+  },
+  {
+   "fit": "NUTS",
+   "fold": 3,
+   "country_idx": 97,
+   "n_test_years": 7,
+   "max_abs_diff": 2.7755575615628914e-17
+  },
+  {
+   "fit": "NUTS",
+   "fold": 3,
+   "country_idx": 102,
+   "n_test_years": 3,
+   "max_abs_diff": 1.3877787807814457e-17
+  },
+  {
+   "fit": "NUTS",
+   "fold": 3,
+   "country_idx": 105,
+   "n_test_years": 3,
+   "max_abs_diff": 2.7755575615628914e-17
+  },
+  {
+   "fit": "NUTS",
+   "fold": 3,
+   "country_idx": 106,
+   "n_test_years": 8,
+   "max_abs_diff": 2.7755575615628914e-17
+  },
+  {
+   "fit": "NUTS",
+   "fold": 3,
+   "country_idx": 107,
+   "n_test_years": 2,
+   "max_abs_diff": 5.551115123125783e-17
+  },
+  {
+   "fit": "NUTS",
+   "fold": 3,
+   "country_idx": 117,
+   "n_test_years": 3,
+   "max_abs_diff": 2.7755575615628914e-17
+  },
+  {
+   "fit": "NUTS",
+   "fold": 3,
+   "country_idx": 118,
+   "n_test_years": 6,
+   "max_abs_diff": 2.7755575615628914e-17
+  }
+ ],
+ "diag": {
+  "divergences": 0,
+  "rhat_max_tau_country_month": 1.014559006748863,
+  "ess_min_tau_country_month": 130.1806505830879,
+  "rhat_max_sigma_region_month": 1.010826865177974,
+  "ess_min_sigma_region_month": 339.8398176558779,
+  "rhat_max_tau_region_year": 1.0011839067528914,
+  "ess_min_tau_region_year": 858.9892033488559,
+  "rhat_max_log_concentration": 1.0118366650039172,
+  "ess_min_log_concentration": 650.4130440028879,
+  "log_conc_mean_train": 2.032739874797849,
+  "fit": "NUTS",
+  "fold": 3,
+  "n_train": 885,
+  "n_test_years": 104,
+  "n_countries": 123,
+  "n_years": 35,
+  "chains": 2,
+  "warmup": 500,
+  "draws": 500,
+  "wall_s": 1109.4
+ }
+}

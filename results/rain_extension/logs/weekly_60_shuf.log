@@ -1,0 +1,19 @@
+[rain weekly_60_shuf] M=60 T=14 train rows=840 eval rows=840 models=('M1-R-shufTT-s0',)
+[rain weekly_60_shuf] fold 2010: 60 eval rows, 16.7s M1-R-shufTT-s0:nit=529
+[rain weekly_60_shuf] fold 2011: 60 eval rows, 9.6s M1-R-shufTT-s0:nit=302
+[rain weekly_60_shuf] fold 2012: 60 eval rows, 9.1s M1-R-shufTT-s0:nit=282
+[rain weekly_60_shuf] fold 2013: 60 eval rows, 7.7s M1-R-shufTT-s0:nit=297
+[rain weekly_60_shuf] fold 2014: 60 eval rows, 8.5s M1-R-shufTT-s0:nit=303
+[rain weekly_60_shuf] fold 2015: 60 eval rows, 8.6s M1-R-shufTT-s0:nit=293
+[rain weekly_60_shuf] fold 2016: 60 eval rows, 11.0s M1-R-shufTT-s0:nit=387
+[rain weekly_60_shuf] fold 2017: 60 eval rows, 10.2s M1-R-shufTT-s0:nit=376
+[rain weekly_60_shuf] fold 2018: 60 eval rows, 8.1s M1-R-shufTT-s0:nit=281
+[rain weekly_60_shuf] fold 2019: 60 eval rows, 9.0s M1-R-shufTT-s0:nit=287
+[rain weekly_60_shuf] fold 2020: 60 eval rows, 8.5s M1-R-shufTT-s0:nit=334
+[rain weekly_60_shuf] fold 2021: 60 eval rows, 9.1s M1-R-shufTT-s0:nit=303
+[rain weekly_60_shuf] fold 2022: 60 eval rows, 10.9s M1-R-shufTT-s0:nit=361
+[rain weekly_60_shuf] fold 2023: 60 eval rows, 8.7s M1-R-shufTT-s0:nit=304
+                   jsd  peak_err     emd
+model                                   
+M1-R-shufTT-s0  0.0739    6.0333  4.2551
+[rain weekly_60_shuf] done in 146s (fits 137s)

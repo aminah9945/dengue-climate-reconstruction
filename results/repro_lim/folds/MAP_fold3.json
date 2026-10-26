@@ -1,0 +1,228 @@
+{
+ "rows": [
+  {
+   "model": "DM",
+   "fit": "MAP",
+   "fold": 3,
+   "n_rows": 1248,
+   "MAE": 8.310596439878289,
+   "RMSE": 51.31830557652121,
+   "MAE_median": 9.347036534669172,
+   "RMSE_median": 55.17335394919458,
+   "COV80": 0.9583333333333334,
+   "CRPS": 6.704299066083747,
+   "JSD_mean": 0.10877998386458969,
+   "peak_month_err": 1.5096153846153846,
+   "runtime_s": 5.8,
+   "fit_s": 5.7
+  },
+  {
+   "model": "uniform",
+   "fit": "-",
+   "fold": 3,
+   "n_rows": 1248,
+   "MAE": 10.260971405907096,
+   "RMSE": 54.80202003263716,
+   "MAE_median": NaN,
+   "RMSE_median": NaN,
+   "COV80": NaN,
+   "CRPS": NaN,
+   "JSD_mean": 0.15904375639541252,
+   "peak_month_err": 3.4423076923076925,
+   "runtime_s": 0.0,
+   "fit_s": 0.0
+  },
+  {
+   "model": "historical_mean_shares",
+   "fit": "-",
+   "fold": 3,
+   "n_rows": 1248,
+   "MAE": 7.954783591804676,
+   "RMSE": 51.33473109394609,
+   "MAE_median": NaN,
+   "RMSE_median": NaN,
+   "COV80": NaN,
+   "CRPS": NaN,
+   "JSD_mean": 0.1056049257788638,
+   "peak_month_err": 1.5384615384615385,
+   "runtime_s": 0.0,
+   "fit_s": 0.0
+  }
+ ],
+ "canc": [
+  {
+   "fit": "MAP",
+   "fold": 3,
+   "country_idx": 7,
+   "n_test_years": 4,
+   "max_abs_diff": 2.7755575615628914e-17
+  },
+  {
+   "fit": "MAP",
+   "fold": 3,
+   "country_idx": 9,
+   "n_test_years": 4,
+   "max_abs_diff": 5.551115123125783e-17
+  },
+  {
+   "fit": "MAP",
+   "fold": 3,
+   "country_idx": 10,
+   "n_test_years": 2,
+   "max_abs_diff": 1.3877787807814457e-17
+  },
+  {
+   "fit": "MAP",
+   "fold": 3,
+   "country_idx": 15,
+   "n_test_years": 2,
+   "max_abs_diff": 2.7755575615628914e-17
+  },
+  {
+   "fit": "MAP",
+   "fold": 3,
+   "country_idx": 21,
+   "n_test_years": 4,
+   "max_abs_diff": 2.7755575615628914e-17
+  },
+  {
+   "fit": "MAP",
+   "fold": 3,
+   "country_idx": 25,
+   "n_test_years": 2,
+   "max_abs_diff": 5.551115123125783e-17
+  },
+  {
+   "fit": "MAP",
+   "fold": 3,
+   "country_idx": 26,
+   "n_test_years": 2,
+   "max_abs_diff": 4.163336342344337e-17
+  },
+  {
+   "fit": "MAP",
+   "fold": 3,
+   "country_idx": 40,
+   "n_test_years": 2,
+   "max_abs_diff": 1.3877787807814457e-17
+  },
+  {
+   "fit": "MAP",
+   "fold": 3,
+   "country_idx": 50,
+   "n_test_years": 3,
+   "max_abs_diff": 1.3877787807814457e-17
+  },
+  {
+   "fit": "MAP",
+   "fold": 3,
+   "country_idx": 57,
+   "n_test_years": 4,
+   "max_abs_diff": 2.7755575615628914e-17
+  },
+  {
+   "fit": "MAP",
+   "fold": 3,
+   "country_idx": 59,
+   "n_test_years": 4,
+   "max_abs_diff": 2.7755575615628914e-17
+  },
+  {
+   "fit": "MAP",
+   "fold": 3,
+   "country_idx": 72,
+   "n_test_years": 3,
+   "max_abs_diff": 4.163336342344337e-17
+  },
+  {
+   "fit": "MAP",
+   "fold": 3,
+   "country_idx": 73,
+   "n_test_years": 3,
+   "max_abs_diff": 2.7755575615628914e-17
+  },
+  {
+   "fit": "MAP",
+   "fold": 3,
+   "country_idx": 81,
+   "n_test_years": 3,
+   "max_abs_diff": 2.7755575615628914e-17
+  },
+  {
+   "fit": "MAP",
+   "fold": 3,
+   "country_idx": 93,
+   "n_test_years": 2,
+   "max_abs_diff": 1.3877787807814457e-17
+  },
+  {
+   "fit": "MAP",
+   "fold": 3,
+   "country_idx": 97,
+   "n_test_years": 7,
+   "max_abs_diff": 2.7755575615628914e-17
+  },
+  {
+   "fit": "MAP",
+   "fold": 3,
+   "country_idx": 102,
+   "n_test_years": 3,
+   "max_abs_diff": 4.163336342344337e-17
+  },
+  {
+   "fit": "MAP",
+   "fold": 3,
+   "country_idx": 105,
+   "n_test_years": 3,
+   "max_abs_diff": 8.326672684688674e-17
+  },
+  {
+   "fit": "MAP",
+   "fold": 3,
+   "country_idx": 106,
+   "n_test_years": 8,
+   "max_abs_diff": 5.551115123125783e-17
+  },
+  {
+   "fit": "MAP",
+   "fold": 3,
+   "country_idx": 107,
+   "n_test_years": 2,
+   "max_abs_diff": 8.326672684688674e-17
+  },
+  {
+   "fit": "MAP",
+   "fold": 3,
+   "country_idx": 117,
+   "n_test_years": 3,
+   "max_abs_diff": 4.163336342344337e-17
+  },
+  {
+   "fit": "MAP",
+   "fold": 3,
+   "country_idx": 118,
+   "n_test_years": 6,
+   "max_abs_diff": 1.3877787807814457e-17
+  }
+ ],
+ "diag": {
+  "fun": 117944295.64885664,
+  "nit": 253,
+  "success": true,
+  "grad_inf": 0.00812566228948469,
+  "tau_country_month": 1.5898628097582712,
+  "sigma_region_month_mean": 0.41640019570676823,
+  "tau_region_year_mean": 0.15000015793847116,
+  "total_concentration_mean_train": 8.013962249698077,
+  "fit": "MAP",
+  "fold": 3,
+  "n_train": 885,
+  "n_test_years": 104,
+  "n_countries": 123,
+  "n_years": 35,
+  "chains": 2,
+  "warmup": 500,
+  "draws": 500,
+  "wall_s": 6.0
+ }
+}

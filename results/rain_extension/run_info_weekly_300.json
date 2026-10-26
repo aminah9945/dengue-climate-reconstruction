@@ -1,0 +1,10 @@
+{
+ "tag": "weekly_300",
+ "subset": 300,
+ "models": [
+  "M1-R",
+  "M1-RTH"
+ ],
+ "fit_wall_s": 1576.6,
+ "total_wall_s": 1716.4
+}

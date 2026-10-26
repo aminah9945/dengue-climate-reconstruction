@@ -1,0 +1,28 @@
+                                                                         check result                                                             statistic
+0                              1 exact sums (allocate_integers and every draw)   pass    asserted in run_brazil.score / draw_counts for every model and row
+1                                                  2 uniform worst [weekly_60]   pass                                    B0 0.1366; next worst 0.0935 (B1p)
+2                                       3 zero-climate equivalence [weekly_60]   pass                                                 max abs diff 0.00e+00
+3                           4 climate shuffle train+test (3 seeds) [weekly_60]   pass                              shufTT-B4s +0.00044 [+0.00022, +0.00068]
+4                                                       4 (seed 0) [weekly_60]   info                                         +0.00016 [-0.00030, +0.00064]
+5                                                       4 (seed 1) [weekly_60]   info                                         +0.00071 [+0.00040, +0.00100]
+6                                                       4 (seed 2) [weekly_60]   info                                         +0.00047 [+0.00009, +0.00086]
+7                                      5 climate shuffle test-only [weekly_60]   pass                                    JSD shufTest 0.07613 vs M1 0.07267
+8    6 leakage audit (h_m, climatology/SD, centring, train arrays) [weekly_60]   pass                                                      14 folds audited
+9                                   climate NaN anomalies set to 0 [weekly_60]   info                                   0 NaN anomaly values over all folds
+10                                                2 uniform worst [monthly_60]   pass                                    B0 0.1229; next worst 0.0798 (B1p)
+11                                     3 zero-climate equivalence [monthly_60]   pass                                                 max abs diff 0.00e+00
+12                         4 climate shuffle train+test (3 seeds) [monthly_60]   pass                              shufTT-B4s +0.00046 [+0.00023, +0.00071]
+13                                                     4 (seed 0) [monthly_60]   info                                         +0.00015 [-0.00033, +0.00067]
+14                                                     4 (seed 1) [monthly_60]   info                                         +0.00072 [+0.00040, +0.00102]
+15                                                     4 (seed 2) [monthly_60]   info                                         +0.00050 [+0.00010, +0.00091]
+16                                    5 climate shuffle test-only [monthly_60]   pass                                    JSD shufTest 0.06345 vs M1 0.06100
+17  6 leakage audit (h_m, climatology/SD, centring, train arrays) [monthly_60]   pass                                                      14 folds audited
+18                                 climate NaN anomalies set to 0 [monthly_60]   info                                   0 NaN anomaly values over all folds
+19                                                2 uniform worst [weekly_300]   pass                                    B0 0.1888; next worst 0.1355 (B1p)
+20                                     3 zero-climate equivalence [weekly_300]   pass                                                 max abs diff 0.00e+00
+21                                    5 climate shuffle test-only [weekly_300]   pass                                    JSD shufTest 0.11327 vs M1 0.10767
+22  6 leakage audit (h_m, climatology/SD, centring, train arrays) [weekly_300]   pass                                                      14 folds audited
+23                                 climate NaN anomalies set to 0 [weekly_300]   info                                   0 NaN anomaly values over all folds
+24                        7 pipeline consistency with smoke test (B1p, <=2023)   pass                                        3457 rows, max |dJSD| 1.11e-16
+25              final-test path unit test on dummy year (RUN_FINAL_2024=False)   pass                                                max |pi - true| 0.0103
+26                                                              2024 untouched   pass  RUN_FINAL_2024=False; brazil_data.load_tables drops epi_year >= 2024

@@ -1,0 +1,28 @@
+check,result,statistic
+1 exact sums (allocate_integers and every draw),pass,asserted in run_brazil.score / draw_counts for every model and row
+2 uniform worst [weekly_60],pass,B0 0.1366; next worst 0.0935 (B1p)
+3 zero-climate equivalence [weekly_60],pass,max abs diff 0.00e+00
+4 climate shuffle train+test (3 seeds) [weekly_60],pass,"shufTT-B4s +0.00044 [+0.00022, +0.00068]"
+4 (seed 0) [weekly_60],info,"+0.00016 [-0.00030, +0.00064]"
+4 (seed 1) [weekly_60],info,"+0.00071 [+0.00040, +0.00100]"
+4 (seed 2) [weekly_60],info,"+0.00047 [+0.00009, +0.00086]"
+5 climate shuffle test-only [weekly_60],pass,JSD shufTest 0.07613 vs M1 0.07267
+"6 leakage audit (h_m, climatology/SD, centring, train arrays) [weekly_60]",pass,14 folds audited
+climate NaN anomalies set to 0 [weekly_60],info,0 NaN anomaly values over all folds
+2 uniform worst [monthly_60],pass,B0 0.1229; next worst 0.0798 (B1p)
+3 zero-climate equivalence [monthly_60],pass,max abs diff 0.00e+00
+4 climate shuffle train+test (3 seeds) [monthly_60],pass,"shufTT-B4s +0.00046 [+0.00023, +0.00071]"
+4 (seed 0) [monthly_60],info,"+0.00015 [-0.00033, +0.00067]"
+4 (seed 1) [monthly_60],info,"+0.00072 [+0.00040, +0.00102]"
+4 (seed 2) [monthly_60],info,"+0.00050 [+0.00010, +0.00091]"
+5 climate shuffle test-only [monthly_60],pass,JSD shufTest 0.06345 vs M1 0.06100
+"6 leakage audit (h_m, climatology/SD, centring, train arrays) [monthly_60]",pass,14 folds audited
+climate NaN anomalies set to 0 [monthly_60],info,0 NaN anomaly values over all folds
+2 uniform worst [weekly_300],pass,B0 0.1888; next worst 0.1355 (B1p)
+3 zero-climate equivalence [weekly_300],pass,max abs diff 0.00e+00
+5 climate shuffle test-only [weekly_300],pass,JSD shufTest 0.11327 vs M1 0.10767
+"6 leakage audit (h_m, climatology/SD, centring, train arrays) [weekly_300]",pass,14 folds audited
+climate NaN anomalies set to 0 [weekly_300],info,0 NaN anomaly values over all folds
+"7 pipeline consistency with smoke test (B1p, <=2023)",pass,"3457 rows, max |dJSD| 1.11e-16"
+final-test path unit test on dummy year (RUN_FINAL_2024=False),pass,max |pi - true| 0.0103
+2024 untouched,pass,RUN_FINAL_2024=False; brazil_data.load_tables drops epi_year >= 2024

@@ -1,0 +1,4 @@
+run,folds,all_pass,checks
+weekly_300,14,True,h_m;centring;climatology;train_arrays;M1-R:ext_climatology;M1-R:ext_features_no_dengue;M1-R:ext_split_sums_to_M1;M1-R:ext_no_nan_eval_weeks;M1-RTH:ext_climatology;M1-RTH:ext_features_no_dengue;M1-RTH:ext_split_sums_to_M1;M1-RTH:ext_no_nan_eval_weeks
+weekly_60,14,True,h_m;centring;climatology;train_arrays;M1-R:ext_climatology;M1-R:ext_features_no_dengue;M1-R:ext_split_sums_to_M1;M1-R:ext_no_nan_eval_weeks;M1-RTH:ext_climatology;M1-RTH:ext_features_no_dengue;M1-RTH:ext_split_sums_to_M1;M1-RTH:ext_no_nan_eval_weeks
+weekly_60_shuf,14,True,h_m;centring;climatology;train_arrays;M1-R:ext_climatology;M1-R:ext_features_no_dengue;M1-R:ext_split_sums_to_M1;M1-R:ext_no_nan_eval_weeks

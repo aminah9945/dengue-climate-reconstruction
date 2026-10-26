@@ -1,0 +1,61 @@
+geocode,n_good,total,name,uf,region
+1200401,14,133452,Rio Branco,AC,North
+1302603,14,121500,Manaus,AM,North
+1721000,14,117877,Palmas,TO,North
+1702109,14,34702,Araguaína,TO,North
+1501402,14,32062,Belém,PA,North
+1400100,14,27558,Boa Vista,RR,North
+1100205,14,24017,Porto Velho,RO,North
+1600303,14,17378,Macapá,AP,North
+1505536,14,17363,Parauapebas,PA,North
+1716109,14,15885,Paraíso do Tocantins,TO,North
+1718204,14,13443,Porto Nacional,TO,North
+1304203,14,13408,Tefé,AM,North
+2304400,14,369595,Fortaleza,CE,Northeast
+2611606,14,170017,Recife,PE,Northeast
+2408102,14,142800,Natal,RN,Northeast
+2927408,14,99595,Salvador,BA,Northeast
+2704302,14,92269,Maceió,AL,Northeast
+2507507,14,77952,João Pessoa,PB,Northeast
+2211001,14,72953,Teresina,PI,Northeast
+2910800,14,60861,Feira de Santana,BA,Northeast
+2914802,14,53386,Itabuna,BA,Northeast
+2607901,14,45098,Jaboatão dos Guararapes,PE,Northeast
+2800308,14,41681,Aracaju,SE,Northeast
+2604106,14,34331,Caruaru,PE,Northeast
+5208707,14,550009,Goiânia,GO,Center-West
+5300108,14,401888,Brasília,DF,Center-West
+5002704,14,261208,Campo Grande,MS,Center-West
+5201405,14,184405,Aparecida de Goiânia,GO,Center-West
+5201108,14,129406,Anápolis,GO,Center-West
+5107909,14,56839,Sinop,MT,Center-West
+5211909,14,54612,Jataí,GO,Center-West
+5218805,14,52455,Rio Verde,GO,Center-West
+5212501,14,50389,Luziânia,GO,Center-West
+5008305,14,48235,Três Lagoas,MS,Center-West
+5103403,14,40053,Cuiabá,MT,Center-West
+5003702,14,35617,Dourados,MS,Center-West
+3106200,14,743344,Belo Horizonte,MG,Southeast
+3304557,14,496579,Rio de Janeiro,RJ,Southeast
+3550308,14,448085,São Paulo,SP,Southeast
+3549805,14,332985,São José do Rio Preto,SP,Southeast
+3543402,14,297409,Ribeirão Preto,SP,Southeast
+3509502,14,275202,Campinas,SP,Southeast
+3552205,14,200589,Sorocaba,SP,Southeast
+3118601,14,185256,Contagem,MG,Southeast
+3106705,14,167144,Betim,MG,Southeast
+3541406,14,154879,Presidente Prudente,SP,Southeast
+3170206,14,151849,Uberlândia,MG,Southeast
+3549904,14,135814,São José dos Campos,SP,Southeast
+4113700,14,257157,Londrina,PR,South
+4108304,14,172080,Foz do Iguaçu,PR,South
+4115200,14,102061,Maringá,PR,South
+4104808,14,54301,Cascavel,PR,South
+4103701,14,53002,Cambé,PR,South
+4118402,14,38676,Paranavaí,PR,South
+4109807,14,37553,Ibiporã,PR,South
+4128104,14,32072,Umuarama,PR,South
+4108403,14,30112,Francisco Beltrão,PR,South
+4122404,14,28882,Rolândia,PR,South
+4126256,14,25646,Sarandi,PR,South
+4314902,14,25287,Porto Alegre,RS,South

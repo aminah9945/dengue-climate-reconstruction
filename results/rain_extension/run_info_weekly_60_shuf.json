@@ -1,0 +1,9 @@
+{
+ "tag": "weekly_60_shuf",
+ "subset": 60,
+ "models": [
+  "M1-R-shufTT-s0"
+ ],
+ "fit_wall_s": 137.0,
+ "total_wall_s": 145.9
+}

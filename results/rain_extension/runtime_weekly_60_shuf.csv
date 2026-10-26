@@ -1,0 +1,15 @@
+tag,model,fold,fit_s,nit,grad_inf
+rain_weekly_60_shuf,M1-R-shufTT-s0,2010,16.26,529,0.1543387345104364
+rain_weekly_60_shuf,M1-R-shufTT-s0,2011,9.26,302,0.02864805466940655
+rain_weekly_60_shuf,M1-R-shufTT-s0,2012,8.66,282,0.03265664047353484
+rain_weekly_60_shuf,M1-R-shufTT-s0,2013,7.25,297,0.18532149825523397
+rain_weekly_60_shuf,M1-R-shufTT-s0,2014,8.04,303,0.13548195139190022
+rain_weekly_60_shuf,M1-R-shufTT-s0,2015,8.31,293,0.2038713093454222
+rain_weekly_60_shuf,M1-R-shufTT-s0,2016,10.48,387,0.11356282963366095
+rain_weekly_60_shuf,M1-R-shufTT-s0,2017,9.84,376,0.022095112327106495
+rain_weekly_60_shuf,M1-R-shufTT-s0,2018,7.92,281,0.18288128142603682
+rain_weekly_60_shuf,M1-R-shufTT-s0,2019,8.58,287,0.2570370132969443
+rain_weekly_60_shuf,M1-R-shufTT-s0,2020,8.02,334,0.15807386668281698
+rain_weekly_60_shuf,M1-R-shufTT-s0,2021,8.62,303,0.1226617756122901
+rain_weekly_60_shuf,M1-R-shufTT-s0,2022,10.43,361,0.2896041840872905
+rain_weekly_60_shuf,M1-R-shufTT-s0,2023,7.92,304,0.1546834400586245

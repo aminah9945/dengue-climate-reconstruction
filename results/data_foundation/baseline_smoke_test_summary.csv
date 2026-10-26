@@ -1,0 +1,6 @@
+,jsd,jsd,peak_err,peak_err,mae_share,mae_share,mae_counts,mae_counts
+,mean,median,mean,median,mean,median,mean,median
+model,,,,,,,,
+seasonal_LOYO,0.117,0.0996,6.0149,5.0,0.0117,0.0113,59.1122,14.1538
+seasonal_past_only,0.1339,0.1125,6.3178,5.0,0.0125,0.0119,60.9256,15.283
+uniform,0.1884,0.1681,11.6915,13.0,0.0156,0.0152,95.5926,19.1698
