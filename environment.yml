@@ -1,0 +1,22 @@
+# conda env create -f environment.yml && conda activate dengue-recon
+name: dengue-recon
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy>=1.26
+  - pandas>=2.2
+  - pyarrow>=15
+  - scipy>=1.11
+  - matplotlib>=3.9
+  - requests>=2.31
+  - nbformat>=5.9
+  - ipykernel>=6.0
+  - pytest>=7
+  - pip
+  - pip:
+      - jax>=0.4.30
+      - numpyro>=0.15
+      - pyreadr>=0.5
+      - xgboost>=2.0
+      - -e .

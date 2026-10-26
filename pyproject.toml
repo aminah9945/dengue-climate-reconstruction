@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dengue-recon"
+version = "0.1.0"
+description = "Climate-informed reconstruction of weekly dengue curves from annual totals (Brazil, pilot)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Aminah" }]
+keywords = ["dengue", "temporal disaggregation", "Dirichlet-multinomial", "climate", "Brazil"]
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "pyarrow>=15",
+    "scipy>=1.11",
+    "matplotlib>=3.9",
+    "requests>=2.31",
+    "jax>=0.4.30",
+]
+
+[project.optional-dependencies]
+bayes = ["numpyro>=0.15", "pyreadr>=0.5"]
+xgb = ["xgboost>=2.0"]
+notebooks = ["nbformat>=5.9", "ipykernel>=6.0"]
+dev = ["pytest>=7"]
+all = ["numpyro>=0.15", "pyreadr>=0.5", "xgboost>=2.0", "nbformat>=5.9", "ipykernel>=6.0", "pytest>=7"]
+
+[project.urls]
+Repository = "https://github.com/aminah9945/dengue-climate-reconstruction"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

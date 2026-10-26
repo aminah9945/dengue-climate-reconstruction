@@ -1,0 +1,30 @@
+# data are never committed (downloaded by Step 1)
+data/raw/
+data/processed/
+data/*
+!data/README.md
+*.parquet
+*.csv.gz
+*.rds
+*.RDS
+# large intermediate results
+*.npz
+results/**/preds_*
+results/brazil/metrics_detail_weekly_300.csv
+# quick / smoke-test outputs
+results/**/*_quick*
+results/**/*_noclimate*
+# python / notebooks / tools
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+.env
+.DS_Store
+.vscode/
+.idea/

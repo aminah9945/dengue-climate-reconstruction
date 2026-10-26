@@ -1,0 +1,18 @@
+# Core (data, baselines, evaluation, reporting)
+numpy>=1.26
+pandas>=2.2
+pyarrow>=15
+scipy>=1.11
+matplotlib>=3.9
+requests>=2.31
+# Models (Steps 2, 5, 8)
+jax>=0.4.30           # CPU wheels by default; for a GPU: pip install "jax[cuda12]"
+numpyro>=0.15         # NUTS reproduction of the base model (Step 2)
+pyreadr>=0.5          # reads the base paper's .rds CV mask and the optional Cox et al. file
+xgboost>=2.0          # optional boosted-softmax model M2
+# Notebooks and tests
+nbformat>=5.9
+ipykernel>=6.0
+pytest>=7
+# Tested with: Python 3.13, jax 0.12.0, numpy 2.5.3, scipy 1.18.1, pandas 3.0.5,
+# numpyro 0.22.0, pyreadr 0.5.7, matplotlib 3.11.2, xgboost 3.4.1 (see docs/VERIFICATION.md)

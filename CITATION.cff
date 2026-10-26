@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite it as below, and cite the data sources listed in data/README.md."
+title: "Climate-informed reconstruction of weekly dengue curves from annual totals"
+type: software
+authors:
+  - name: "Aminah"
+    affiliation: "FAST-NUCES Islamabad"
+version: 0.1.0
+date-released: 2026-10-26
+license: MIT
+repository-code: "https://github.com/aminah9945/dengue-climate-reconstruction"
+keywords:
+  - dengue
+  - temporal disaggregation
+  - Dirichlet-multinomial
+  - climate
+  - Brazil
+references:
+  - type: article
+    title: "Rapid global growth and intensification of dengue since 1990"
+    authors:
+      - family-names: "Lim"
+        given-names: "A."
+      - name: "et al."
+    year: 2026
+    doi: "10.21203/rs.3.rs-8976788/v1"
+    notes: "Research Square preprint; base paper reproduced and extended"
