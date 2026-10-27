@@ -176,3 +176,25 @@ The official experiment follows a run plan fixed with the supervisor on 2026-10-
   - Other settings: seed `config.SEED`, 4 threads (resumed runs were checked to give identical predictions).
 - Features: the same 20 climate features as M1, the week slot and offset h_m (season), and the centred current and previous-year log totals (size).
 - If a fold has fewer than 2 usable training years, M2 is skipped and the fold log says so. This can happen only with `--exclude-year`.
+
+### G5. Reporting choices for the official statistics (fixed at reporting time, no model refitted)
+
+These choices were made when writing `reporting/official_report.py`, which ran after the official runs. None changes a model, a fold or a metric. Each one only specifies how a pre-registered statistic is computed.
+
+- **Both CIs and Holm.**
+  - Each hypothesis gets two two-sided bootstrap p-values, one from the municipality bootstrap and one from the year-block bootstrap, each 2 × the smaller tail beyond 0 with the +1 correction.
+  - The p-value of the hypothesis is the larger of the two, so both intervals have to agree.
+  - Holm is applied across H1–H3. The Holm decision keeps the direction rule and H1's −5 % threshold.
+- **H3 year-block bootstrap** (this closes D3 for the official runs): test years are resampled with all their rows from both region groups. The municipality bootstrap resamples within each group, as in the pilot's `h3_contrast`.
+- **Design B (H4).**
+  - The curve averaged across test years gives each test year equal weight.
+  - The main slope uses k = 2..9 only, because 2019 has no k ≥ 10. The k ≥ 10 points are reported separately.
+  - The slope CI resamples municipalities.
+  - A k = 3..9 slope, without the regional-profile k = 2, is added as a sensitivity analysis. It was **not** pre-specified.
+  - The pooled design-B contrasts in `paired_contrasts.csv` use k = 2..9. Their year-block intervals rest on only 3 test years.
+- **Epidemic vs quiet.**
+  - The ratio is a municipality-year's annual total divided by the median total of the municipality's training years in that fold, leaving out excluded municipality-years.
+  - The tercile cut is taken over all scored rows of the run.
+  - Totals are read from `dengue_weekly.parquet` with a year filter (2024 never read).
+- **Pairing.** Rows are paired on (fold, municipality). "Years better" counts folds, which are test years in A and C and test year × k in B.
+- **Not done.** No new robustness run was added. The design-C test-only shuffle is not comparable with the pilot's: the official M1 has 20 features, the pilot's 15.

@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/aminah9945/dengue-climate-reconstruction/blob/main/notebooks/00_setup_and_data.ipynb)
 
-**Status: pilot results; final 2024 test pending.**
+**Status: official results for 2010–2023 (see [Results](#7-results)); final 2024 test pending.**
 
 **Author:** Aminah, FAST-NUCES Islamabad (MS research paper).
 
@@ -20,7 +20,7 @@ This repository reproduces a published Dirichlet-multinomial disaggregation mode
 4. [Setup and running](#4-setup-and-running)
 5. [Data](#5-data)
 6. [Methodology-to-code mapping](#6-methodology-to-code-mapping)
-7. [Results (pilot)](#7-results-pilot)
+7. [Results](#7-results)
 8. [Deviations from the methodology](#8-deviations-from-the-methodology)
 9. [Verification](#9-verification)
 10. [Citing the data and this code](#10-citing-the-data-and-this-code)
@@ -88,11 +88,11 @@ dengue-climate-reconstruction/
 │   ├── evaluation/            Step 6: cv.py, allocation.py, metrics.py, scoring.py, bootstrap.py
 │   ├── checks/                Step 7: sums.py, zero_climate.py, shuffle.py, leakage.py, sanity.py
 │   ├── extensions/            Step 8: rain_lags.py (M1-R, M1-RTH, pre-registered)
-│   ├── reporting/             Step 9: tables.py, figures.py, report.py, rain_report.py
+│   ├── reporting/             Step 9: tables.py, figures.py, report.py, rain_report.py, official_report.py
 │   └── experiments/           brazil_loyo.py: runs Steps 3-7 in every LOYO fold (pilot);
 │                              official.py: designs A/B/C with ONI and M2 early stopping
 ├── scripts/
-│   ├── run_pipeline.py        CLI: --step {data,reproduce,baselines,brazil,m2,extension,report,official,all}
+│   ├── run_pipeline.py        CLI: --step {data,reproduce,baselines,brazil,m2,extension,report,official,official-report,all}
 │   └── build_notebooks.py     regenerates the notebooks
 ├── notebooks/                 00-05, Colab-ready (setup cell clones and installs this repo)
 ├── tests/                     pytest, synthetic data only, about 7 s
@@ -136,7 +136,7 @@ pip install -r requirements.txt && pip install -e .
 # ... or conda
 conda env create -f environment.yml && conda activate dengue-recon
 
-python -m pytest                                          # 37 tests, about 7 s, no data needed
+python -m pytest                                          # 48 tests, about 10 s, no data needed
 ```
 
 Run the pipeline step by step (each step maps to Section 6):
@@ -162,6 +162,7 @@ python scripts/run_pipeline.py --step official --design B --climate power --subs
 python scripts/run_pipeline.py --step official --design C --climate power --subset 300    # LOYO, 14 folds (pilot comparison)
 python scripts/run_pipeline.py --step official --design A --climate chirps --subset 300   # robustness: CHIRPS rainfall
 python scripts/run_pipeline.py --step official --design A --climate power --subset 300 --exclude-year 2020   # without 2020
+python scripts/run_pipeline.py --step official-report     # statistics, tables, figures -> results/official/{tables,figures}
 # options: --models B1,B4s,M1 (subset of models), --years 2016,2019 (subset of test years), --out DIR
 ```
 
@@ -237,8 +238,31 @@ Each step of the methodology maps to one sub-package; the full table with every 
 | 7 | Sanity checks 1–7 (§7.8) | `src/dengue_recon/checks/` | `allocation_sum_ok`, `zero_climate_maxdiff`, `shuffle_years`, `shuffle_test_year`, `leakage_audit`, `sanity_table` |
 | 8 | Pre-registered rain-lag extension | `src/dengue_recon/extensions/rain_lags.py` | `feature_spec`, `ext_climate_features`, `ext_leakage_audit`, `main` |
 | 9 | Where/when analysis, tables, figures (§7.10) | `src/dengue_recon/reporting/` | `region_table`, `gain_by_year`, `paired_table`, `fig_*`, `report.main` |
+| 9 | Official report: paired contrasts with both bootstraps, H1–H3 with Holm, H4 learning-curve slopes, region / epidemic / weather-source tables, coefficients, figures | `src/dengue_recon/reporting/official_report.py` | `contrast`, `hypothesis_table`, `group_contrast`, `learning_curve_tables`, `lc_slope`, `epidemic_labels`, `coefficient_table`, `main` |
 
-## 7. Results (pilot)
+## 7. Results
+
+### 7.1 Official results (2010–2023; 2024 pending)
+
+These results come from the official experiment, run as pre-registered: 300 municipalities, NASA POWER climate (Amendment 1), and the 2024 fold not yet run. Full write-up: **[`results/official/OFFICIAL_RESULTS.md`](results/official/OFFICIAL_RESULTS.md)**. Tables: [`results/official/tables/`](results/official/tables/). Figures: [`results/official/figures/`](results/official/figures/). Regenerate with `python scripts/run_pipeline.py --step official-report`.
+
+| Hypothesis (design A, primary) | Estimate | 95 % CI, municipalities | 95 % CI, years | Decision |
+|---|---|---|---|---|
+| H1: M1 − B4s (JSD), needs ≤ −5 % | +0.00012 (+0.1 %) | [−0.00090, +0.00120] | [−0.00370, +0.00396] | **Not supported** |
+| H2: M1 − M1-short | +0.00247 (+2.1 %) | [+0.00185, +0.00309] | [−0.00172, +0.00675] | **Not supported** |
+| H3: gain South+Southeast − North | +0.00467 | [+0.00209, +0.00746] | [−0.00420, +0.01318] | **Not supported** |
+
+Holm correction does not change any decision.
+
+- **Climate adds no accuracy in the primary design.** M1 (local weather + ONI) equals B4s and wins in 5 of 12 test years.
+- **Local weather alone gives a small gain; ONI removes it.** M1-noONI − B4s is −1.3 %: the municipality interval excludes 0, the year-block interval does not.
+- **Annual-size terms matter most.** B4s vs B4 lowers JSD by 5.3 % (17.0 % N-weighted).
+- **Learning curve (H4).** From 3 to 9 training years every model improves. M1 improves fastest and is 1–3 % below B4s from 5 years on (year-block intervals include 0). k = 2 uses regional profiles, and k ≥ 10 has fewer test years, so both are shown separately.
+- **Robustness.** CHIRPS rainfall and dropping 2020 give the same conclusions. Design C reproduces the pilot exactly.
+
+Key figures: [`figA_designA_jsd_by_test_year.png`](results/official/figures/figA_designA_jsd_by_test_year.png), [`figB_learning_curves.png`](results/official/figures/figB_learning_curves.png), [`figC_gain_with_CIs.png`](results/official/figures/figC_gain_with_CIs.png), [`figD_gain_by_region.png`](results/official/figures/figD_gain_by_region.png).
+
+### 7.2 Pilot results (superseded by 7.1 for the hypotheses)
 
 All numbers are from [`docs/RESULTS.md`](docs/RESULTS.md) and [`results/rain_extension/RESULTS_RAIN.md`](results/rain_extension/RESULTS_RAIN.md). They are **preliminary**: 60 municipalities (12 per region), LOYO 2010–2023 with pilot hyperparameters fixed in advance, plus a 300-municipality run with the same frozen settings. 2024 was never loaded, so **no gain here is confirmed**.
 
@@ -303,7 +327,7 @@ Every deviation is explained and justified in **[`docs/DEVIATIONS.md`](docs/DEVI
 
 [`docs/VERIFICATION.md`](docs/VERIFICATION.md) records the checks of the refactored code on the original processed data:
 
-- `pytest`: 37 tests pass in about 7 s, without downloaded data (20 at the pilot refactor).
+- `pytest`: 48 tests pass in about 10 s, without downloaded data (20 at the pilot refactor, 37 before the official report).
 - Weekly 60-municipality run (B0, B1, B1p, B4, B4s, M1): predictions **identical** to the saved pilot (max |Δshare| = 0). Mean JSD B1 0.082017, B4s 0.073505, M1 0.072669.
 - MAP reproduction identical to 4+ decimals (pooled median MAE 12.1775, coverage 0.9581, CRPS 8.6626).
 - Rain extension M1-R (60): JSD 0.073892, identical.

@@ -16,6 +16,9 @@ Steps (see docs/METHODOLOGY_MAPPING.md for the step -> module mapping):
   official   official experiment: design A (expanding window, primary), B (learning
                      curve) or C (LOYO), with ONI features and M2 early stopping;
                      checkpoints per fold (rerun resumes). Not part of 'all'.
+  official-report    pre-registered statistics, tables and figures of the official
+                     runs (results/official/{tables,figures}); needs the local
+                     metrics_detail files (and fold checkpoints for coefficients)
   all        everything above in order (except 'official')
 
 Options:
@@ -57,7 +60,7 @@ if _SRC.exists() and str(_SRC) not in sys.path:   # works without `pip install -
 
 from dengue_recon import config as C  # noqa: E402
 
-STEPS = ["data", "reproduce", "baselines", "brazil", "m2", "extension", "report", "official", "all"]
+STEPS = ["data", "reproduce", "baselines", "brazil", "m2", "extension", "report", "official", "official-report", "all"]
 
 
 def step_data(args):
@@ -121,6 +124,11 @@ def step_official(args):
          out_dir=args.out, test_years=_years(args))
 
 
+def step_official_report(args):
+    from dengue_recon.reporting.official_report import main
+    main(base=args.out)
+
+
 def step_report(args):
     from dengue_recon.reporting import rain_report, report
     report.main()
@@ -165,7 +173,7 @@ def main(argv=None):
             step_extension(args)
         step_report(args)
     else:
-        globals()[f"step_{args.step}"](args)
+        globals()[f"step_{args.step.replace('-', '_')}"](args)
     print(f"[run_pipeline] step '{args.step}' finished in {time.time() - t0:.0f}s")
 
 
