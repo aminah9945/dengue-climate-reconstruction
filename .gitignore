@@ -28,3 +28,6 @@ venv/
 .DS_Store
 .vscode/
 .idea/
+# official runs: per-fold checkpoints (npz, per-fold CSV/JSON) and large per-row files
+results/official/**/folds/
+results/official/**/metrics_detail_*_300*.csv

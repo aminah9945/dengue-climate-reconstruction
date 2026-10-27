@@ -13,14 +13,22 @@ Steps (see docs/METHODOLOGY_MAPPING.md for the step -> module mapping):
   m2         Step 5  optional boosted softmax M2 (needs the brazil run first)
   extension  Step 8  pre-registered rain-lag extension (M1-R, M1-RTH)
   report     Step 9  tables, sanity-check table and figures from saved results
-  all        everything above in order
+  official   official experiment: design A (expanding window, primary), B (learning
+                     curve) or C (LOYO), with ONI features and M2 early stopping;
+                     checkpoints per fold (rerun resumes). Not part of 'all'.
+  all        everything above in order (except 'official')
 
 Options:
   --subset {60,300}   municipalities (pilot subset or all)
   --res {weekly,monthly}
   --quick             main models only (B4, B4s, M1) at weekly resolution, written
                       under a '_quick' tag so saved full results are not overwritten
-  --years 2016,2019   restrict LOYO folds (smoke tests only)
+  --years 2016,2019   restrict LOYO folds / official test years (smoke tests only)
+  --design {A,B,C}    official: validation design
+  --climate {power,chirps}  official: weather table (NASA POWER primary, CHIRPS robustness)
+  --exclude-year 2020 official: sensitivity run without that year
+  --models B1,M1      official: subset of models (default: the design's full set)
+  --out DIR           official: output folder (default RESULTS_DIR/official)
 
 Paths come from environment variables (DATA_DIR, RESULTS_DIR, REPORTS_DIR,
 LIM_MASK_PATH, DENGUE_ROOT); see src/dengue_recon/config.py.
@@ -32,6 +40,7 @@ Examples:
   python scripts/run_pipeline.py --step brazil --res monthly --subset 60
   python scripts/run_pipeline.py --step extension --subset 60
   python scripts/run_pipeline.py --step report
+  python scripts/run_pipeline.py --step official --design A --climate power --subset 300
 """
 from __future__ import annotations
 
@@ -48,7 +57,7 @@ if _SRC.exists() and str(_SRC) not in sys.path:   # works without `pip install -
 
 from dengue_recon import config as C  # noqa: E402
 
-STEPS = ["data", "reproduce", "baselines", "brazil", "m2", "extension", "report", "all"]
+STEPS = ["data", "reproduce", "baselines", "brazil", "m2", "extension", "report", "official", "all"]
 
 
 def step_data(args):
@@ -104,6 +113,14 @@ def step_extension(args):
         main(300, ("M1-R", "M1-RTH"), "weekly_300")
 
 
+def step_official(args):
+    from dengue_recon.experiments.official import main
+    main(design=args.design, climate=args.climate, subset=args.subset,
+         exclude_years=[int(y) for y in args.exclude_year],
+         models=args.models.split(",") if args.models else None,
+         out_dir=args.out, test_years=_years(args))
+
+
 def step_report(args):
     from dengue_recon.reporting import rain_report, report
     report.main()
@@ -123,6 +140,11 @@ def main(argv=None):
     p.add_argument("--tag", default=None)
     p.add_argument("--nuts", action="store_true", help="reproduce: also run NUTS (slow)")
     p.add_argument("--force", action="store_true", help="reproduce: refit cached folds")
+    p.add_argument("--design", default="A", choices=["A", "B", "C"], help="official: validation design")
+    p.add_argument("--climate", default="power", choices=["power", "chirps"], help="official: weather table")
+    p.add_argument("--exclude-year", type=int, action="append", default=[], help="official: drop a year (e.g. 2020)")
+    p.add_argument("--models", default=None, help="official: comma-separated model subset")
+    p.add_argument("--out", default=None, help="official: output folder (default RESULTS_DIR/official)")
     p.add_argument("--with-cox", action="store_true", help="data: also fetch Cox et al. and validate sources")
     args = p.parse_args(argv)
     C.ensure_dirs()
