@@ -75,6 +75,7 @@ def test_panel_years_have_no_later_year(synth7):
         assert max(yrs) == f["test_year"]
         Pf = _fold_panel(P, f)
         assert Pf.years.max() == f["test_year"]
+        assert all(a.flags.c_contiguous for a in (Pf.Yw, Pf.N, Pf.excluded, Pf.valid_w, Pf.week_index))
         tm = fold_train_mask(Pf, row_masks(Pf)[0], f)
         trained = set(Pf.years[tm.any(0)].tolist())
         assert trained == set(f["train_years"])

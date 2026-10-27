@@ -150,7 +150,8 @@ def subset_panel(P: Panel, years) -> Panel:
     """A :class:`Panel` restricted to ``years`` (in order), e.g. the years of one fold."""
     idx = np.where(np.isin(P.years, list(years)))[0]
     assert len(idx) == len(years) and (np.diff(idx) == 1).all(), "fold years must be contiguous"
-    return Panel(geocodes=P.geocodes, names=P.names, region=P.region, years=P.years[idx],
-                 nweeks=P.nweeks[idx], Yw=P.Yw[:, idx], Ym=P.Ym[:, idx], N=P.N[:, idx],
-                 excluded=P.excluded[:, idx], valid_w=P.valid_w[idx], week_index=P.week_index[idx],
-                 month_of_week=P.month_of_week[idx], extra=dict(P.extra))
+    c = np.ascontiguousarray    # same memory layout as build_panel (keeps reductions bit-reproducible)
+    return Panel(geocodes=P.geocodes, names=P.names, region=P.region, years=c(P.years[idx]),
+                 nweeks=c(P.nweeks[idx]), Yw=c(P.Yw[:, idx]), Ym=c(P.Ym[:, idx]), N=c(P.N[:, idx]),
+                 excluded=c(P.excluded[:, idx]), valid_w=c(P.valid_w[idx]), week_index=c(P.week_index[idx]),
+                 month_of_week=c(P.month_of_week[idx]), extra=dict(P.extra))
