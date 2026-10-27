@@ -80,7 +80,7 @@ dengue-climate-reconstruction/
 ├── CITATION.cff
 ├── src/dengue_recon/          the package: one sub-package per methodology step
 │   ├── config.py              paths (env vars), seeds, penalties, RUN_FINAL_2024 = False
-│   ├── data/                  Step 1: download.py, build_dataset.py, epiweeks.py, validate_sources.py, eda.py, panel.py
+│   ├── data/                  Step 1: download.py, build_dataset.py, epiweeks.py, validate_sources.py, eda.py, panel.py, oni.py, validate_weather.py
 │   ├── base_paper/            Step 2: lim_dm.py (re-implementation), reproduce.py (runner), fetch.py (CV mask)
 │   ├── baselines/             Step 3: simple.py (B0, B1, B1p)
 │   ├── features/              Step 4: seasonal.py, size_terms.py, climate.py
@@ -97,7 +97,7 @@ dengue-climate-reconstruction/
 ├── tests/                     pytest, synthetic data only, about 5 s
 ├── data/README.md             sources, URLs, licences, schema, QC flags (no data files committed)
 ├── results/                   small CSV/JSON/PNG outputs of the pilot (see results/README.md)
-└── docs/                      METHODOLOGY_MAPPING, DEVIATIONS, ARCHITECTURE, RESULTS, VERIFICATION
+└── docs/                      METHODOLOGY_MAPPING, DEVIATIONS, ARCHITECTURE, RESULTS, VERIFICATION, WEATHER_VALIDATION
 ```
 
 ## 4. Setup and running

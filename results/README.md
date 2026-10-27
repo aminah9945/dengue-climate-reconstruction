@@ -22,6 +22,7 @@ All results are **preliminary**: 60 municipalities, LOYO 2010–2023, pilot hype
 | `brazil/leakage_audit_*.csv`, `brazil/checks_*.json` | Per-fold leakage audit; zero-climate check; climate NaN counts | (7) |
 | `runtime_log.csv`, `logs/` | Wall time per fit; console logs of the pilot runs | – |
 | `figures/` | Main figures (reproduction, baselines vs climate, JSD by model, gain by region and year, example reconstructions, shuffle test, lag coefficients) | `reporting.figures` (9) |
+| `weather_validation/` | NASA POWER vs CHIRPS rainfall (weekly, monthly, raw and anomalies, by region) and both vs Cox et al. ERA5-Land 2013–2020: `summary.csv`, `summary.md`, `per_municipality.csv`, PNG figures; write-up in [`docs/WEATHER_VALIDATION.md`](../docs/WEATHER_VALIDATION.md) | `dengue_recon.data.validate_weather` (1) |
 | `rain_extension/` | Pre-registered follow-up: `PREREGISTRATION.md`, `RESULTS_RAIN.md`, tables, figures, audits, per-row metrics | `extensions.rain_lags`, `reporting.rain_report` (8, 9) |
 
 ## Files omitted from the repository
