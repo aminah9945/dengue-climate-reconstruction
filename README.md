@@ -94,7 +94,7 @@ dengue-climate-reconstruction/
 ├── scripts/
 │   ├── run_pipeline.py        CLI: --step {data,reproduce,baselines,brazil,m2,extension,report,official,official-report,all}
 │   └── build_notebooks.py     regenerates the notebooks
-├── notebooks/                 00-05, Colab-ready (setup cell clones and installs this repo)
+├── notebooks/                 00-06, Colab-ready (setup cell clones and installs this repo); 06 = official experiments
 ├── tests/                     pytest, synthetic data only, about 7 s
 ├── data/README.md             sources, URLs, licences, schema, QC flags (no data files committed)
 ├── results/                   small CSV/JSON/PNG outputs of the pilot (see results/README.md)
