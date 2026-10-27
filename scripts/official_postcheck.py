@@ -6,7 +6,8 @@ Re-checks a finished run from its saved files: all folds present, leakage audit,
 zero-climate max difference, exact sums (recomputed from the saved predictions with
 the largest-remainder rule), no 2024 anywhere, convergence. Writes
 ``postcheck_<tag>.json``, ``fold_summary_<tag>.csv`` (metric means per fold and
-model) and ``model_summary_<tag>.csv`` (means per model over all scored rows).
+model) and ``model_summary_<tag>.csv`` (means per model over all scored rows); for design B
+also ``k_summary_<tag>.csv`` (fold means averaged over the test years at each k).
 """
 import json
 import sys
@@ -94,6 +95,12 @@ ms.insert(0, "n_rows", go.size())
 ms["jsd_nweighted"] = go.apply(lambda d: np.average(d.jsd, weights=d.N))
 ms = ms.reset_index()
 ms.round(6).to_csv(out / f"model_summary_{tag}.csv", index=False)
+if info["design"] == "B":   # learning curve: unweighted mean over the test years available at each k
+    ks = fs.groupby(["model", "k"], sort=False)
+    kt = ks[["jsd", "peak_err", "emd", "jsd_nweighted"]].mean()
+    kt.insert(0, "test_years", ks.test_year.apply(lambda y: " ".join(str(v) for v in sorted(y))))
+    kt.insert(0, "n_test_years", ks.size())
+    kt.reset_index().round(6).to_csv(out / f"k_summary_{tag}.csv", index=False)
 (out / f"postcheck_{tag}.json").write_text(json.dumps(res, indent=1, default=str))
 print(json.dumps(res, indent=1, default=str))
 print(ms.round(5).to_string(index=False))
