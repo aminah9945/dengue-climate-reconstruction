@@ -120,10 +120,13 @@ Run with the committed code, unchanged (no bug fixes were needed), `DATA_DIR` po
 
 Convergence: "success" is SciPy L-BFGS-B's own flag (gtol 1e-6, ftol 1e-14, maxiter 2000). The largest final gradient norms are of the same order as in the pilot's 300-municipality run (max 1.17 there). M2 rounds are the early-stopping best iteration + 1 on the inner validation year; a value of 1 means the validation loss did not improve after the first round, and the refit then uses 1 round, as pre-specified.
 
+Consistency with the pilot: in design C the mean JSD of B0, B1, B4, B4s and M1-noONI over the 3,723 scored municipality-years equals the saved pilot 300-municipality LOYO table (`results/brazil/table_main_weekly_300.csv`, B0/B1/B4/B4s/M1) to within 3e-7, the rounding of the 6-decimal summary file.
+
 | Run | Folds | Wall time | Leakage audit | Zero-climate max diff | Exact sums | 2024 rows | Missing climate | DM fits converged (max iterations / max \|grad\|) | M2 rounds (min-max) |
 |---|---|---|---|---|---|---|---|---|---|
 | 1. Design A, NASA POWER (primary), all models (`designA_power_300`) | 12/12 | 27 min 11 s | pass in 12/12 folds | 0.0 | 31940/31940 exact | none | 0 | 72/72 (846 / 0.78) | 1-454 (12 fits) |
 | 2. Design B, NASA POWER, models B0, B1, B4s, M1, M2 (config default) (`designB_power_300`) | 30/30 | 27 min 54 s | pass in 30/30 folds | 0.0 | 40550/40550 exact | none | 0 | 60/60 (976 / 0.84) | 1-454 (30 fits) |
+| 3. Design C (LOYO), NASA POWER, all models (`designC_power_300`) | 14/14 | 53 min 20 s | pass in 14/14 folds | 0.0 | 37230/37230 exact | none | 0 | 84/84 (1132 / 1.17) | 1-509 (14 fits) |
 
 ## Not verified in this pass
 

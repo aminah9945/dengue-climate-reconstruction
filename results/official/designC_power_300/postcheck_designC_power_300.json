@@ -1,0 +1,42 @@
+{
+ "tag": "designC_power_300",
+ "n_folds_planned": 14,
+ "n_folds_present": 14,
+ "missing_folds": [],
+ "leakage_all_pass": true,
+ "leakage_folds_pass": 14,
+ "zero_climate_maxdiff_max": 0.0,
+ "clim_nan": 0,
+ "n_rows": 37230,
+ "exact_sum_allocations": 37230,
+ "exact_sum_failures": 0,
+ "years_scored": [
+  2010,
+  2011,
+  2012,
+  2013,
+  2014,
+  2015,
+  2016,
+  2017,
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2023
+ ],
+ "no_2024": true,
+ "dm_fits": 84,
+ "dm_fits_success": 84,
+ "dm_max_nit": 1132,
+ "dm_max_grad_inf": 1.1746685926274238,
+ "dm_not_converged": [],
+ "m2_fits": 14,
+ "m2_rounds_range": [
+  1,
+  509
+ ],
+ "run_wall_s": 3200.2,
+ "fold_wall_s_sum": 3198.2
+}

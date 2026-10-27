@@ -1,0 +1,15 @@
+fold_id,test_year,k,h_m,centring,climatology,clim_years_ok,oni_std,train_arrays
+C_T2010_k13,2010,13,True,True,True,True,True,True
+C_T2011_k13,2011,13,True,True,True,True,True,True
+C_T2012_k13,2012,13,True,True,True,True,True,True
+C_T2013_k13,2013,13,True,True,True,True,True,True
+C_T2014_k13,2014,13,True,True,True,True,True,True
+C_T2015_k13,2015,13,True,True,True,True,True,True
+C_T2016_k13,2016,13,True,True,True,True,True,True
+C_T2017_k13,2017,13,True,True,True,True,True,True
+C_T2018_k13,2018,13,True,True,True,True,True,True
+C_T2019_k13,2019,13,True,True,True,True,True,True
+C_T2020_k13,2020,13,True,True,True,True,True,True
+C_T2021_k13,2021,13,True,True,True,True,True,True
+C_T2022_k13,2022,13,True,True,True,True,True,True
+C_T2023_k13,2023,13,True,True,True,True,True,True
