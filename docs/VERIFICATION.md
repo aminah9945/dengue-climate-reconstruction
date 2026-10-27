@@ -77,6 +77,43 @@ All six notebooks (00–05) were executed with `jupyter nbconvert --execute` aga
 
 A live smoke test of `dengue_recon.data.download` with a scratch `DATA_DIR` fetched the municipality metadata (5,571 rows), InfoDengue weekly data for Belo Horizonte 2023 (52 weeks, 65,991 cases, the same total as in the processed data) and one month of NASA POWER daily data. The full 300-municipality download (30–45 min) was not repeated.
 
+## Official-experiment code (designs A/B/C, ONI, M2 early stopping), 2026-10-27
+
+Same environment as above, plus xgboost 3.4.1. Processed data were read in place through `DATA_DIR` and not modified. Outputs went to a scratch `RESULTS_DIR`.
+
+### Unit tests
+
+`python -m pytest -q`: **37 passed** in about 7 s. These are the 23 earlier tests plus 14 in `tests/test_official.py`:
+
+- designs A and B never train on the test year or a later year;
+- learning-curve windows are exactly the k preceding years (8 + 10 + 12 folds);
+- 2024 is refused by the fold builders and is not returned by the loaders (synthetic parquet files that contain 2024 and 2025);
+- climatology, ONI mean/SD, offsets and centring do not change when non-training years are perturbed or blanked, and do change when a training year is perturbed;
+- the official leakage audit passes in every fold of A, B and C;
+- ONI is aligned by epi year/week, and its lag-block means are exact and identical across municipalities;
+- the 20-feature M1 with zero climate coefficients equals B4s exactly;
+- shuffles stay within the fold's years and equal the pilot's derangements when all years are used;
+- M2's early-stopping metric includes the base margin, and its predictions are valid shares.
+
+### Pilot regression: weekly LOYO, 60 municipalities, NASA POWER
+
+| Run | B4s mean JSD | M1 (pilot) / M1-noONI mean JSD | max \|row ΔJSD\| vs saved pilot | Wall time |
+|---|---|---|---|---|
+| `--step brazil --subset 60 --quick` (pilot driver, after the loader changes) | **0.073505** | **0.072669** | 0 (840 rows; peak-week and EMD differences also 0) | 154 s |
+| `--step official --design C --subset 60 --models B4s,M1-noONI` (new driver) | **0.073505** | **0.072669** | 0 (840 rows; peak-week 0, EMD ≤ 4.4e-16) | 125 s |
+
+Both reproduce the reported pilot numbers exactly. In design C the zero-climate equivalence gave a maximum difference of 0.0 and the leakage audit passed in all 14 folds. Coverage and CRPS in the new driver use per-fold random seeds, so they are not compared with the pilot draw by draw.
+
+### Resume
+
+Two folds of design A (60 municipalities, all models) were run. One fold's log was then deleted and the command rerun. The rebuilt `metrics_detail` file was byte-identical (same MD5), including M2 with 4 threads.
+
+### End-to-end check (not a result)
+
+Designs A (12 folds) and B (30 folds) were run at 60 municipalities with NASA POWER and the models B1, B4s, M1 and M2, only to confirm that the code runs end to end. In every fold the leakage audit passed, zero-climate equivalence was 0.0, there were no missing climate anomalies, every L-BFGS fit converged, and no 2024 row was read. The metrics of this run are not reported.
+
+The first attempt flagged the size-centring audit in folds with 7 or more panel years. The cause was a memory-layout artefact: the fold panel's arrays were not C-contiguous, so row sums differed by about 1e-15. It was not leakage. It was fixed (commit "Keep fold panel arrays C-contiguous"), and the audit now passes in all 56 folds of A, B and C at 300 municipalities.
+
 ## Not verified in this pass
 
 | Item | Why | How to run |
