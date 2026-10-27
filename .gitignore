@@ -34,3 +34,10 @@ results/official/**/metrics_detail_*_300*.csv
 
 # re-runs from notebook 06
 results/official_rerun/
+
+# INLA extension (exploratory): per-fold checkpoints, R work files, large per-row files
+results/extensions/inla/**/folds/
+results/extensions/inla/**/work/
+results/extensions/inla/**/metrics_detail_*_300*.csv
+results/extensions/inla/**/shape_diag_*_300*.csv
+results/extensions/inla/**/R_fits.log
