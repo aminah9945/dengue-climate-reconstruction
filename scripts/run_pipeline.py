@@ -4,7 +4,8 @@
 Steps (see docs/METHODOLOGY_MAPPING.md for the step -> module mapping):
 
   data       Step 1  download InfoDengue + NASA POWER + IBGE metadata, build the
-                     processed tables, EDA and smoke-test baselines (30-45 min)
+                     processed tables, EDA and smoke-test baselines, El Nino index
+                     (ONI) (30-45 min); --with-chirps adds CHIRPS rainfall (1-2 h)
   reproduce  Step 2  fetch the Lim et al. (2026) CV mask (data only) and run the
                      MAP reproduction (seconds); add --nuts for NUTS (~20 min/fold)
   baselines  Step 3  B0, B1, B1p and the no-climate DM models B4, B4s (LOYO)
@@ -32,6 +33,7 @@ Options:
   --exclude-year 2020 official: sensitivity run without that year
   --models B1,M1      official: subset of models (default: the design's full set)
   --out DIR           official: output folder (default RESULTS_DIR/official)
+  --with-chirps       data: also download CHIRPS rainfall (needed for --climate chirps)
 
 Paths come from environment variables (DATA_DIR, RESULTS_DIR, REPORTS_DIR,
 LIM_MASK_PATH, DENGUE_ROOT); see src/dengue_recon/config.py.
@@ -44,6 +46,8 @@ Examples:
   python scripts/run_pipeline.py --step extension --subset 60
   python scripts/run_pipeline.py --step report
   python scripts/run_pipeline.py --step official --design A --climate power --subset 300
+  python scripts/run_pipeline.py --step official-report
+  python scripts/official_postcheck.py results/official/designA_power_300
 """
 from __future__ import annotations
 
@@ -70,6 +74,11 @@ def step_data(args):
     download.main(["power"])
     build_dataset.main()
     eda.main()
+    from dengue_recon.data import oni
+    oni.main()   # El Nino index (NOAA CPC, seconds): needed by --step official
+    if args.with_chirps:   # CHIRPS rainfall for the robustness run (about 1-2 h for 300 municipalities)
+        download.main(["weather", "--source", "chirps"])
+        build_dataset.build_climate("chirps")
     if args.with_cox:
         from dengue_recon.data import validate_sources
         download.main(["cox"])
@@ -154,6 +163,8 @@ def main(argv=None):
     p.add_argument("--models", default=None, help="official: comma-separated model subset")
     p.add_argument("--out", default=None, help="official: output folder (default RESULTS_DIR/official)")
     p.add_argument("--with-cox", action="store_true", help="data: also fetch Cox et al. and validate sources")
+    p.add_argument("--with-chirps", action="store_true",
+                   help="data: also fetch CHIRPS rainfall (robustness run; about 1-2 h)")
     args = p.parse_args(argv)
     C.ensure_dirs()
     t0 = time.time()

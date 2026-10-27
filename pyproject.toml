@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "dengue-recon"
 version = "0.1.0"
-description = "Climate-informed reconstruction of weekly dengue curves from annual totals (Brazil, pilot)"
+description = "Climate-informed reconstruction of weekly dengue curves from annual totals (Brazil)"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
@@ -24,9 +24,9 @@ dependencies = [
 [project.optional-dependencies]
 bayes = ["numpyro>=0.15", "pyreadr>=0.5"]
 xgb = ["xgboost>=2.0"]
-notebooks = ["nbformat>=5.9", "ipykernel>=6.0"]
+notebooks = ["nbformat>=5.9", "ipykernel>=6.0", "nbconvert>=7.0"]
 dev = ["pytest>=7"]
-all = ["numpyro>=0.15", "pyreadr>=0.5", "xgboost>=2.0", "nbformat>=5.9", "ipykernel>=6.0", "pytest>=7"]
+all = ["numpyro>=0.15", "pyreadr>=0.5", "xgboost>=2.0", "nbformat>=5.9", "ipykernel>=6.0", "nbconvert>=7.0", "pytest>=7"]
 
 [project.urls]
 Repository = "https://github.com/aminah9945/dengue-climate-reconstruction"

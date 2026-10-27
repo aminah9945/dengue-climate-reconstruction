@@ -4,7 +4,10 @@
 Each notebook starts with the same setup cell: in Google Colab it clones this
 repository and installs it with ``pip install -e .``; locally it uses the
 checkout it lives in. Paths come from environment variables (DATA_DIR,
-RESULTS_DIR, ...), see ``src/dengue_recon/config.py``.
+RESULTS_DIR, ...), see ``src/dengue_recon/config.py``. ``BRANCH`` in the setup
+cell selects the branch that Colab clones (default "main").
+
+Notebook 06 (official experiments) is edited by hand and is not written here.
 
 Usage:  python scripts/build_notebooks.py
 """
@@ -21,12 +24,13 @@ import os, sys, subprocess
 from pathlib import Path
 
 REPO_URL = "https://github.com/aminah9945/dengue-climate-reconstruction"
+BRANCH = "main"          # use "official-run" if the pull request is not merged yet
 IN_COLAB = "google.colab" in sys.modules
 
 if IN_COLAB:
     REPO = Path("/content/dengue-climate-reconstruction")
     if not REPO.exists():
-        subprocess.run(["git", "clone", "--depth", "1", REPO_URL, str(REPO)], check=True)
+        subprocess.run(["git", "clone", "--depth", "1", "--branch", BRANCH, REPO_URL, str(REPO)], check=True)
     subprocess.run([sys.executable, "-m", "pip", "install", "-q", "-e", f"{REPO}[all]"], check=True)
     # Optional: keep the downloaded data on Google Drive so it survives the session.
     USE_DRIVE = False
@@ -110,7 +114,7 @@ Nothing large is stored in the repository: data are always re-downloaded from th
         md("""
 ## 1. Data (InfoDengue + NASA POWER + IBGE)
 
-Set `DOWNLOAD = True` to fetch and build the data if it is missing. The steps are those of `python scripts/run_pipeline.py --step data`. 2024 is downloaded but never used by the pilot (`RUN_FINAL_2024 = False`).
+Set `DOWNLOAD = True` to fetch and build the data if it is missing. The steps are those of `python scripts/run_pipeline.py --step data`. 2024 is downloaded but never used by the pilot (`RUN_FINAL_2024 = False`). The cell also builds the El Niño index (ONI, a few seconds), which the official runs in notebook 06 need.
 """),
         code(r'''
 DOWNLOAD = True
@@ -124,6 +128,9 @@ if missing and DOWNLOAD:
     download.main(["power"])
     build_dataset.main()
     eda.main()          # EDA figures and the smoke-test baselines (needed for sanity check 7)
+if not (C.DATA_DIR / "oni_weekly.parquet").exists() and DOWNLOAD:
+    from dengue_recon.data import oni
+    oni.main()          # El Nino index (NOAA CPC, a few seconds); needed by the official runs (notebook 06)
 if have_data():
     d = pd.read_parquet(C.DATA_DIR / "dengue_weekly.parquet", columns=["geocode", "epi_year", "cases"])
     print(d.geocode.nunique(), "municipalities;", d.epi_year.min(), "-", d.epi_year.max(), ";", len(d), "weekly rows")
