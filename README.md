@@ -4,7 +4,11 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/aminah9945/dengue-climate-reconstruction/blob/main/notebooks/00_setup_and_data.ipynb)
 
-**Status: pilot results; final 2024 test pending.**
+**Status: official results for 2010–2023 (see [Results](#7-results)). The 2024 test year is locked (`RUN_FINAL_2024 = False`) and will be run once, only after the final model is fixed.**
+
+**New here? Follow [`docs/HOW_TO_RUN.md`](docs/HOW_TO_RUN.md)**: a short step-by-step guide for Google Colab and for a local VS Code / Jupyter setup, how to reproduce each official result and figure, expected runtimes and troubleshooting.
+
+> The notebooks in this repository (`notebooks/00`–`06`) replace the older notebooks that were shared through Google Drive. Use the GitHub versions; the Drive copies are no longer updated.
 
 **Author:** Aminah, FAST-NUCES Islamabad (MS research paper).
 
@@ -20,7 +24,7 @@ This repository reproduces a published Dirichlet-multinomial disaggregation mode
 4. [Setup and running](#4-setup-and-running)
 5. [Data](#5-data)
 6. [Methodology-to-code mapping](#6-methodology-to-code-mapping)
-7. [Results (pilot)](#7-results-pilot)
+7. [Results](#7-results)
 8. [Deviations from the methodology](#8-deviations-from-the-methodology)
 9. [Verification](#9-verification)
 10. [Citing the data and this code](#10-citing-the-data-and-this-code)
@@ -80,7 +84,7 @@ dengue-climate-reconstruction/
 ├── CITATION.cff
 ├── src/dengue_recon/          the package: one sub-package per methodology step
 │   ├── config.py              paths (env vars), seeds, penalties, RUN_FINAL_2024 = False
-│   ├── data/                  Step 1: download.py, build_dataset.py, epiweeks.py, validate_sources.py, eda.py, panel.py
+│   ├── data/                  Step 1: download.py, build_dataset.py, epiweeks.py, validate_sources.py, eda.py, panel.py, oni.py, validate_weather.py
 │   ├── base_paper/            Step 2: lim_dm.py (re-implementation), reproduce.py (runner), fetch.py (CV mask)
 │   ├── baselines/             Step 3: simple.py (B0, B1, B1p)
 │   ├── features/              Step 4: seasonal.py, size_terms.py, climate.py
@@ -88,25 +92,27 @@ dengue-climate-reconstruction/
 │   ├── evaluation/            Step 6: cv.py, allocation.py, metrics.py, scoring.py, bootstrap.py
 │   ├── checks/                Step 7: sums.py, zero_climate.py, shuffle.py, leakage.py, sanity.py
 │   ├── extensions/            Step 8: rain_lags.py (M1-R, M1-RTH, pre-registered)
-│   ├── reporting/             Step 9: tables.py, figures.py, report.py, rain_report.py
-│   └── experiments/           brazil_loyo.py: runs Steps 3-7 in every LOYO fold
+│   ├── reporting/             Step 9: tables.py, figures.py, report.py, rain_report.py, official_report.py
+│   └── experiments/           brazil_loyo.py: runs Steps 3-7 in every LOYO fold (pilot);
+│                              official.py: designs A/B/C with ONI and M2 early stopping
 ├── scripts/
-│   ├── run_pipeline.py        CLI: --step {data,reproduce,baselines,brazil,m2,extension,report,all}
-│   └── build_notebooks.py     regenerates the notebooks
-├── notebooks/                 00-05, Colab-ready (setup cell clones and installs this repo)
-├── tests/                     pytest, synthetic data only, about 5 s
+│   ├── run_pipeline.py        CLI: --step {data,reproduce,baselines,brazil,m2,extension,report,official,official-report,all}
+│   ├── official_postcheck.py  re-checks one finished official run and writes its summary tables
+│   └── build_notebooks.py     regenerates notebooks 00-05 (06 is edited by hand)
+├── notebooks/                 00-06, Colab-ready (setup cell clones and installs this repo); 06 = official experiments
+├── tests/                     pytest, synthetic data only, about 7 s
 ├── data/README.md             sources, URLs, licences, schema, QC flags (no data files committed)
 ├── results/                   small CSV/JSON/PNG outputs of the pilot (see results/README.md)
-└── docs/                      METHODOLOGY_MAPPING, DEVIATIONS, ARCHITECTURE, RESULTS, VERIFICATION
+└── docs/                      METHODOLOGY_MAPPING, DEVIATIONS, ARCHITECTURE, RESULTS, VERIFICATION, WEATHER_VALIDATION
 ```
 
 ## 4. Setup and running
 
 ### 4.1 Google Colab
 
-Open any notebook with the Colab badge above (or *File → Open notebook → GitHub* and paste this repository's URL). The first cell of every notebook:
+Open a notebook with the direct links in [`docs/HOW_TO_RUN.md`](docs/HOW_TO_RUN.md#1-google-colab) or the Colab badge above (or *File → Open notebook → GitHub* and paste this repository's URL). The first cell of every notebook:
 
-1. runs `git clone https://github.com/aminah9945/dengue-climate-reconstruction` into `/content/`;
+1. runs `git clone --branch BRANCH https://github.com/aminah9945/dengue-climate-reconstruction` into `/content/` (`BRANCH = "main"` by default; set it to `"official-run"` to use the official-run branch before its pull request is merged);
 2. runs `pip install -e ".[all]"`;
 3. sets `DATA_DIR` and `RESULTS_DIR` (set `USE_DRIVE = True` to keep the downloaded data on Google Drive).
 
@@ -120,6 +126,7 @@ Then run the notebooks in order:
 | `03_climate_extension.ipynb` | M1, ablations, sanity checks, region and year results (`QUICK = True` refits B4/B4s/M1 in about 5 min) | seconds |
 | `04_results_figures.ipynb` | All result tables and figures | seconds |
 | `05_rain_lag_extension.ipynb` | Pre-registered rain-lag extension (Step 8) | seconds (refit: about 6 min) |
+| `06_official_experiments.ipynb` | Official results (designs A/B/C) and an optional re-run of one design | seconds (re-run: see [`docs/HOW_TO_RUN.md`](docs/HOW_TO_RUN.md#4-expected-runtimes)) |
 
 A GPU is not needed. Only the optional NUTS refit benefits from one (`pip install "jax[cuda12]"`).
 
@@ -131,17 +138,17 @@ cd dengue-climate-reconstruction
 
 # either pip ...
 python -m venv .venv && source .venv/bin/activate        # Windows: .venv\Scripts\activate
-pip install -r requirements.txt && pip install -e .
+pip install -e ".[all]"                                   # same as: pip install -r requirements.txt && pip install -e .
 # ... or conda
 conda env create -f environment.yml && conda activate dengue-recon
 
-python -m pytest                                          # 20 tests, about 5 s, no data needed
+python -m pytest                                          # 48 tests, about 10 s, no data needed
 ```
 
 Run the pipeline step by step (each step maps to Section 6):
 
 ```bash
-python scripts/run_pipeline.py --step data                        # Step 1: download + build (30-45 min)
+python scripts/run_pipeline.py --step data                        # Step 1: download + build + ONI (30-45 min); --with-chirps adds CHIRPS (1-2 h)
 python scripts/run_pipeline.py --step reproduce                   # Step 2: MAP (about 1 min); add --nuts for NUTS
 python scripts/run_pipeline.py --step brazil --subset 60 --quick  # Steps 3-7: B0..M1 weekly, 60 municipalities (about 5 min)
 python scripts/run_pipeline.py --step brazil --subset 60          # full pilot incl. ablations and shuffles (about 22 min)
@@ -150,8 +157,34 @@ python scripts/run_pipeline.py --step brazil --subset 300         # 300 municipa
 python scripts/run_pipeline.py --step m2                          # optional boosted softmax (needs the weekly 60 run)
 python scripts/run_pipeline.py --step extension --subset 60       # Step 8 (about 8 min); --subset 300 about 29 min
 python scripts/run_pipeline.py --step report                      # Step 9: tables and figures
-python scripts/run_pipeline.py --step all                         # everything, in order
+python scripts/run_pipeline.py --step all                         # everything above, in order (not 'official')
 ```
+
+**Official experiment (designs A/B/C).** Each fold is checkpointed under `results/official/<tag>/folds/`. Rerunning the same command resumes from the last finished fold and gives identical numbers. `2024` is never loaded while `RUN_FINAL_2024 = False`.
+
+```bash
+python scripts/run_pipeline.py --step official --design A --climate power --subset 300    # primary: expanding window, 12 folds
+python scripts/run_pipeline.py --step official --design B --climate power --subset 300    # learning curve, 30 folds
+python scripts/run_pipeline.py --step official --design C --climate power --subset 300    # LOYO, 14 folds (pilot comparison)
+python scripts/run_pipeline.py --step official --design A --climate chirps --subset 300   # robustness: CHIRPS rainfall
+python scripts/run_pipeline.py --step official --design A --climate power --subset 300 --exclude-year 2020   # without 2020
+python scripts/run_pipeline.py --step official-report     # statistics, tables, figures -> results/official/{tables,figures}
+python scripts/official_postcheck.py results/official/designA_power_300   # re-check one finished run
+# options: --models B1,B4s,M1 (subset of models), --years 2016,2019 (subset of test years), --out DIR
+```
+
+The official runs need `oni_weekly.parquet` (made by `--step data`, or `python -m dengue_recon.data.oni`), and the CHIRPS run needs `climate_weekly_chirps.parquet` (`--step data --with-chirps`). `official-report` reads the per-row `metrics_detail_<tag>.csv` files, which are written by the runs but not committed (5–7 MB each), so on a fresh clone run the five official commands first; the committed tables and figures in `results/official/` can be read without rerunning anything.
+
+Outputs per run (`<tag>` = e.g. `designA_power_300`):
+
+| File | Content |
+|---|---|
+| `metrics_detail_<tag>.csv` | per municipality-year and model: the pilot's metric columns plus `design`, `fold_id`, `k`, `climate` |
+| `fold_log_<tag>.csv` | per fold and model: runtime, L-BFGS iterations and gradient, M2's chosen settings and rounds |
+| `leakage_audit_<tag>.csv` | per-fold leakage audit |
+| `checks_<tag>.json` | summary of the per-fold checks |
+| `run_info.json` | the run's settings |
+| `folds/` | checkpoints: predictions `.npz`, fold logs, per-fold metrics (not committed) |
 
 Times are measured on 4 CPUs with 15 GB RAM; memory stays below 3 GB.
 
@@ -203,6 +236,10 @@ Each step of the methodology maps to one sub-package; the full table with every 
 | 5 | Uncertainty: Dirichlet → multinomial draws (§7.5) | `src/dengue_recon/models/dirichlet_multinomial.py` | `draw_counts` |
 | 5 | M2 boosted softmax (optional, §7.4) | `src/dengue_recon/models/xgb_softmax.py` | `group_softmax`, `design`, `main` |
 | 6 | LOYO folds, exclusions, 2024 lock (§7.6) | `src/dengue_recon/evaluation/cv.py` | `row_masks`, `loyo_folds`, `final_test_split` |
+| 6 | Official designs: **A** expanding window (primary), **B** learning curve, **C** LOYO | `src/dengue_recon/evaluation/cv.py` | `expanding_window_folds`, `learning_curve_folds`, `loyo_fold_specs`, `climate_years`, `panel_years` |
+| 4 | ONI (ENSO) lag-block features (5, national), standardised with training years; climate source switch POWER/CHIRPS | `src/dengue_recon/features/climate.py`, `data/panel.py` | `oni_block_features`, `fold_climate_features`, `load_oni_weekly`, `load_tables(climate=...)` |
+| 5 | Official M2: fixed grid, early stopping on the last training year | `src/dengue_recon/models/xgb_softmax.py` | `fit_predict_official` |
+| 3–7 | Official driver with per-fold checkpoints and checks | `src/dengue_recon/experiments/official.py`, `checks/leakage.py` | `main`, `run_fold`, `official_leakage_audit` |
 | 6 | Exact-total allocation (§2, §7.3) | `src/dengue_recon/evaluation/allocation.py` | `allocate_integers` |
 | 6 | Metrics (§7.7) | `src/dengue_recon/evaluation/metrics.py`, `scoring.py` | `jsd`, `peak_week_error`, `emd_weeks`, `crps_samples`, `jsd_floor`, `score` |
 | 6 | Bootstraps and paired comparisons (§7.9) | `src/dengue_recon/evaluation/bootstrap.py` | `cluster_bootstrap`, `paired`, `h3_contrast` |
@@ -210,8 +247,31 @@ Each step of the methodology maps to one sub-package; the full table with every 
 | 7 | Sanity checks 1–7 (§7.8) | `src/dengue_recon/checks/` | `allocation_sum_ok`, `zero_climate_maxdiff`, `shuffle_years`, `shuffle_test_year`, `leakage_audit`, `sanity_table` |
 | 8 | Pre-registered rain-lag extension | `src/dengue_recon/extensions/rain_lags.py` | `feature_spec`, `ext_climate_features`, `ext_leakage_audit`, `main` |
 | 9 | Where/when analysis, tables, figures (§7.10) | `src/dengue_recon/reporting/` | `region_table`, `gain_by_year`, `paired_table`, `fig_*`, `report.main` |
+| 9 | Official report: paired contrasts with both bootstraps, H1–H3 with Holm, H4 learning-curve slopes, region / epidemic / weather-source tables, coefficients, figures | `src/dengue_recon/reporting/official_report.py` | `contrast`, `hypothesis_table`, `group_contrast`, `learning_curve_tables`, `lc_slope`, `epidemic_labels`, `coefficient_table`, `main` |
 
-## 7. Results (pilot)
+## 7. Results
+
+### 7.1 Official results (2010–2023; 2024 locked)
+
+These results come from the official experiment, run as pre-registered: 300 municipalities, NASA POWER climate (Amendment 1), test years **2010–2023** only. **2024 is locked** (`RUN_FINAL_2024 = False`): it has never been loaded and will be used once, as the final test, only after the final model is fixed. Full write-up: **[`results/official/OFFICIAL_RESULTS.md`](results/official/OFFICIAL_RESULTS.md)**. Tables: [`results/official/tables/`](results/official/tables/). Figures: [`results/official/figures/`](results/official/figures/). Regenerate with `python scripts/run_pipeline.py --step official-report`.
+
+| Hypothesis (design A, primary) | Estimate | 95 % CI, municipalities | 95 % CI, years | Decision |
+|---|---|---|---|---|
+| H1: M1 − B4s (JSD), needs ≤ −5 % | +0.00012 (+0.1 %) | [−0.00090, +0.00120] | [−0.00370, +0.00396] | **Not supported** |
+| H2: M1 − M1-short | +0.00247 (+2.1 %) | [+0.00185, +0.00309] | [−0.00172, +0.00675] | **Not supported** |
+| H3: gain South+Southeast − North | +0.00467 | [+0.00209, +0.00746] | [−0.00420, +0.01318] | **Not supported** |
+
+Holm correction does not change any decision.
+
+- **Climate adds no accuracy in the primary design.** M1 (local weather + ONI) equals B4s and wins in 5 of 12 test years.
+- **Local weather alone gives a small gain; ONI removes it.** M1-noONI − B4s is −1.3 %: the municipality interval excludes 0, the year-block interval does not.
+- **Annual-size terms matter most.** B4s vs B4 lowers JSD by 5.3 % (17.0 % N-weighted).
+- **Learning curve (H4).** From 3 to 9 training years every model improves. M1 improves fastest and is 1–3 % below B4s from 5 years on (year-block intervals include 0). k = 2 uses regional profiles, and k ≥ 10 has fewer test years, so both are shown separately.
+- **Robustness.** CHIRPS rainfall and dropping 2020 give the same conclusions. Design C reproduces the pilot exactly.
+
+Key figures: [`figA_designA_jsd_by_test_year.png`](results/official/figures/figA_designA_jsd_by_test_year.png), [`figB_learning_curves.png`](results/official/figures/figB_learning_curves.png), [`figC_gain_with_CIs.png`](results/official/figures/figC_gain_with_CIs.png), [`figD_gain_by_region.png`](results/official/figures/figD_gain_by_region.png).
+
+### 7.2 Pilot results (superseded by 7.1 for the hypotheses)
 
 All numbers are from [`docs/RESULTS.md`](docs/RESULTS.md) and [`results/rain_extension/RESULTS_RAIN.md`](results/rain_extension/RESULTS_RAIN.md). They are **preliminary**: 60 municipalities (12 per region), LOYO 2010–2023 with pilot hyperparameters fixed in advance, plus a 300-municipality run with the same frozen settings. 2024 was never loaded, so **no gain here is confirmed**.
 
@@ -267,19 +327,20 @@ Every deviation is explained and justified in **[`docs/DEVIATIONS.md`](docs/DEVI
 - **Fitting:** Brazil models use penalised likelihood (MAP; L-BFGS with JAX gradients) instead of full Bayesian NUTS, because of CPU time; NUTS is used for the reproduction. Penalty scales are fixed, not estimated.
 - **Reduced reproduction:** 1 repetition, 2 chains × (500 + 500) draws, target_accept 0.95 (paper: 3 repetitions, 4 × 1,000, 0.99). The criteria were still met.
 - **Base model choice:** the base paper's final disaggregation model is scaled INLA (MAE 10.7, 80 % coverage 0.87). We extend its Dirichlet-multinomial (MAE 13.4–13.5, coverage 0.95): open Python code, calibrated intervals, and climate enters the logits directly for a clean nested test.
-- **Not run (yet):** Denton/Chow–Lin baselines; ENSO (ONI) features; the monthly-to-weekly spline of Morello et al.; some ablations and stratifications; the **2024 final test** (`RUN_FINAL_2024 = False` by design).
+- **Not run (yet):** Denton/Chow–Lin baselines; ENSO (ONI) features in the pilot (added in the official experiment, see below); the monthly-to-weekly spline of Morello et al.; some ablations and stratifications; the **2024 final test** (`RUN_FINAL_2024 = False` by design).
 - **Scaled down:** M2 without early stopping (fixed 300 rounds) and weekly pilot only; the 300-municipality run without the train-and-test shuffle; H3 with the municipality bootstrap only; small convergence and specification details (listed in the file).
+- **Official experiment (Amendment 1, fixed before any official model run):** ERA5-Land could not be obtained (Open-Meteo daily quota; Copernicus needs an account), so NASA POWER is the primary climate and CHIRPS rainfall is the robustness source; ONI lag blocks are added to M1 (20 features; the pilot M1 is kept as M1-noONI); M2 uses early stopping on the last training year. Fold rules: [`docs/DEVIATIONS.md`](docs/DEVIATIONS.md#g-official-experiment-designs-abc-amendment-1).
 - **Repository refactor:** the research code was split into the package without changing numerical behaviour (verified exactly).
 
 ## 9. Verification
 
 [`docs/VERIFICATION.md`](docs/VERIFICATION.md) records the checks of the refactored code on the original processed data:
 
-- `pytest`: 20 tests pass in about 5 s, without downloaded data.
+- `pytest`: 48 tests pass in about 10 s, without downloaded data (20 at the pilot refactor, 37 before the official report).
 - Weekly 60-municipality run (B0, B1, B1p, B4, B4s, M1): predictions **identical** to the saved pilot (max |Δshare| = 0). Mean JSD B1 0.082017, B4s 0.073505, M1 0.072669.
 - MAP reproduction identical to 4+ decimals (pooled median MAE 12.1775, coverage 0.9581, CRPS 8.6626).
 - Rain extension M1-R (60): JSD 0.073892, identical.
-- Report tables regenerate identically, and all six notebooks execute without errors.
+- Report tables regenerate identically, and all notebooks (00–06) execute without errors.
 
 ## 10. Citing the data and this code
 

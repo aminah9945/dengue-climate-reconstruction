@@ -15,6 +15,9 @@ Usage (local or Colab; DATA_DIR defaults to <repo>/data):
     python -m dengue_recon.data.download power
     python -m dengue_recon.data.download all          # everything above
     python -m dengue_recon.data.download cox          # optional Cox et al. cross-check
+    python -m dengue_recon.data.download weather --source era5land   # optional: Open-Meteo ERA5-Land
+    python -m dengue_recon.data.download weather --source chirps     # optional: CHIRPS rainfall
+    python -m dengue_recon.data.download oni          # NOAA CPC Oceanic Nino Index
 or ``python scripts/run_pipeline.py --step data``.
 
 Each step caches files in DATA_DIR/raw/ and skips anything already downloaded,
@@ -180,6 +183,182 @@ def download_power(sel: pd.DataFrame, workers: int = 3) -> None:
                 print(f"power {i+1}/{len(rows)}", flush=True)
 
 
+# ------------------------------------------- alternative daily weather (source option)
+# NASA POWER above stays the default and its behaviour is unchanged.  The functions
+# below add other daily weather sources for the same municipal-seat points; each
+# caches one raw file per municipality in DATA_DIR/raw/<source>/ and skips files that
+# already exist, so an interrupted run resumes.
+WEATHER_SOURCES = ("power", "era5land", "era5", "chirps")
+WX_START, WX_END = "2009-01-01", "2025-12-31"
+
+# Open-Meteo historical archive (ERA5-Land 0.1 deg via models=era5_land; ERA5 0.25 deg
+# via models=era5).  Daily aggregates are computed by Open-Meteo in local time.
+OPENMETEO_URL = "https://archive-api.open-meteo.com/v1/archive"
+OPENMETEO_DAILY = ("precipitation_sum,temperature_2m_mean,temperature_2m_max,"
+                   "temperature_2m_min,relative_humidity_2m_mean")
+OPENMETEO_MODELS = {"era5land": "era5_land", "era5": "era5"}
+
+# CHIRPS v2.0 daily rainfall (UCSB Climate Hazards Center, 0.05 deg) through the
+# SERVIR ClimateSERV point/polygon extraction API (asynchronous jobs).
+CLIMATESERV_API = "https://climateserv.servirglobal.net/api"
+CHIRPS_DATATYPE = 0          # ClimateSERV dataset id of CHIRPS daily
+CHIRPS_HALF_BOX = 0.01       # deg; tiny box around the seat = the CHIRPS pixel holding it
+
+# NOAA CPC Oceanic Nino Index (3-month running mean of ERSSTv5 Nino-3.4 anomalies)
+ONI_URL = "https://www.cpc.ncep.noaa.gov/data/indices/oni.ascii.txt"
+
+
+class QuotaExceeded(RuntimeError):
+    """The service refuses further requests today (e.g. Open-Meteo daily limit)."""
+
+
+def _sleep_retry_after(r: requests.Response, default: float) -> float:
+    try:
+        return max(float(r.headers.get("Retry-After", default)), 1.0)
+    except ValueError:
+        return default
+
+
+def download_openmeteo(sel: pd.DataFrame, source: str = "era5land", start: str = WX_START,
+                       end: str = WX_END, pause: float = 5.0, tries: int = 6,
+                       max_quota_hits: int = 3) -> None:
+    """Open-Meteo archive, one request per municipality for the whole period.
+
+    Sequential and polite: `pause` seconds between requests, exponential backoff on
+    429/5xx that honours Retry-After.  A 429 whose body says the *daily* limit is
+    exceeded is retried at most `max_quota_hits` times in total before raising
+    QuotaExceeded (waiting longer would not help until the next day).
+    Raw JSON is cached as DATA_DIR/raw/<source>/<geocode>.json.
+    Note: Open-Meteo counts a request longer than 2 weeks as several calls
+    (about 417 per municipality for 16 years), so 300 municipalities need far more
+    than one day's free quota; the cache makes multi-day runs straightforward.
+    """
+    model = OPENMETEO_MODELS[source]
+    d = RAW / source
+    d.mkdir(parents=True, exist_ok=True)
+    quota_hits = 0
+    for i, row in enumerate(sel.itertuples()):
+        f = d / f"{int(row.geocode)}.json"
+        if f.exists() and f.stat().st_size > 1000:
+            continue
+        params = {"latitude": round(row.lat, 4), "longitude": round(row.lon, 4),
+                  "start_date": start, "end_date": end, "daily": OPENMETEO_DAILY,
+                  "timezone": "America/Sao_Paulo", "models": model}
+        wait = 10.0
+        for k in range(tries):
+            try:
+                r = SESSION.get(OPENMETEO_URL, params=params, timeout=300)
+            except requests.RequestException as exc:
+                print(f"  {exc!r}; retry in {wait:.0f}s", file=sys.stderr)
+                time.sleep(wait)
+                wait = min(wait * 2, 600)
+                continue
+            if r.status_code == 200 and "daily" in r.json():
+                tmp = f.with_suffix(".part")
+                tmp.write_bytes(r.content)
+                tmp.replace(f)
+                break
+            if r.status_code == 429 and "daily" in r.text.lower():
+                quota_hits += 1
+                if quota_hits >= max_quota_hits:
+                    raise QuotaExceeded(f"Open-Meteo ({model}): {r.text.strip()}")
+            elif r.status_code not in (429, 500, 502, 503, 504):
+                raise RuntimeError(f"Open-Meteo HTTP {r.status_code}: {r.text[:300]}")
+            w = _sleep_retry_after(r, wait)
+            print(f"  HTTP {r.status_code}; retry in {w:.0f}s", file=sys.stderr)
+            time.sleep(w)
+            wait = min(wait * 2, 600)
+        else:
+            raise RuntimeError(f"Open-Meteo failed after {tries} tries: geocode {row.geocode}")
+        if i % 10 == 0:
+            print(f"{source} {i+1}/{len(sel)}", flush=True)
+        time.sleep(pause)
+
+
+def _climateserv_job(lat: float, lon: float, start: str, end: str, poll: float = 5.0,
+                     max_wait: float = 1800.0) -> dict:
+    """Submit one CHIRPS daily mean-over-box job to ClimateSERV and return its JSON."""
+    h = CHIRPS_HALF_BOX
+    ring = [[lon - h, lat - h], [lon + h, lat - h], [lon + h, lat + h], [lon - h, lat + h], [lon - h, lat - h]]
+    geom = json.dumps({"type": "Polygon", "coordinates": [ring]})
+    to_us = lambda s: pd.Timestamp(s).strftime("%m/%d/%Y")  # noqa: E731
+    params = {"datatype": CHIRPS_DATATYPE, "begintime": to_us(start), "endtime": to_us(end),
+              "intervaltype": 0, "operationtype": 5, "geometry": geom}
+    q = "&".join(f"{k}={requests.utils.quote(str(v), safe='')}" for k, v in params.items())
+    job = get(f"{CLIMATESERV_API}/submitDataRequest/?{q}", pause=0).json()[0]
+    t0 = time.time()
+    while True:
+        time.sleep(poll)
+        prog = get(f"{CLIMATESERV_API}/getDataRequestProgress/?id={job}", pause=0).json()[0]
+        if prog == -1:
+            raise RuntimeError(f"ClimateSERV job {job} failed")
+        if prog >= 100:
+            break
+        if time.time() - t0 > max_wait:
+            raise RuntimeError(f"ClimateSERV job {job} timed out")
+    return get(f"{CLIMATESERV_API}/getDataFromRequest/?id={job}", pause=0).json()
+
+
+def download_chirps(sel: pd.DataFrame, start: str = WX_START, end: str = WX_END,
+                    workers: int = 3, pause: float = 5.0) -> None:
+    """CHIRPS v2.0 daily rainfall at each municipal seat (the 0.05 deg pixel holding it)
+    via ClimateSERV; one job per municipality for the whole period (~70 s each).
+    Raw JSON cached as DATA_DIR/raw/chirps/<geocode>.json."""
+    from concurrent.futures import ThreadPoolExecutor
+
+    d = RAW / "chirps"
+    d.mkdir(parents=True, exist_ok=True)
+
+    def one(row):
+        f = d / f"{int(row.geocode)}.json"
+        if f.exists() and f.stat().st_size > 1000:
+            return
+        for k in range(3):
+            try:
+                js = _climateserv_job(row.lat, row.lon, start, end)
+                break
+            except Exception as exc:  # job failure: retry the whole job later
+                print(f"  chirps {row.geocode}: {exc!r}", file=sys.stderr)
+                time.sleep(60 * (k + 1))
+        else:
+            print(f"  chirps {row.geocode}: giving up", file=sys.stderr)
+            return
+        js["request"] = {"lat": row.lat, "lon": row.lon, "half_box_deg": CHIRPS_HALF_BOX,
+                         "start": start, "end": end, "datatype": CHIRPS_DATATYPE}
+        tmp = f.with_suffix(".part")
+        tmp.write_text(json.dumps(js))
+        tmp.replace(f)
+        time.sleep(pause)
+
+    rows = list(sel.itertuples())
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        for i, _ in enumerate(ex.map(one, rows)):
+            if i % 10 == 0:
+                print(f"chirps {i+1}/{len(rows)}", flush=True)
+
+
+def download_oni() -> None:
+    """NOAA CPC ONI table (raw text) into DATA_DIR/raw/oni/oni.ascii.txt."""
+    d = RAW / "oni"
+    d.mkdir(parents=True, exist_ok=True)
+    f = d / "oni.ascii.txt"
+    if f.exists() and f.stat().st_size > 1000:
+        return
+    f.write_bytes(get(ONI_URL).content)
+
+
+def download_weather(sel: pd.DataFrame, source: str = "power") -> None:
+    """Dispatch on `source`: "power" (default, unchanged), "era5land", "era5", "chirps"."""
+    if source == "power":
+        download_power(sel)
+    elif source in OPENMETEO_MODELS:
+        download_openmeteo(sel, source)
+    elif source == "chirps":
+        download_chirps(sel)
+    else:
+        raise ValueError(f"unknown weather source {source!r}; choose from {WEATHER_SOURCES}")
+
+
 # ------------------------------------------------- Cox et al. (optional cross-check)
 COX_URL = "https://zenodo.org/api/records/13286671/files/denv_report.RDS/content"
 COX_KEEP = ["MUNICIP", "GEOM", "STATE", "WEEK", "WEEK_NO", "YEAR", "MONTH", "CASES", "pop",
@@ -215,7 +394,10 @@ def download_cox(keep_rds: bool = False) -> None:
 
 def main(argv=None):
     p = argparse.ArgumentParser()
-    p.add_argument("step", choices=["meta", "infodengue", "select", "power", "cox", "all"])
+    p.add_argument("step", choices=["meta", "infodengue", "select", "power", "weather", "oni",
+                                    "cox", "all"])
+    p.add_argument("--source", default="power", choices=WEATHER_SOURCES,
+                   help="weather step: daily weather source (default NASA POWER)")
     p.add_argument("--top-pop", type=int, default=700,
                    help="candidate pool: N most populous municipalities")
     p.add_argument("--n", type=int, default=300, help="final number of municipalities")
@@ -233,6 +415,11 @@ def main(argv=None):
     if a.step in ("power", "all"):
         sel = pd.read_csv(RAW / "meta" / "selected_municipalities.csv")
         download_power(sel)
+    if a.step == "weather":  # optional alternative weather sources
+        sel = pd.read_csv(RAW / "meta" / "selected_municipalities.csv")
+        download_weather(sel, a.source)
+    if a.step == "oni":
+        download_oni()
     if a.step == "cox":  # optional, not part of "all"
         download_cox()
 

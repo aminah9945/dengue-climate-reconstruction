@@ -46,3 +46,30 @@ def shuffle_test_year(X, t, test_perm):
     Xs = X.copy()
     Xs[:, t] = X[np.arange(M), test_perm[:, t]]
     return Xs
+
+
+def fold_year_permutations(M, T, year_idx, seed=C.SEED):
+    """Train-and-test shuffle restricted to the fold's years (official designs).
+
+    ``year_idx`` are the panel positions of the fold's training years and test year.
+    For each municipality the features of these years are deranged among themselves
+    (generator ``seed``, one draw per municipality in order); other years are left in
+    place, so no climate from outside the fold (e.g. later years) is used. With all
+    years of the panel this equals :func:`train_test_permutations` seed 0.
+    """
+    year_idx = np.asarray(year_idx)
+    rng = np.random.default_rng(seed)
+    perm = np.tile(np.arange(T), (M, 1))
+    for m in range(M):
+        perm[m, year_idx] = year_idx[derangement(len(year_idx), rng)]
+    return perm
+
+
+def fold_test_permutation(M, T, year_idx, seed=C.SEED):
+    """Test-only shuffle restricted to the fold's years: (M, T) derangements among
+    ``year_idx`` (one generator per municipality, as :func:`test_only_permutation`)."""
+    year_idx = np.asarray(year_idx)
+    perm = np.tile(np.arange(T), (M, 1))
+    for m in range(M):
+        perm[m, year_idx] = year_idx[derangement(len(year_idx), np.random.default_rng(seed + 99 + m))]
+    return perm

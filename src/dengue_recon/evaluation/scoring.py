@@ -61,3 +61,43 @@ def score(tag, n_draws=C.N_DRAWS, out_dir: Path | None = None, prob_models=None)
     df.to_csv(out_dir / f"metrics_detail_{tag}.csv", index=False)
     print(df.groupby("model")[["jsd", "peak_err", "emd"]].mean().round(4).to_string(), flush=True)
     return df
+
+
+def score_rows(preds, rows, P, t, Y, nsl, phi=None, prob_models=(), seed=C.SEED, floor_seed=0):
+    """Score one fold's predictions (official designs); same columns as ``metrics_detail``.
+
+    ``preds`` {model: (len(rows), S)} shares for municipalities ``rows`` in panel year
+    ``t``; ``phi`` {model: (len(rows),)} for ``prob_models`` (500 DM draws -> coverage,
+    CRPS). Random generators are seeded per fold (``seed``, ``floor_seed``), so a
+    fold scores identically whether it runs alone or after a resume.
+    """
+    rng = np.random.default_rng(seed)
+    rng_floor = np.random.default_rng(floor_seed)
+    out, sum_fail = [], 0
+    n = int(nsl[t])
+    for i, m in enumerate(rows):
+        tot = int(P.N[m, t])
+        truth_c = Y[m, t, :n]
+        truth = truth_c / tot
+        floor = jsd_floor(truth, tot, rng_floor)
+        for name, pr in preds.items():
+            p = pr[i, :n]
+            if not np.isfinite(p).all():
+                continue
+            p = normalise(p)
+            alloc = allocate_integers(p, tot)
+            sum_fail += int(alloc.sum() != tot)
+            r = dict(geocode=int(P.geocodes[m]), year=int(P.years[t]), region=C.REGIONS[P.region[m]], N=tot,
+                     model=name, jsd=jsd(truth, p), peak_err=peak_week_error(truth, p),
+                     mae_share=mae_shares(truth, p), emd=emd_weeks(truth, p),
+                     w50_err=week50_error(truth, p), mae_counts=float(np.mean(np.abs(alloc - truth_c))),
+                     jsd_floor=floor)
+            if name in prob_models:
+                D = draw_counts(p, phi[name][i], tot, C.N_DRAWS, rng, n)
+                Sm = D.T.astype(float)
+                r["cov80"] = float(np.mean((truth_c >= np.quantile(Sm, .1, 1)) & (truth_c <= np.quantile(Sm, .9, 1))))
+                r["cov95"] = float(np.mean((truth_c >= np.quantile(Sm, .025, 1)) & (truth_c <= np.quantile(Sm, .975, 1))))
+                r["crps"] = float(np.mean(crps_samples(truth_c.astype(float), Sm)))
+            out.append(r)
+    assert sum_fail == 0, "allocate_integers did not preserve totals"
+    return pd.DataFrame(out)

@@ -6,11 +6,18 @@ Output (in DATA_DIR):
   municipalities.csv                selected municipalities with metadata
   year_summary.csv                  one row per (geocode, epi_year): totals, completeness
 
+Optional alternative weather sources (same weekly schema, new file names only):
+  climate_weekly_<source>.parquet   source in {era5land, era5, chirps}
+  oni_weekly.parquet, oni_monthly.csv   NOAA CPC ONI (see oni.py)
+
 Usage:  python -m dengue_recon.data.build_dataset      (DATA_DIR env var; default <repo>/data)
+        python -m dengue_recon.data.build_dataset --source chirps   (climate table only)
 """
 from __future__ import annotations
 
+import argparse
 import io
+import json
 
 import numpy as np
 import pandas as pd
@@ -30,6 +37,11 @@ PROVISIONAL_YEARS = {2025}
 BAD_STATE_YEARS = {("ES", 2021): "ES_2021_reporting_gap"}
 SOFT_FLAG_YEARS = {2020: "covid_2020_reporting_disruption", 2025: "provisional_2025"}
 
+SOURCES = ("power", "era5land", "era5", "chirps")
+DAILY_COLS = ("date", "precip", "t2m", "tmax", "tmin", "rh")
+CLIM_ORDER = ["epi_year", "epi_week", "week_start", "n_weeks_year", "week_index", "precip_mm",
+              "precip_days", "temp_mean", "temp_min", "temp_max", "humid_mean", "geocode"]
+
 ID_COLS = {"casos": "cases", "casos_est": "cases_est", "tempmin": "id_temp_min",
            "tempmed": "id_temp_mean", "tempmax": "id_temp_max", "umidmin": "id_humid_min",
            "umidmed": "id_humid_mean", "umidmax": "id_humid_max", "pop": "pop"}
@@ -48,26 +60,121 @@ def load_infodengue(geocode: int) -> pd.DataFrame:
     return out
 
 
-def load_power(geocode: int) -> pd.DataFrame:
-    txt = (RAW / "power" / f"{geocode}.csv").read_text()
-    body = txt.split("-END HEADER-")[-1].strip()
-    d = pd.read_csv(io.StringIO(body)).replace(-999, np.nan)
-    d["date"] = pd.to_datetime(d["YEAR"].astype(str), format="%Y") + pd.to_timedelta(d["DOY"] - 1, unit="D")
+def aggregate_daily_to_epiweeks(d: pd.DataFrame, geocode: int) -> pd.DataFrame:
+    """Daily -> complete epi weeks (the NASA POWER rule, shared by every source).
+
+    `d` needs columns date, precip, t2m, tmax, tmin, rh (daily values; NaN = missing).
+    Precipitation is summed (all 7 days required), temperatures and humidity are
+    weekly means of the daily values; weeks with fewer than 7 daily rows are dropped.
+    """
+    d = d.reset_index(drop=True)
     ew = date_to_epiweek(d["date"], CLIM_Y0, Y1)
-    d = pd.concat([d.reset_index(drop=True), ew], axis=1)
+    d = pd.concat([d, ew], axis=1)
     g = d.groupby(["epi_year", "epi_week"])
     w = pd.DataFrame({
-        "precip_mm": g["PRECTOTCORR"].sum(min_count=7),  # weekly total, needs 7 valid days
-        "precip_days": g["PRECTOTCORR"].apply(lambda s: int((s >= 1.0).sum())),  # rainy days >=1mm
-        "temp_mean": g["T2M"].mean(),
-        "temp_min": g["T2M_MIN"].mean(),   # mean of daily minima
-        "temp_max": g["T2M_MAX"].mean(),   # mean of daily maxima
-        "humid_mean": g["RH2M"].mean(),
-        "n_days": g["T2M"].size(),
+        "precip_mm": g["precip"].sum(min_count=7),  # weekly total, needs 7 valid days
+        "precip_days": g["precip"].apply(lambda s: int((s >= 1.0).sum())),  # rainy days >=1mm
+        "temp_mean": g["t2m"].mean(),
+        "temp_min": g["tmin"].mean(),   # mean of daily minima
+        "temp_max": g["tmax"].mean(),   # mean of daily maxima
+        "humid_mean": g["rh"].mean(),
+        "n_days": g["date"].size(),
     }).reset_index()
     w = w[w["n_days"] == 7].drop(columns="n_days")  # drop partial edge weeks
     w["geocode"] = geocode
     return w
+
+
+def read_power_daily(geocode: int) -> pd.DataFrame:
+    """NASA POWER raw CSV -> daily frame (date, precip, t2m, tmax, tmin, rh)."""
+    txt = (RAW / "power" / f"{geocode}.csv").read_text()
+    body = txt.split("-END HEADER-")[-1].strip()
+    d = pd.read_csv(io.StringIO(body)).replace(-999, np.nan)
+    d["date"] = pd.to_datetime(d["YEAR"].astype(str), format="%Y") + pd.to_timedelta(d["DOY"] - 1, unit="D")
+    return d.rename(columns={"PRECTOTCORR": "precip", "T2M": "t2m", "T2M_MAX": "tmax",
+                             "T2M_MIN": "tmin", "RH2M": "rh"})[list(DAILY_COLS)]
+
+
+def read_openmeteo_daily(geocode: int, source: str = "era5land") -> pd.DataFrame:
+    """Open-Meteo archive JSON (raw/<source>/<geocode>.json) -> daily frame."""
+    js = json.loads((RAW / source / f"{geocode}.json").read_text())
+    dd = js["daily"]
+    d = pd.DataFrame({"date": pd.to_datetime(dd["time"]),
+                      "precip": dd["precipitation_sum"], "t2m": dd["temperature_2m_mean"],
+                      "tmax": dd["temperature_2m_max"], "tmin": dd["temperature_2m_min"],
+                      "rh": dd["relative_humidity_2m_mean"]})
+    return d.astype({c: float for c in DAILY_COLS if c != "date"})
+
+
+def read_chirps_daily(geocode: int) -> pd.DataFrame:
+    """ClimateSERV CHIRPS JSON (raw/chirps/<geocode>.json) -> daily precipitation.
+    Temperature and humidity are NaN (CHIRPS is rainfall only)."""
+    js = json.loads((RAW / "chirps" / f"{geocode}.json").read_text())
+    rows = js["data"]
+    v = np.array([r["value"]["avg"] for r in rows], float)
+    v[v < -900] = np.nan  # ClimateSERV no-data value (-9999)
+    d = pd.DataFrame({"date": pd.to_datetime([r["date"] for r in rows], format="%m/%d/%Y"),
+                      "precip": v})
+    for c in ("t2m", "tmax", "tmin", "rh"):
+        d[c] = np.nan
+    return d.sort_values("date").drop_duplicates("date")[list(DAILY_COLS)]
+
+
+def read_daily(geocode: int, source: str = "power") -> pd.DataFrame:
+    """Daily weather of one municipality from the raw cache of `source`."""
+    if source == "power":
+        return read_power_daily(geocode)
+    if source in ("era5land", "era5"):
+        return read_openmeteo_daily(geocode, source)
+    if source == "chirps":
+        return read_chirps_daily(geocode)
+    raise ValueError(f"unknown weather source {source!r}; choose from {SOURCES}")
+
+
+def load_power(geocode: int) -> pd.DataFrame:
+    return aggregate_daily_to_epiweeks(read_power_daily(geocode), geocode)
+
+
+def load_weather(geocode: int, source: str = "power") -> pd.DataFrame:
+    """Weekly climate of one municipality from `source` (same columns as load_power)."""
+    return aggregate_daily_to_epiweeks(read_daily(geocode, source), geocode)
+
+
+def build_climate(source: str = "power", geocodes=None, write: bool = True) -> pd.DataFrame:
+    """Weekly climate table for `source` with exactly the schema of climate_weekly.parquet.
+
+    source="power" reproduces climate_weekly.parquet.  Other sources are written to
+    climate_weekly_<source>.parquet and never overwrite the NASA POWER file.
+    For "chirps" (rainfall only) precip_mm and precip_days come from CHIRPS and the
+    temperature/humidity columns are taken from NASA POWER, so the table stays a
+    drop-in replacement; this is documented in data/README.md.
+    """
+    if geocodes is None:
+        geocodes = pd.read_csv(RAW / "meta" / "selected_municipalities.csv")["geocode"]
+    clim_cal = calendar(CLIM_Y0, Y1)
+    frames, missing = [], []
+    for g in geocodes:
+        g = int(g)
+        try:
+            frames.append(load_weather(g, source))
+        except FileNotFoundError:
+            missing.append(g)
+    if missing:
+        print(f"[build_climate:{source}] no raw file for {len(missing)} municipalities: {missing[:10]}")
+    clim = pd.concat(frames, ignore_index=True)
+    if source == "chirps":
+        pw = pd.concat([load_power(int(g)) for g in clim["geocode"].unique()], ignore_index=True)
+        tcols = ["temp_mean", "temp_min", "temp_max", "humid_mean"]
+        clim = clim.drop(columns=tcols).merge(pw[["geocode", "epi_year", "epi_week"] + tcols],
+                                              on=["geocode", "epi_year", "epi_week"], how="left")
+    clim = clim_cal.merge(clim, on=["epi_year", "epi_week"], how="right")
+    clim = clim.sort_values(["geocode", "week_index"]).reset_index(drop=True)
+    clim = clim[CLIM_ORDER]
+    if write and source != "power":
+        out = DATA_DIR / f"climate_weekly_{source}.parquet"
+        clim.to_parquet(out, index=False)
+        print(f"[build_climate:{source}] wrote {out} rows={len(clim)}")
+    return clim
 
 
 def main():
@@ -147,4 +254,11 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--source", default="power", choices=SOURCES,
+                    help="power (default): full build; other sources: only climate_weekly_<source>.parquet")
+    a = ap.parse_args()
+    if a.source == "power":
+        main()
+    else:
+        build_climate(a.source)

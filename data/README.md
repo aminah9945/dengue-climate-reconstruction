@@ -96,6 +96,38 @@ Model-ready arrays are built on the fly by `dengue_recon.data.panel` (53-slot we
 | Small totals | – | Training rows need an annual total ≥ 20, evaluation rows ≥ 100 |
 | Missing climate | 0 in 2009–2024 | Would be set to 0 anomaly and counted (`checks_*.json`: 0 occurrences) |
 
+## Alternative weather sources and ENSO index (optional, new files only)
+
+These inputs are **optional** and do not change the NASA POWER files above (`climate_weekly.parquet` is untouched; the main pipeline still reads it). They are built with the `source` option of the Step 1 code:
+
+```bash
+python -m dengue_recon.data.download weather --source chirps     # or era5land / era5 (Open-Meteo)
+python -m dengue_recon.data.build_dataset --source chirps        # -> climate_weekly_chirps.parquet
+python -m dengue_recon.data.oni                                   # -> oni_monthly.csv, oni_weekly.parquet
+python -m dengue_recon.data.validate_weather --source chirps     # -> results/weather_validation/
+```
+
+| Source | What we use | URL | Licence / terms | Raw cache |
+|---|---|---|---|---|
+| **ERA5-Land** via **Open-Meteo** historical archive (intended primary source) | Daily `precipitation_sum`, `temperature_2m_mean/max/min`, `relative_humidity_2m_mean` at the municipal seat (same lat/lon as NASA POWER), `models=era5_land` (fallback `models=era5`), `timezone=America/Sao_Paulo`, 2009-01-01 – 2025-12-31 | `https://archive-api.open-meteo.com/v1/archive` | ERA5-Land: Copernicus Climate Change Service licence (contains modified Copernicus C3S information); Open-Meteo data: CC BY 4.0, attribute Open-Meteo | `raw/era5land/<geocode>.json` (`download_openmeteo`, sequential, 5 s pause, backoff honouring `Retry-After`) |
+| **CHIRPS v2.0** daily (UCSB Climate Hazards Center, 0.05°), via the SERVIR **ClimateSERV** extraction API | Daily rainfall of the 0.05° pixel holding the municipal seat (mean over a ±0.01° box), 2009-01-01 – 2025-12-31 | `https://climateserv.servirglobal.net/api/submitDataRequest/` (dataset 0 = CHIRPS); data: `https://www.chc.ucsb.edu/data/chirps` | CHIRPS: public domain (CC0, no restrictions); cite Funk et al. 2015 | `raw/chirps/<geocode>.json` (`download_chirps`, one job per municipality, about 70 s each, 3 parallel jobs) |
+| **ONI** (Oceanic Niño Index), NOAA Climate Prediction Center | Monthly 3-month running mean of ERSSTv5 Niño-3.4 SST anomalies, 1950 – present | `https://www.cpc.ncep.noaa.gov/data/indices/oni.ascii.txt` | U.S. Government work, public domain; cite NOAA CPC | `raw/oni/oni.ascii.txt` (`download_oni`) |
+
+**Status of this run (2026-10-27):** Open-Meteo refused every ERA5-Land request and almost every ERA5 request with *"Daily API request limit exceeded"*. Open-Meteo also counts a request longer than two weeks as several calls: 2009–2025 for one point is about 440 call units, so 300 points need about 130,000, many times the free daily limit of 10,000. ERA5-Land was therefore **not** downloaded. Following the fallback plan, rainfall comes from **CHIRPS**. The Open-Meteo code path (`--source era5land`) is in place and resumable for a later or commercial-key run. ERA5-Land is still used as a reference through the Cox et al. extract (2013–2020) in the validation.
+
+Processed files (in `DATA_DIR`, new names only):
+
+| File | Rows | Content |
+|---|---|---|
+| `climate_weekly_chirps.parquet` | 265,800 | Same columns, types and epi-week rules as `climate_weekly.parquet` (2009 W1 – 2025 W52). `precip_mm` (weekly total, 7 valid days required) and `precip_days` (days ≥ 1 mm) come from **CHIRPS**; `temp_mean/min/max` and `humid_mean` are **copied from NASA POWER**, because CHIRPS has no temperature or humidity. The table is therefore a drop-in replacement that changes rainfall only |
+| `climate_weekly_era5land.parquet` | – | Not produced in this run (Open-Meteo quota, see above). Running `build_dataset --source era5land` after the download writes it, with every variable from ERA5-Land |
+| `oni_monthly.csv` | one per month | `year, month, season, oni, nino34_total`. Each 3-month season is assigned to its centre month (DJF → January of YR) |
+| `oni_weekly.parquet` | 887 (2009 W1 – 2025 W53) | `epi_year, epi_week, week_start, n_weeks_year, week_index` (0 = 2009 W1), `mid_year, mid_month, oni`: each epi week gets the ONI of the month that contains its midpoint (Wednesday) |
+
+Notes: the ONI of month *m* averages months *m−1* to *m+1*, so it is published about a month after *m* ends; use lags of ≥ 6 weeks if it must be known in real time. The comparison of the sources (by region, weekly and monthly, raw and anomalies, and against Cox et al. ERA5-Land) is in [`docs/WEATHER_VALIDATION.md`](../docs/WEATHER_VALIDATION.md).
+
+Citations: C. Funk et al. *The climate hazards infrared precipitation with stations – a new environmental record for monitoring extremes.* Scientific Data 2:150066, 2015. https://doi.org/10.1038/sdata.2015.66 · ClimateSERV, NASA/USAID SERVIR. · J. Muñoz Sabater et al. *ERA5-Land: a state-of-the-art global reanalysis dataset for land applications.* Earth System Science Data 13:4349–4381, 2021 (Copernicus C3S). · Open-Meteo: P. Zippenfenig, Open-Meteo.com Weather API, Zenodo, https://doi.org/10.5281/zenodo.7970649 (CC BY 4.0). · NOAA CPC Oceanic Niño Index, https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/ensostuff/ONI_v5.php .
+
 ## Data quality notes
 
 - **InfoDengue has no rainfall**, so all three climate variables come from NASA POWER (one consistent source).

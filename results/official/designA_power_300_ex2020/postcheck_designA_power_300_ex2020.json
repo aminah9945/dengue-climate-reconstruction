@@ -1,0 +1,39 @@
+{
+ "tag": "designA_power_300_ex2020",
+ "n_folds_planned": 11,
+ "n_folds_present": 11,
+ "missing_folds": [],
+ "leakage_all_pass": true,
+ "leakage_folds_pass": 11,
+ "zero_climate_maxdiff_max": 0.0,
+ "clim_nan": 0,
+ "n_rows": 29220,
+ "exact_sum_allocations": 29220,
+ "exact_sum_failures": 0,
+ "years_scored": [
+  2012,
+  2013,
+  2014,
+  2015,
+  2016,
+  2017,
+  2018,
+  2019,
+  2021,
+  2022,
+  2023
+ ],
+ "no_2024": true,
+ "dm_fits": 66,
+ "dm_fits_success": 66,
+ "dm_max_nit": 846,
+ "dm_max_grad_inf": 0.4664655430068104,
+ "dm_not_converged": [],
+ "m2_fits": 11,
+ "m2_rounds_range": [
+  1,
+  454
+ ],
+ "run_wall_s": 1480.9,
+ "fold_wall_s_sum": 1479.1
+}

@@ -1,5 +1,7 @@
 # Pilot experiment results: reproducing the base model, then adding climate
 
+> **Official results (2010–2023; 2024 pending)** are in [`results/official/OFFICIAL_RESULTS.md`](../results/official/OFFICIAL_RESULTS.md). They supersede this pilot write-up for the hypothesis tests: in the pre-registered primary design (expanding window, 300 municipalities), H1, H2 and H3 are not supported.
+
 **Status:** these are preliminary pilot results: 60 municipalities, leave-one-year-out (LOYO) validation over 2010–2023, and pilot hyperparameters fixed in advance. A confirmatory run on 300 municipalities with the same frozen settings is also reported.
 
 - 2024 was **never loaded** (`RUN_FINAL_2024 = False`).

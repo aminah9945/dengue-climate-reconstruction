@@ -17,7 +17,9 @@ Status: the results are from a **pilot**. Some deviations are "not yet run" item
   - (Earlier summaries sometimes called this the "annual anomaly" correlation. The computation in `validate_sources.py` removes each municipality's monthly climatology and correlates the monthly anomalies.)
 - **Effect.** The North results, and therefore H3, may partly reflect rainfall data quality. The rain-lag extension (Step 8) names this as the most likely reason it failed. An ERA5-Land or CHIRPS re-run is the next test.
 
-### A2. ENSO (Oceanic Niño Index) not yet added
+Official experiment: see G1 (ERA5-Land could not be obtained; NASA POWER is the primary source and CHIRPS rainfall the robustness source).
+
+### A2. ENSO (Oceanic Niño Index) not yet added (pilot; added in the official experiment, see G2)
 
 - **Planned.** ONI lagged 3–12 months as an additional climate input, and an "ONI only" ablation (§7.1, §7.4).
 - **Done.** Not added.
@@ -80,7 +82,7 @@ Status: the results are from a **pilot**. Some deviations are "not yet run" item
 
 - **Planned** as optional classical reference rows (§7.4). **Not run.** The specification allowed skipping them ("only if < 1 h of work"). They need a fine-scale indicator series; with the seasonal profile as indicator, proportional Denton reproduces B1 up to smoothing, so it adds little to the nested climate question.
 
-### C5. M2 (boosted softmax) without early stopping, weekly pilot only
+### C5. M2 (boosted softmax) without early stopping, weekly pilot only (official experiment: early stopping on an inner year, see G4)
 
 - Fixed hyperparameters (depth 4, learning rate 0.05, 300 rounds), **no early stopping**, weekly 60-municipality pilot only. **Why:** the specified "early stopping on the next fold" would use another held-out year inside LOYO, which leaks information across folds; fixed rounds avoid this. M2 is optional and exploratory. Result: worse than B4s (+4.6 % JSD).
 
@@ -134,3 +136,65 @@ The research code was reorganised into the `dengue_recon` package for this repos
 - one CLI (`scripts/run_pipeline.py`) replaces the separate driver scripts.
 
 `docs/VERIFICATION.md` shows that the refactored code reproduces the saved pilot outputs exactly (identical predictions and metrics).
+
+## G. Official experiment (designs A/B/C), Amendment 1
+
+The official experiment follows a run plan fixed with the supervisor on 2026-10-27, before any official model run. The changes below were recorded as Amendment 1 on the same day, also before any official model run.
+
+### G1. ERA5-Land could not be obtained: NASA POWER is the primary climate source, CHIRPS the robustness source
+
+- **Planned.** ERA5-Land daily data via Open-Meteo as the primary climate input, NASA POWER as the secondary source. The plan fixed a rule in advance: if ERA5-Land could not be obtained for at least 95 % of municipality-days, NASA POWER becomes primary.
+- **Done.** ERA5-Land was not obtained. Open-Meteo refused every request with its daily limit, which allows about 20 municipalities a day, and its ERA5 fallback was refused in the same way. The Copernicus Climate Data Store needs an account and an API key. Details are in [`WEATHER_VALIDATION.md`](WEATHER_VALIDATION.md). By the pre-set rule:
+  - the **primary** climate is NASA POWER (temperature, humidity, rain), the pilot's source. Triple collocation also ranked it best for rain anomalies in every region;
+  - the **robustness** run repeats design A with CHIRPS v2.0 rainfall (`climate_weekly_chirps.parquet`: CHIRPS rain plus POWER temperature and humidity). This replaces the planned "NASA POWER" robustness run.
+- **Code.** `--climate {power,chirps}` (`data.panel.load_tables(climate=...)`, `config.CLIMATE_FILES`).
+- **Effect.** The concern about North rainfall quality (A1) remains. The CHIRPS run shows how much the results depend on the rain source. It cannot show which source is right.
+
+### G2. ENSO (ONI) added to M1
+
+- **Done.** The monthly NOAA ONI is mapped to epi weeks: each week takes the month that contains its Wednesday, and each 3-month season is assigned to its centre month. In every fold the weekly ONI is standardised with the mean and SD of the fold's climatology years (2009 + training years). It is then averaged over the same five lag blocks as the local climate (0–3, 4–7, 8–11, 12–15, 16–20 weeks).
+- ONI is one national series, so these 5 features are identical for every municipality. They get a national coefficient and regional deviations, like the local features.
+- Official M1 therefore has **20 climate features**. The pilot's 15-feature M1 is kept as **M1-noONI**. M1-short keeps block 0–3 of each of the four variables, including ONI.
+- ONI is a centred 3-month mean, so its value for a month is published about a month later. This is a historical reconstruction, not a real-time forecast, so later-published values are legitimately known. This was stated in Amendment 1.
+
+### G3. Fold rules of the official designs (implementation choices fixed before any official run)
+
+- **Climatology and ONI scaling years** = 2009 + the fold's training years, in all three designs. In design C this is exactly the pilot's set. In design B, 2009 (which has no dengue target) is the only year outside the window. It is earlier than every window, so nothing later than the training years is used.
+- **No later years in the fold (A, B).** A fold's panel holds only the years from the one before the first training year up to the test year. The year before the window enters only through its annual total, as the previous-year size covariate of the first training year, and it is never a training row. Climate after the test year is dropped before the features are built. A per-fold audit checks this (`official_leakage_audit`).
+- **Short training windows use the regional profile.** The pilot's offset rule is unchanged: a municipality with fewer than 3 training years uses its region's mean training share for h_m and for B1. So in folds with k = 2 (the first design-A fold and the k = 2 points of design B), every municipality uses the regional profile. This was not tuned. It follows from the pilot maths, which the plan keeps fixed.
+- **Shuffle checks within the fold's years.** In design C (all years), M1-shufTT (seed 0) and M1-shufTest use exactly the pilot's derangements. In A and B, the derangements are drawn among the fold's own years (training years + test year), so they never bring in a later year's climate.
+- **Without 2020 (sensitivity).** `--exclude-year 2020` marks 2020 as excluded for every municipality: no training, scoring or test fold, and no climatology year. As for Espírito Santo 2021 in the pilot, the previous-year total of 2021 is then treated as missing.
+- **Scoring random numbers.** The coverage and CRPS draws are seeded per fold (seed, test year, k), so a resumed run gives identical numbers. In design C these draws therefore differ from the pilot's single random stream. Point metrics (JSD, peak week, EMD, MAE) do not use random numbers.
+
+### G4. M2 with early stopping on an inner validation year
+
+- **Planned (official plan).** Early stopping on the last training year as an inner validation year, with a fixed grid chosen on inner validation only.
+- **Done.**
+  - Grid: max_depth {3, 5} × learning rate {0.05, 0.1}, up to 2,000 rounds, early stopping after 50 rounds without improvement in the validation group cross-entropy.
+  - Inner fit: the inner models are trained on the training years without the last one. Their offsets, size centring, climatology and ONI scaling are recomputed from those inner years only.
+  - Choice and refit: the setting with the lowest validation loss is chosen (ties go to grid order). It is refitted on all training years for best_iteration + 1 rounds.
+  - Other settings: seed `config.SEED`, 4 threads (resumed runs were checked to give identical predictions).
+- Features: the same 20 climate features as M1, the week slot and offset h_m (season), and the centred current and previous-year log totals (size).
+- If a fold has fewer than 2 usable training years, M2 is skipped and the fold log says so. This can happen only with `--exclude-year`.
+
+### G5. Reporting choices for the official statistics (fixed at reporting time, no model refitted)
+
+These choices were made when writing `reporting/official_report.py`, which ran after the official runs. None changes a model, a fold or a metric. Each one only specifies how a pre-registered statistic is computed.
+
+- **Both CIs and Holm.**
+  - Each hypothesis gets two two-sided bootstrap p-values, one from the municipality bootstrap and one from the year-block bootstrap, each 2 × the smaller tail beyond 0 with the +1 correction.
+  - The p-value of the hypothesis is the larger of the two, so both intervals have to agree.
+  - Holm is applied across H1–H3. The Holm decision keeps the direction rule and H1's −5 % threshold.
+- **H3 year-block bootstrap** (this closes D3 for the official runs): test years are resampled with all their rows from both region groups. The municipality bootstrap resamples within each group, as in the pilot's `h3_contrast`.
+- **Design B (H4).**
+  - The curve averaged across test years gives each test year equal weight.
+  - The main slope uses k = 2..9 only, because 2019 has no k ≥ 10. The k ≥ 10 points are reported separately.
+  - The slope CI resamples municipalities.
+  - A k = 3..9 slope, without the regional-profile k = 2, is added as a sensitivity analysis. It was **not** pre-specified.
+  - The pooled design-B contrasts in `paired_contrasts.csv` use k = 2..9. Their year-block intervals rest on only 3 test years.
+- **Epidemic vs quiet.**
+  - The ratio is a municipality-year's annual total divided by the median total of the municipality's training years in that fold, leaving out excluded municipality-years.
+  - The tercile cut is taken over all scored rows of the run.
+  - Totals are read from `dengue_weekly.parquet` with a year filter (2024 never read).
+- **Pairing.** Rows are paired on (fold, municipality). "Years better" counts folds, which are test years in A and C and test year × k in B.
+- **Not done.** No new robustness run was added. The design-C test-only shuffle is not comparable with the pilot's: the official M1 has 20 features, the pilot's 15.

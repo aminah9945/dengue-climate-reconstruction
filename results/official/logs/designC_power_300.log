@@ -1,0 +1,28 @@
+[designC_power_300] M=300 folds=14 models=['B0', 'B1', 'B4', 'B4s', 'M1-noONI', 'M1', 'M1-short', 'M1-shufTT', 'M1-shufTest', 'M2']
+[designC_power_300] C_T2010_k13: train years 2011-2023 (k=13), 266 eval rows, fit 354.0s + score 8.4s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designC_power_300] C_T2011_k13: train years 2010-2023 (k=13), 263 eval rows, fit 218.8s + score 8.6s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designC_power_300] C_T2012_k13: train years 2010-2023 (k=13), 236 eval rows, fit 184.2s + score 7.4s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designC_power_300] C_T2013_k13: train years 2010-2023 (k=13), 275 eval rows, fit 222.9s + score 8.5s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designC_power_300] C_T2014_k13: train years 2010-2023 (k=13), 251 eval rows, fit 201.1s + score 7.7s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designC_power_300] C_T2015_k13: train years 2010-2023 (k=13), 279 eval rows, fit 205.8s + score 9.1s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designC_power_300] C_T2016_k13: train years 2010-2023 (k=13), 291 eval rows, fit 204.0s + score 8.9s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designC_power_300] C_T2017_k13: train years 2010-2023 (k=13), 259 eval rows, fit 222.5s + score 7.4s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designC_power_300] C_T2018_k13: train years 2010-2023 (k=13), 237 eval rows, fit 196.3s + score 7.1s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designC_power_300] C_T2019_k13: train years 2010-2023 (k=13), 268 eval rows, fit 242.6s + score 8.0s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designC_power_300] C_T2020_k13: train years 2010-2023 (k=13), 272 eval rows, fit 209.4s + score 9.0s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designC_power_300] C_T2021_k13: train years 2010-2023 (k=13), 245 eval rows, fit 204.0s + score 7.9s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designC_power_300] C_T2022_k13: train years 2010-2023 (k=13), 288 eval rows, fit 213.7s + score 9.2s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designC_power_300] C_T2023_k13: train years 2010-2022 (k=13), 293 eval rows, fit 202.7s + score 9.0s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+                  jsd   peak_err
+model                           
+B0           0.188780  11.701853
+B1           0.119675   6.042439
+B4           0.119066   5.935536
+B4s          0.111025   5.987376
+M1           0.108987   6.031158
+M1-noONI     0.107673   5.905990
+M1-short     0.108898   5.993016
+M1-shufTT    0.111040   6.001612
+M1-shufTest  0.114389   6.157400
+M2           0.118168   6.202525
+[run_pipeline] step 'official' finished in 3201s

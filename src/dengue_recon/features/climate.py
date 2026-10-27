@@ -9,6 +9,13 @@
   continuous weekly timeline (crossing year boundaries); 3 variables x 5 blocks =
   15 features per week.
 * Monthly resolution: the feature of a month is the mean over its epi weeks.
+
+Official designs A/B/C (:func:`fold_climate_features`): the climatology years are
+given explicitly (2009 + the fold's training years), and five ONI lag-block
+features are appended (:func:`oni_block_features`): the national weekly ONI,
+standardised with the mean and SD of the same climatology years, averaged over
+the same lag blocks. Feature order: temp x 5 blocks, log rain x 5, humidity x 5,
+ONI x 5 (20 features).
 """
 from __future__ import annotations
 
@@ -89,6 +96,46 @@ def to_slots(F, P, weekly=True):
             sel = P.month_of_week[t] == mth
             Xm[:, t, mth, :] = Xw[:, t, sel, :].mean(1)
     return Xm
+
+
+def oni_standardise(oni, epi_year, clim_years):
+    """(ONI - mean) / SD with mean and SD over the weeks of ``clim_years`` only."""
+    oni = np.asarray(oni, float)
+    tr = np.isin(epi_year, list(clim_years))
+    mu, sd = float(np.mean(oni[tr])), float(np.std(oni[tr]))
+    return (oni - mu) / sd, mu, sd
+
+
+def oni_block_features(oni_std, M, blocks=C.LAG_BLOCKS):
+    """(B, M, K) lag-block means of the (standardised) weekly ONI; identical for all municipalities."""
+    F = lag_block_features(np.asarray(oni_std, float)[None, None, :], blocks)   # (B, 1, K)
+    return np.broadcast_to(F, (F.shape[0], M, F.shape[-1])).copy()
+
+
+def short_mask(n_vars, n_blocks=len(C.LAG_BLOCKS)):
+    """Boolean feature mask that keeps block 0-3 weeks of every variable (M1-short)."""
+    keep = np.zeros(n_vars * n_blocks, bool)
+    keep[[v * n_blocks for v in range(n_vars)]] = True
+    return keep
+
+
+def fold_climate_features(P, Xc, epi_year, epi_week, clim_years, oni=None, weekly=True):
+    """Climate (+ ONI) lag-block features for one official fold.
+
+    The climatology (and the ONI mean/SD) is fitted on ``clim_years`` only (2009 +
+    the fold's training years). Weeks after the panel's last year are dropped first,
+    so no later climate is used. Returns ``(X (M,T,S,15 or 20), info)``; with
+    ``oni=None`` it is exactly the pilot's 15-feature M1 design.
+    """
+    keep = epi_year <= int(P.years.max())
+    A, beta, sd, n_nan = climate_anomalies(Xc[:, :, keep], epi_year[keep], epi_week[keep], clim_years)
+    F = lag_block_features(A)
+    info = dict(beta=beta, sd=sd, n_nan=n_nan, clim_years=list(map(int, clim_years)))
+    if oni is not None:
+        o, mu, osd = oni_standardise(np.asarray(oni)[keep], epi_year[keep], clim_years)
+        F = np.concatenate([F, oni_block_features(o, Xc.shape[1])], 0)
+        info.update(oni_mean=mu, oni_sd=osd)
+    return to_slots(F, P, weekly), info
 
 
 def climate_features(P, Xc, epi_year, epi_week, heldout_year, weekly=True, short=False):

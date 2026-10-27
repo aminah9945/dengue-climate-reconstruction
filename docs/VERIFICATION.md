@@ -77,6 +77,63 @@ All six notebooks (00–05) were executed with `jupyter nbconvert --execute` aga
 
 A live smoke test of `dengue_recon.data.download` with a scratch `DATA_DIR` fetched the municipality metadata (5,571 rows), InfoDengue weekly data for Belo Horizonte 2023 (52 weeks, 65,991 cases, the same total as in the processed data) and one month of NASA POWER daily data. The full 300-municipality download (30–45 min) was not repeated.
 
+## Official-experiment code (designs A/B/C, ONI, M2 early stopping), 2026-10-27
+
+Same environment as above, plus xgboost 3.4.1. Processed data were read in place through `DATA_DIR` and not modified. Outputs went to a scratch `RESULTS_DIR`.
+
+### Unit tests
+
+`python -m pytest -q`: **37 passed** in about 7 s. These are the 23 earlier tests plus 14 in `tests/test_official.py`:
+
+- designs A and B never train on the test year or a later year;
+- learning-curve windows are exactly the k preceding years (8 + 10 + 12 folds);
+- 2024 is refused by the fold builders and is not returned by the loaders (synthetic parquet files that contain 2024 and 2025);
+- climatology, ONI mean/SD, offsets and centring do not change when non-training years are perturbed or blanked, and do change when a training year is perturbed;
+- the official leakage audit passes in every fold of A, B and C;
+- ONI is aligned by epi year/week, and its lag-block means are exact and identical across municipalities;
+- the 20-feature M1 with zero climate coefficients equals B4s exactly;
+- shuffles stay within the fold's years and equal the pilot's derangements when all years are used;
+- M2's early-stopping metric includes the base margin, and its predictions are valid shares.
+
+### Pilot regression: weekly LOYO, 60 municipalities, NASA POWER
+
+| Run | B4s mean JSD | M1 (pilot) / M1-noONI mean JSD | max \|row ΔJSD\| vs saved pilot | Wall time |
+|---|---|---|---|---|
+| `--step brazil --subset 60 --quick` (pilot driver, after the loader changes) | **0.073505** | **0.072669** | 0 (840 rows; peak-week and EMD differences also 0) | 154 s |
+| `--step official --design C --subset 60 --models B4s,M1-noONI` (new driver) | **0.073505** | **0.072669** | 0 (840 rows; peak-week 0, EMD ≤ 4.4e-16) | 125 s |
+
+Both reproduce the reported pilot numbers exactly. In design C the zero-climate equivalence gave a maximum difference of 0.0 and the leakage audit passed in all 14 folds. Coverage and CRPS in the new driver use per-fold random seeds, so they are not compared with the pilot draw by draw.
+
+### Resume
+
+Two folds of design A (60 municipalities, all models) were run. One fold's log was then deleted and the command rerun. The rebuilt `metrics_detail` file was byte-identical (same MD5), including M2 with 4 threads.
+
+### End-to-end check (not a result)
+
+Designs A (12 folds) and B (30 folds) were run at 60 municipalities with NASA POWER and the models B1, B4s, M1 and M2, only to confirm that the code runs end to end. In every fold the leakage audit passed, zero-climate equivalence was 0.0, there were no missing climate anomalies, every L-BFGS fit converged, and no 2024 row was read. The metrics of this run are not reported.
+
+The first attempt flagged the size-centring audit in folds with 7 or more panel years. The cause was a memory-layout artefact: the fold panel's arrays were not C-contiguous, so row sums differed by about 1e-15. It was not leakage. It was fixed (commit "Keep fold panel arrays C-contiguous"), and the audit now passes in all 56 folds of A, B and C at 300 municipalities.
+
+## Official runs (step 4), 300 municipalities, 2010-2023, 2026-10-27
+
+Run with the committed code, unchanged (no bug fixes were needed), `DATA_DIR` pointing at the processed data, 4 CPUs. Each run was started as a background process; its console log is in `results/official/logs/<tag>.log`. After each run, `python scripts/official_postcheck.py results/official/<tag>` re-checked it from the saved files and wrote `postcheck_<tag>.json`, `fold_summary_<tag>.csv` (metric means per fold and model, plus the N-weighted JSD) and `model_summary_<tag>.csv` (means per model over all scored municipality-years); for design B also `k_summary_<tag>.csv` (fold means averaged over the test years at each k). The exact-sum check recomputes the largest-remainder allocation from every saved prediction (`folds/*.npz`) and compares it with the annual total; it is also asserted during scoring. "No 2024" means no scored row, no fold test year and no fold panel year is 2024. `metrics_detail_<tag>.csv` (per row) and `folds/` stay local (gitignored); the commands in the README regenerate them.
+
+Convergence: "success" is SciPy L-BFGS-B's own flag (gtol 1e-6, ftol 1e-14, maxiter 2000). The largest final gradient norms are of the same order as in the pilot's 300-municipality run (max 1.17 there). M2 rounds are the early-stopping best iteration + 1 on the inner validation year; a value of 1 means the validation loss did not improve after the first round, and the refit then uses 1 round, as pre-specified.
+
+Consistency with the pilot: in design C the mean JSD of B0, B1, B4, B4s and M1-noONI over the 3,723 scored municipality-years equals the saved pilot 300-municipality LOYO table (`results/brazil/table_main_weekly_300.csv`, B0/B1/B4/B4s/M1) to within 3e-7, the rounding of the 6-decimal summary file.
+
+Runs 1 and 4 (same design, different weather): the climate-free models B0, B1, B4 and B4s give identical JSD, peak-week error, EMD and count MAE in every municipality-year (max difference 0). Their 80 %/95 % coverage and CRPS differ slightly, because the 500 DM draws of all probabilistic models of a fold share one random stream, so draws for B4/B4s follow those of other models whose shares changed; this is Monte Carlo noise, not a code difference.
+
+Run 5 (without 2020): 11 folds (the 2020 test fold is dropped), no 2020 row is scored, and 2020 is not a training year in any fold (e.g. test 2021: 10 training years, 2,887 training rows, against 11 years and 3,180 rows in run 1); fold ids count training years without 2020 (`A_T2021_k10`, `A_T2022_k11`, `A_T2023_k12`). 2020 is also left out of the climatology/ONI standardisation years (`clim_years` in the fold logs).
+
+| Run | Folds | Wall time | Leakage audit | Zero-climate max diff | Exact sums | 2024 rows | Missing climate | DM fits converged (max iterations / max \|grad\|) | M2 rounds (min-max) |
+|---|---|---|---|---|---|---|---|---|---|
+| 1. Design A, NASA POWER (primary), all models (`designA_power_300`) | 12/12 | 27 min 11 s | pass in 12/12 folds | 0.0 | 31940/31940 exact | none | 0 | 72/72 (846 / 0.78) | 1-454 (12 fits) |
+| 2. Design B, NASA POWER, models B0, B1, B4s, M1, M2 (config default) (`designB_power_300`) | 30/30 | 27 min 54 s | pass in 30/30 folds | 0.0 | 40550/40550 exact | none | 0 | 60/60 (976 / 0.84) | 1-454 (30 fits) |
+| 3. Design C (LOYO), NASA POWER, all models (`designC_power_300`) | 14/14 | 53 min 20 s | pass in 14/14 folds | 0.0 | 37230/37230 exact | none | 0 | 84/84 (1132 / 1.17) | 1-509 (14 fits) |
+| 4. Design A, CHIRPS rain + POWER temperature/humidity (robustness), all models (`designA_chirps_300`) | 12/12 | 26 min 54 s | pass in 12/12 folds | 0.0 | 31940/31940 exact | none | 0 | 72/72 (815 / 0.53) | 1-409 (12 fits) |
+| 5. Design A, NASA POWER, without 2020 (robustness), all models (`designA_power_300_ex2020`) | 11/11 | 24 min 40 s | pass in 11/11 folds | 0.0 | 29220/29220 exact | none | 0 | 66/66 (846 / 0.47) | 1-454 (11 fits) |
+
 ## Not verified in this pass
 
 | Item | Why | How to run |
