@@ -1,0 +1,25 @@
+[designA_power_300_ex2020] M=300 folds=11 models=['B0', 'B1', 'B4', 'B4s', 'M1-noONI', 'M1', 'M1-short', 'M1-shufTT', 'M1-shufTest', 'M2']
+[designA_power_300_ex2020] A_T2012_k2: train years 2010-2011 (k=2), 236 eval rows, fit 45.7s + score 6.9s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designA_power_300_ex2020] A_T2013_k3: train years 2010-2012 (k=3), 275 eval rows, fit 69.4s + score 8.3s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designA_power_300_ex2020] A_T2014_k4: train years 2010-2013 (k=4), 251 eval rows, fit 96.9s + score 8.5s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designA_power_300_ex2020] A_T2015_k5: train years 2010-2014 (k=5), 279 eval rows, fit 111.4s + score 8.9s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designA_power_300_ex2020] A_T2016_k6: train years 2010-2015 (k=6), 291 eval rows, fit 110.7s + score 9.4s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designA_power_300_ex2020] A_T2017_k7: train years 2010-2016 (k=7), 259 eval rows, fit 120.3s + score 7.7s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designA_power_300_ex2020] A_T2018_k8: train years 2010-2017 (k=8), 237 eval rows, fit 102.9s + score 7.2s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designA_power_300_ex2020] A_T2019_k9: train years 2010-2018 (k=9), 268 eval rows, fit 131.2s + score 8.0s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designA_power_300_ex2020] A_T2021_k10: train years 2010-2019 (k=10), 245 eval rows, fit 184.5s + score 7.4s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designA_power_300_ex2020] A_T2022_k11: train years 2010-2021 (k=11), 288 eval rows, fit 195.3s + score 8.5s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designA_power_300_ex2020] A_T2023_k12: train years 2010-2022 (k=12), 293 eval rows, fit 221.3s + score 8.7s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+                  jsd   peak_err
+model                           
+B0           0.186071  11.778234
+B1           0.129306   6.307324
+B4           0.126792   6.219713
+B4s          0.120366   6.489733
+M1           0.121121   6.465435
+M1-noONI     0.118957   6.415469
+M1-short     0.118302   6.456194
+M1-shufTT    0.121116   6.497262
+M1-shufTest  0.125103   6.542437
+M2           0.127345   6.257358
+[run_pipeline] step 'official' finished in 1481s

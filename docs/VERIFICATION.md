@@ -124,12 +124,15 @@ Consistency with the pilot: in design C the mean JSD of B0, B1, B4, B4s and M1-n
 
 Runs 1 and 4 (same design, different weather): the climate-free models B0, B1, B4 and B4s give identical JSD, peak-week error, EMD and count MAE in every municipality-year (max difference 0). Their 80 %/95 % coverage and CRPS differ slightly, because the 500 DM draws of all probabilistic models of a fold share one random stream, so draws for B4/B4s follow those of other models whose shares changed; this is Monte Carlo noise, not a code difference.
 
+Run 5 (without 2020): 11 folds (the 2020 test fold is dropped), no 2020 row is scored, and 2020 is not a training year in any fold (e.g. test 2021: 10 training years, 2,887 training rows, against 11 years and 3,180 rows in run 1); fold ids count training years without 2020 (`A_T2021_k10`, `A_T2022_k11`, `A_T2023_k12`). 2020 is also left out of the climatology/ONI standardisation years (`clim_years` in the fold logs).
+
 | Run | Folds | Wall time | Leakage audit | Zero-climate max diff | Exact sums | 2024 rows | Missing climate | DM fits converged (max iterations / max \|grad\|) | M2 rounds (min-max) |
 |---|---|---|---|---|---|---|---|---|---|
 | 1. Design A, NASA POWER (primary), all models (`designA_power_300`) | 12/12 | 27 min 11 s | pass in 12/12 folds | 0.0 | 31940/31940 exact | none | 0 | 72/72 (846 / 0.78) | 1-454 (12 fits) |
 | 2. Design B, NASA POWER, models B0, B1, B4s, M1, M2 (config default) (`designB_power_300`) | 30/30 | 27 min 54 s | pass in 30/30 folds | 0.0 | 40550/40550 exact | none | 0 | 60/60 (976 / 0.84) | 1-454 (30 fits) |
 | 3. Design C (LOYO), NASA POWER, all models (`designC_power_300`) | 14/14 | 53 min 20 s | pass in 14/14 folds | 0.0 | 37230/37230 exact | none | 0 | 84/84 (1132 / 1.17) | 1-509 (14 fits) |
 | 4. Design A, CHIRPS rain + POWER temperature/humidity (robustness), all models (`designA_chirps_300`) | 12/12 | 26 min 54 s | pass in 12/12 folds | 0.0 | 31940/31940 exact | none | 0 | 72/72 (815 / 0.53) | 1-409 (12 fits) |
+| 5. Design A, NASA POWER, without 2020 (robustness), all models (`designA_power_300_ex2020`) | 11/11 | 24 min 40 s | pass in 11/11 folds | 0.0 | 29220/29220 exact | none | 0 | 66/66 (846 / 0.47) | 1-454 (11 fits) |
 
 ## Not verified in this pass
 
