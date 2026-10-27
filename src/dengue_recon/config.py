@@ -43,6 +43,7 @@ FIG_DIR = RESULTS_DIR / "figures"
 BRAZIL_DIR = RESULTS_DIR / "brazil"
 REPRO_DIR = RESULTS_DIR / "repro_lim"
 RAIN_DIR = RESULTS_DIR / "rain_extension"
+OFFICIAL_DIR = Path(os.environ.get("OFFICIAL_DIR", RESULTS_DIR / "official"))
 
 
 def ensure_dirs() -> None:
@@ -76,6 +77,39 @@ MODEL_COL = {"B0": "#bdbdbd", "B1": "#6baed6", "B1p": "#9ecae1", "B4": "#fd8d3c"
              "M1-mult": "#756bb1", "M1-shufTT": "#969696", "M2": "#de2d26",
              "B4s-eps1e-4": "#fdae6b"}
 BELO_HORIZONTE = 3106200
+
+
+def max_loaded_year() -> int:
+    """Last epi year any loader may read: 2023 while the 2024 lock is on (2025 never)."""
+    return FINAL_TEST_YEAR if RUN_FINAL_2024 else FINAL_TEST_YEAR - 1
+
+
+def assert_year_allowed(year) -> None:
+    """Fail loudly if ``year`` (or any of an iterable of years) is the locked final-test year."""
+    ys = [int(y) for y in (year if hasattr(year, "__iter__") else [year])]
+    assert max(ys, default=0) <= max_loaded_year(), \
+        f"year {max(ys)} requested but RUN_FINAL_2024 is False: 2024 must not be loaded"
+
+
+# ---------------------------------------------------------------- official experiment (designs A/B/C)
+# Fixed before any official model run (plan sections 3-4; Amendment 1).
+CLIMATE_FILES = {"power": "climate_weekly.parquet",          # NASA POWER, primary (Amendment 1)
+                 "chirps": "climate_weekly_chirps.parquet"}  # CHIRPS rain + POWER temp/humid, robustness
+OFFICIAL_FIRST_TRAIN = 2010
+OFFICIAL_TEST_YEARS_A = list(range(2012, 2024))      # design A: expanding window, 12 folds
+LC_TEST_YEARS = (2019, 2021, 2023)                   # design B: learning curve
+LC_K_MIN = 2
+CLIM_EXTRA_YEARS = (2009,)                           # climate-only year (no dengue target) for lags
+OFFICIAL_MODELS = {
+    "A": ["B0", "B1", "B4", "B4s", "M1", "M1-noONI", "M1-short", "M1-shufTT", "M1-shufTest", "M2"],
+    "B": ["B0", "B1", "B4s", "M1", "M2"],
+    "C": ["B0", "B1", "B4", "B4s", "M1", "M1-noONI", "M1-short", "M1-shufTT", "M1-shufTest", "M2"],
+}
+# M2: fixed grid, chosen by early stopping on the inner validation year (last training year)
+M2_GRID = [dict(max_depth=d, eta=e) for d in (3, 5) for e in (0.05, 0.1)]
+M2_MAX_ROUNDS = 2000
+M2_EARLY_STOP = 50
+M2_NTHREAD = 4
 
 # ---------------------------------------------------------------- climate features (Step 4)
 CLIM_VARS = ["temp_mean", "precip", "humid_mean"]

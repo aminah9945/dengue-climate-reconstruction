@@ -36,17 +36,43 @@ class Panel:
     extra: dict = field(default_factory=dict)
 
 
-def load_tables():
-    """Read the processed dengue, climate and municipality tables (2024+ dropped unless enabled)."""
+def load_tables(climate: str = "power"):
+    """Read the processed dengue, climate and municipality tables.
+
+    Rows after ``config.max_loaded_year()`` (2024 while ``RUN_FINAL_2024`` is False,
+    and 2025 always) are filtered out *while reading*, so they never enter memory.
+    ``climate`` selects the weather table (``config.CLIMATE_FILES``): ``"power"``
+    (NASA POWER, the pilot's and the primary source) or ``"chirps"``.
+    """
+    max_year = C.max_loaded_year()
+    flt = [("epi_year", "<=", max_year)]
     d = pd.read_parquet(C.DATA_DIR / "dengue_weekly.parquet",
                         columns=["geocode", "name", "region", "epi_year", "epi_week", "week_start",
-                                 "n_weeks_year", "cases", "year_total", "exclude_suggested"])
-    clim = pd.read_parquet(C.DATA_DIR / "climate_weekly.parquet")
+                                 "n_weeks_year", "cases", "year_total", "exclude_suggested"], filters=flt)
+    clim = pd.read_parquet(C.DATA_DIR / C.CLIMATE_FILES[climate], filters=flt)
     muni = pd.read_csv(C.DATA_DIR / "municipalities.csv")
-    max_year = C.FINAL_TEST_YEAR if C.RUN_FINAL_2024 else C.FINAL_TEST_YEAR - 1
     d = d[d.epi_year <= max_year]
     clim = clim[clim.epi_year <= max_year]
+    assert d.epi_year.max() <= max_year and clim.epi_year.max() <= max_year
     return d, clim, muni
+
+
+def load_oni_weekly():
+    """Weekly ONI (``oni_weekly.parquet``) up to ``config.max_loaded_year()`` (2024 never read while locked)."""
+    max_year = C.max_loaded_year()
+    o = pd.read_parquet(C.DATA_DIR / "oni_weekly.parquet", columns=["epi_year", "epi_week", "week_index", "oni"],
+                        filters=[("epi_year", "<=", max_year)])
+    assert o.epi_year.max() <= max_year
+    return o
+
+
+def oni_vector(oni: pd.DataFrame, epi_year, epi_week) -> np.ndarray:
+    """ONI (K,) aligned to the climate matrix's continuous week index (checked by epi year/week)."""
+    o = oni.set_index(["epi_year", "epi_week"]).oni
+    key = pd.MultiIndex.from_arrays([np.asarray(epi_year), np.asarray(epi_week)])
+    v = o.reindex(key).values.astype(float)
+    assert np.isfinite(v).all(), "ONI missing for some climate weeks"
+    return v
 
 
 def select_subset60(d: pd.DataFrame, muni: pd.DataFrame, per_region: int = 12) -> pd.DataFrame:
@@ -118,3 +144,13 @@ def climate_matrix(clim: pd.DataFrame, geocodes) -> tuple[np.ndarray, np.ndarray
         X[v, c.geocode.map(gi).values, c.week_index.values] = c[var].values
     cal = c.drop_duplicates("week_index").set_index("week_index").sort_index()
     return X, cal.epi_year.values, cal.epi_week.values
+
+
+def subset_panel(P: Panel, years) -> Panel:
+    """A :class:`Panel` restricted to ``years`` (in order), e.g. the years of one fold."""
+    idx = np.where(np.isin(P.years, list(years)))[0]
+    assert len(idx) == len(years) and (np.diff(idx) == 1).all(), "fold years must be contiguous"
+    return Panel(geocodes=P.geocodes, names=P.names, region=P.region, years=P.years[idx],
+                 nweeks=P.nweeks[idx], Yw=P.Yw[:, idx], Ym=P.Ym[:, idx], N=P.N[:, idx],
+                 excluded=P.excluded[:, idx], valid_w=P.valid_w[idx], week_index=P.week_index[idx],
+                 month_of_week=P.month_of_week[idx], extra=dict(P.extra))
