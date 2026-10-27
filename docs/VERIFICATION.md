@@ -114,6 +114,16 @@ Designs A (12 folds) and B (30 folds) were run at 60 municipalities with NASA PO
 
 The first attempt flagged the size-centring audit in folds with 7 or more panel years. The cause was a memory-layout artefact: the fold panel's arrays were not C-contiguous, so row sums differed by about 1e-15. It was not leakage. It was fixed (commit "Keep fold panel arrays C-contiguous"), and the audit now passes in all 56 folds of A, B and C at 300 municipalities.
 
+## Official runs (step 4), 300 municipalities, 2010-2023, 2026-10-27
+
+Run with the committed code, unchanged (no bug fixes were needed), `DATA_DIR` pointing at the processed data, 4 CPUs. Each run was started as a background process; its console log is in `results/official/logs/<tag>.log`. After each run, `python scripts/official_postcheck.py results/official/<tag>` re-checked it from the saved files and wrote `postcheck_<tag>.json`, `fold_summary_<tag>.csv` (metric means per fold and model, plus the N-weighted JSD) and `model_summary_<tag>.csv` (means per model over all scored municipality-years). The exact-sum check recomputes the largest-remainder allocation from every saved prediction (`folds/*.npz`) and compares it with the annual total; it is also asserted during scoring. "No 2024" means no scored row, no fold test year and no fold panel year is 2024. `metrics_detail_<tag>.csv` (per row) and `folds/` stay local (gitignored); the commands in the README regenerate them.
+
+Convergence: "success" is SciPy L-BFGS-B's own flag (gtol 1e-6, ftol 1e-14, maxiter 2000). The largest final gradient norms are of the same order as in the pilot's 300-municipality run (max 1.17 there). M2 rounds are the early-stopping best iteration + 1 on the inner validation year; a value of 1 means the validation loss did not improve after the first round, and the refit then uses 1 round, as pre-specified.
+
+| Run | Folds | Wall time | Leakage audit | Zero-climate max diff | Exact sums | 2024 rows | Missing climate | DM fits converged (max iterations / max \|grad\|) | M2 rounds (min-max) |
+|---|---|---|---|---|---|---|---|---|---|
+| 1. Design A, NASA POWER (primary), all models (`designA_power_300`) | 12/12 | 27 min 11 s | pass in 12/12 folds | 0.0 | 31940/31940 exact | none | 0 | 72/72 (846 / 0.78) | 1-454 (12 fits) |
+
 ## Not verified in this pass
 
 | Item | Why | How to run |
