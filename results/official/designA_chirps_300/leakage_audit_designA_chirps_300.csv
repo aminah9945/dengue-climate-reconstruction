@@ -1,0 +1,13 @@
+fold_id,test_year,k,h_m,centring,climatology,clim_years_ok,oni_std,train_arrays,no_future_train,no_future_in_panel
+A_T2012_k2,2012,2,True,True,True,True,True,True,True,True
+A_T2013_k3,2013,3,True,True,True,True,True,True,True,True
+A_T2014_k4,2014,4,True,True,True,True,True,True,True,True
+A_T2015_k5,2015,5,True,True,True,True,True,True,True,True
+A_T2016_k6,2016,6,True,True,True,True,True,True,True,True
+A_T2017_k7,2017,7,True,True,True,True,True,True,True,True
+A_T2018_k8,2018,8,True,True,True,True,True,True,True,True
+A_T2019_k9,2019,9,True,True,True,True,True,True,True,True
+A_T2020_k10,2020,10,True,True,True,True,True,True,True,True
+A_T2021_k11,2021,11,True,True,True,True,True,True,True,True
+A_T2022_k12,2022,12,True,True,True,True,True,True,True,True
+A_T2023_k13,2023,13,True,True,True,True,True,True,True,True

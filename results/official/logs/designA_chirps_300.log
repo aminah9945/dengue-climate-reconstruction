@@ -1,0 +1,26 @@
+[designA_chirps_300] M=300 folds=12 models=['B0', 'B1', 'B4', 'B4s', 'M1-noONI', 'M1', 'M1-short', 'M1-shufTT', 'M1-shufTest', 'M2']
+[designA_chirps_300] A_T2012_k2: train years 2010-2011 (k=2), 236 eval rows, fit 44.1s + score 6.9s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designA_chirps_300] A_T2013_k3: train years 2010-2012 (k=3), 275 eval rows, fit 61.4s + score 8.2s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designA_chirps_300] A_T2014_k4: train years 2010-2013 (k=4), 251 eval rows, fit 76.6s + score 8.0s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designA_chirps_300] A_T2015_k5: train years 2010-2014 (k=5), 279 eval rows, fit 94.4s + score 8.6s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designA_chirps_300] A_T2016_k6: train years 2010-2015 (k=6), 291 eval rows, fit 101.6s + score 8.3s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designA_chirps_300] A_T2017_k7: train years 2010-2016 (k=7), 259 eval rows, fit 114.0s + score 7.1s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designA_chirps_300] A_T2018_k8: train years 2010-2017 (k=8), 237 eval rows, fit 100.6s + score 6.4s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designA_chirps_300] A_T2019_k9: train years 2010-2018 (k=9), 268 eval rows, fit 131.0s + score 8.5s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designA_chirps_300] A_T2020_k10: train years 2010-2019 (k=10), 272 eval rows, fit 177.8s + score 8.4s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designA_chirps_300] A_T2021_k11: train years 2010-2020 (k=11), 245 eval rows, fit 188.8s + score 7.5s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designA_chirps_300] A_T2022_k12: train years 2010-2021 (k=12), 288 eval rows, fit 193.7s + score 8.7s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+[designA_chirps_300] A_T2023_k13: train years 2010-2022 (k=13), 293 eval rows, fit 232.6s + score 9.4s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+                  jsd   peak_err
+model                           
+B0           0.186081  11.736694
+B1           0.128183   6.274264
+B4           0.125628   6.216656
+B4s          0.118991   6.411396
+M1           0.119282   6.261428
+M1-noONI     0.117645   6.267376
+M1-short     0.116718   6.281152
+M1-shufTT    0.119690   6.427677
+M1-shufTest  0.123841   6.428929
+M2           0.126686   6.234502
+[run_pipeline] step 'official' finished in 1615s

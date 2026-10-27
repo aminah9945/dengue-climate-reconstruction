@@ -122,11 +122,14 @@ Convergence: "success" is SciPy L-BFGS-B's own flag (gtol 1e-6, ftol 1e-14, maxi
 
 Consistency with the pilot: in design C the mean JSD of B0, B1, B4, B4s and M1-noONI over the 3,723 scored municipality-years equals the saved pilot 300-municipality LOYO table (`results/brazil/table_main_weekly_300.csv`, B0/B1/B4/B4s/M1) to within 3e-7, the rounding of the 6-decimal summary file.
 
+Runs 1 and 4 (same design, different weather): the climate-free models B0, B1, B4 and B4s give identical JSD, peak-week error, EMD and count MAE in every municipality-year (max difference 0). Their 80 %/95 % coverage and CRPS differ slightly, because the 500 DM draws of all probabilistic models of a fold share one random stream, so draws for B4/B4s follow those of other models whose shares changed; this is Monte Carlo noise, not a code difference.
+
 | Run | Folds | Wall time | Leakage audit | Zero-climate max diff | Exact sums | 2024 rows | Missing climate | DM fits converged (max iterations / max \|grad\|) | M2 rounds (min-max) |
 |---|---|---|---|---|---|---|---|---|---|
 | 1. Design A, NASA POWER (primary), all models (`designA_power_300`) | 12/12 | 27 min 11 s | pass in 12/12 folds | 0.0 | 31940/31940 exact | none | 0 | 72/72 (846 / 0.78) | 1-454 (12 fits) |
 | 2. Design B, NASA POWER, models B0, B1, B4s, M1, M2 (config default) (`designB_power_300`) | 30/30 | 27 min 54 s | pass in 30/30 folds | 0.0 | 40550/40550 exact | none | 0 | 60/60 (976 / 0.84) | 1-454 (30 fits) |
 | 3. Design C (LOYO), NASA POWER, all models (`designC_power_300`) | 14/14 | 53 min 20 s | pass in 14/14 folds | 0.0 | 37230/37230 exact | none | 0 | 84/84 (1132 / 1.17) | 1-509 (14 fits) |
+| 4. Design A, CHIRPS rain + POWER temperature/humidity (robustness), all models (`designA_chirps_300`) | 12/12 | 26 min 54 s | pass in 12/12 folds | 0.0 | 31940/31940 exact | none | 0 | 72/72 (815 / 0.53) | 1-409 (12 fits) |
 
 ## Not verified in this pass
 

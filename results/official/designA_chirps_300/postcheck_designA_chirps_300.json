@@ -1,0 +1,40 @@
+{
+ "tag": "designA_chirps_300",
+ "n_folds_planned": 12,
+ "n_folds_present": 12,
+ "missing_folds": [],
+ "leakage_all_pass": true,
+ "leakage_folds_pass": 12,
+ "zero_climate_maxdiff_max": 0.0,
+ "clim_nan": 0,
+ "n_rows": 31940,
+ "exact_sum_allocations": 31940,
+ "exact_sum_failures": 0,
+ "years_scored": [
+  2012,
+  2013,
+  2014,
+  2015,
+  2016,
+  2017,
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2023
+ ],
+ "no_2024": true,
+ "dm_fits": 72,
+ "dm_fits_success": 72,
+ "dm_max_nit": 815,
+ "dm_max_grad_inf": 0.5266850077645339,
+ "dm_not_converged": [],
+ "m2_fits": 12,
+ "m2_rounds_range": [
+  1,
+  409
+ ],
+ "run_wall_s": 1614.7,
+ "fold_wall_s_sum": 1612.6
+}
