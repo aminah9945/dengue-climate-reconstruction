@@ -34,3 +34,6 @@ results/official/**/metrics_detail_*_300*.csv
 
 # re-runs from notebook 06
 results/official_rerun/
+
+# timing extension: local run folders (checkpoints, per-row metrics)
+results/extensions/timing/runs/
