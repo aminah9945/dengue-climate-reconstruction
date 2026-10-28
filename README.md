@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/aminah9945/dengue-climate-reconstruction/blob/main/notebooks/00_setup_and_data.ipynb)
 
-**Status: pilot results; final 2024 test pending.**
+**Status: final 2024 test pending.**
 
 **Author:** Aminah, FAST-NUCES Islamabad (MS research paper).
 
