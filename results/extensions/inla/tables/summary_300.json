@@ -1,0 +1,70 @@
+{
+ "label": "EXPLORATORY (not pre-registered)",
+ "run": "designA_power_300",
+ "n_rows": 3194,
+ "models": {
+  "B0": {
+   "jsd": 0.18608,
+   "peak_err": 11.73669,
+   "emd": 8.42982,
+   "cov80": NaN,
+   "crps": NaN
+  },
+  "B1": {
+   "jsd": 0.12818,
+   "peak_err": 6.27426,
+   "emd": 5.44271,
+   "cov80": NaN,
+   "crps": NaN
+  },
+  "B4": {
+   "jsd": 0.12563,
+   "peak_err": 6.21666,
+   "emd": 5.3287,
+   "cov80": 0.76674,
+   "crps": 31.2052
+  },
+  "B4s": {
+   "jsd": 0.11899,
+   "peak_err": 6.4114,
+   "emd": 4.95321,
+   "cov80": 0.75514,
+   "crps": 29.19267
+  },
+  "M1-noONI": {
+   "jsd": 0.1175,
+   "peak_err": 6.25047,
+   "emd": 4.90168,
+   "cov80": 0.73841,
+   "crps": 28.0505
+  },
+  "M1": {
+   "jsd": 0.11911,
+   "peak_err": 6.26018,
+   "emd": 4.85802,
+   "cov80": 0.72673,
+   "crps": 28.86249
+  },
+  "INLA-unscaled": {
+   "jsd": 0.11263,
+   "peak_err": 5.7345,
+   "emd": 4.96481,
+   "cov80": 0.74987,
+   "crps": 47.34327
+  },
+  "INLA-scaled": {
+   "jsd": 0.11263,
+   "peak_err": 5.7345,
+   "emd": 4.96481,
+   "cov80": 0.79993,
+   "crps": 28.66184
+  },
+  "INLA-seasonal-only": {
+   "jsd": 0.11829,
+   "peak_err": 5.8181,
+   "emd": 5.24209,
+   "cov80": NaN,
+   "crps": NaN
+  }
+ }
+}

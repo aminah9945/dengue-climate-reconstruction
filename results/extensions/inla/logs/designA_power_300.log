@@ -1,0 +1,19 @@
+[inla designA_power_300] M=300 folds=12 variants=['base']
+[inla designA_power_300] A_T2012_k2: 236 eval rows, 30004 obs weeks; base 347s; total 415.8s; leakage pass; JSD INLA-scaled=0.1183 INLA-seasonal-only=0.1229 INLA-unscaled=0.1183
+[inla designA_power_300] A_T2013_k3: 275 eval rows, 44564 obs weeks; base 228s; total 276.1s; leakage pass; JSD INLA-scaled=0.1171 INLA-seasonal-only=0.1147 INLA-unscaled=0.1171
+[inla designA_power_300] A_T2014_k4: 251 eval rows, 59696 obs weeks; base 272s; total 323.1s; leakage pass; JSD INLA-scaled=0.1011 INLA-seasonal-only=0.1074 INLA-unscaled=0.1011
+[inla designA_power_300] A_T2015_k5: 279 eval rows, 74695 obs weeks; base 372s; total 428.9s; leakage pass; JSD INLA-scaled=0.1102 INLA-seasonal-only=0.1243 INLA-unscaled=0.1102
+[inla designA_power_300] A_T2016_k6: 291 eval rows, 89931 obs weeks; base 375s; total 436.9s; leakage pass; JSD INLA-scaled=0.1203 INLA-seasonal-only=0.1263 INLA-unscaled=0.1203
+[inla designA_power_300] A_T2017_k7: 259 eval rows, 105427 obs weeks; base 389s; total 450.9s; leakage pass; JSD INLA-scaled=0.1313 INLA-seasonal-only=0.1309 INLA-unscaled=0.1313
+[inla designA_power_300] A_T2018_k8: 237 eval rows, 120559 obs weeks; base 685s; total 750.2s; leakage pass; JSD INLA-scaled=0.1254 INLA-seasonal-only=0.1315 INLA-unscaled=0.1254
+[inla designA_power_300] A_T2019_k9: 268 eval rows, 135171 obs weeks; base 428s; total 500.6s; leakage pass; JSD INLA-scaled=0.1176 INLA-seasonal-only=0.1304 INLA-unscaled=0.1176
+[inla designA_power_300] A_T2020_k10: 272 eval rows, 150407 obs weeks; base 486s; total 563.2s; leakage pass; JSD INLA-scaled=0.1097 INLA-seasonal-only=0.1075 INLA-unscaled=0.1097
+[inla designA_power_300] A_T2021_k11: 245 eval rows, 165936 obs weeks; base 728s; total 809.2s; leakage pass; JSD INLA-scaled=0.1151 INLA-seasonal-only=0.1246 INLA-unscaled=0.1151
+[inla designA_power_300] A_T2022_k12: 288 eval rows, 180600 obs weeks; base 549s; total 636.8s; leakage pass; JSD INLA-scaled=0.1149 INLA-seasonal-only=0.1287 INLA-unscaled=0.1149
+[inla designA_power_300] A_T2023_k13: 293 eval rows, 195992 obs weeks; base 826s; total 919.1s; leakage pass; JSD INLA-scaled=0.0756 INLA-seasonal-only=0.0751 INLA-unscaled=0.0756
+                       jsd  peak_err     emd  mae_counts   cov80     crps
+model                                                                    
+INLA-scaled         0.1126    5.7345  4.9648     40.4574  0.7999  28.6618
+INLA-seasonal-only  0.1183    5.8181  5.2421     42.1153     NaN      NaN
+INLA-unscaled       0.1126    5.7345  4.9648     63.5154  0.7499  47.3433
+[inla designA_power_300] M=300 folds=12 variants=['base', 'clim20', 'clim15']

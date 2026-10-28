@@ -1,0 +1,38 @@
+{
+ "label": "EXPLORATORY (not pre-registered)",
+ "n_folds": 12,
+ "leakage_audit_all_pass": true,
+ "test_y_all_na": true,
+ "all_fits_ok": true,
+ "years_scored": [
+  2012,
+  2013,
+  2014,
+  2015,
+  2016,
+  2017,
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2023
+ ],
+ "no_2024": true,
+ "fold_wall_s": {
+  "A_T2012_k2": 415.8,
+  "A_T2013_k3": 276.1,
+  "A_T2014_k4": 323.1,
+  "A_T2015_k5": 428.9,
+  "A_T2016_k6": 436.9,
+  "A_T2017_k7": 450.9,
+  "A_T2018_k8": 750.2,
+  "A_T2019_k9": 500.6,
+  "A_T2020_k10": 563.2,
+  "A_T2021_k11": 809.2,
+  "A_T2022_k12": 636.8,
+  "A_T2023_k13": 919.1
+ },
+ "total_fold_wall_s": 6510.8,
+ "run_wall_s": 6516.5
+}
