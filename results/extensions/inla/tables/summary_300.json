@@ -46,23 +46,37 @@
    "crps": 28.86249
   },
   "INLA-unscaled": {
-   "jsd": 0.11263,
-   "peak_err": 5.7345,
-   "emd": 4.96481,
-   "cov80": 0.74987,
-   "crps": 47.34327
+   "jsd": 0.11265,
+   "peak_err": 5.73513,
+   "emd": 4.96624,
+   "cov80": 0.74903,
+   "crps": 47.3701
   },
   "INLA-scaled": {
-   "jsd": 0.11263,
-   "peak_err": 5.7345,
-   "emd": 4.96481,
-   "cov80": 0.79993,
-   "crps": 28.66184
+   "jsd": 0.11265,
+   "peak_err": 5.73513,
+   "emd": 4.96624,
+   "cov80": 0.79965,
+   "crps": 28.67042
+  },
+  "INLA-scaled-clim20": {
+   "jsd": 0.1131,
+   "peak_err": 5.69944,
+   "emd": 4.96902,
+   "cov80": 0.79269,
+   "crps": 28.54113
+  },
+  "INLA-scaled-clim15": {
+   "jsd": 0.11098,
+   "peak_err": 5.68441,
+   "emd": 4.943,
+   "cov80": 0.79997,
+   "crps": 27.98457
   },
   "INLA-seasonal-only": {
-   "jsd": 0.11829,
-   "peak_err": 5.8181,
-   "emd": 5.24209,
+   "jsd": 0.11828,
+   "peak_err": 5.81716,
+   "emd": 5.24203,
    "cov80": NaN,
    "crps": NaN
   }

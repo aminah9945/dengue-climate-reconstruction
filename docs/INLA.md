@@ -160,7 +160,23 @@ This is the same design A and the same rows as the official runs: the INLA rows 
 | **INLA-scaled** | **0.1126** | 0.1084–0.1171 | 0.0878 | **5.73** | 4.96 | 0.800 | 0.941 | 28.7 |
 | INLA-seasonal-only | 0.1183 | 0.1140–0.1229 | 0.0941 | 5.82 | 5.24 | – | – | – |
 
-Climate variants at 300 (INLA-scaled-clim20 and INLA-scaled-clim15): run in progress; their rows are added when it finishes.
+Climate variants at 300 (all 12 folds; leakage audit passes in every fold):
+
+| Model | JSD | 95 % CI (muni) | N-weighted JSD | Peak error (weeks) | EMD | 80 % coverage | 95 % coverage | CRPS |
+|---|---|---|---|---|---|---|---|---|
+| INLA-scaled-clim20 | 0.1131 | 0.1088–0.1175 | 0.0879 | 5.70 | 4.97 | 0.793 | 0.936 | 28.5 |
+| **INLA-scaled-clim15** | **0.1110** | 0.1068–0.1154 | 0.0849 | **5.68** | 4.94 | 0.800 | 0.941 | 28.0 |
+
+Climate inside INLA:
+
+| Contrast | Difference | Relative | CI (municipality) | CI (year) | Years a better |
+|---|---|---|---|---|---|
+| INLA-scaled-clim15 − INLA-scaled (local climate) | −0.00167 | −1.5 % | −0.00212 to −0.00122 | −0.00430 to +0.00065 | 7/12 |
+| INLA-scaled-clim20 − INLA-scaled (local climate + ONI) | +0.00045 | +0.4 % | −0.00008 to +0.00099 | −0.00299 to +0.00406 | 7/12 |
+| INLA-scaled-clim15 − M1-noONI | −0.00652 | −5.5 % | −0.00886 to −0.00422 | −0.01487 to +0.00130 | 7/12 |
+| INLA-scaled-clim20 − M1 | −0.00601 | −5.0 % | −0.00816 to −0.00386 | −0.01436 to +0.00178 | 8/12 |
+
+Reading: as in the DM, local climate gives a small gain (−1.5 %, municipality CI excludes 0, year CI does not) and ONI removes it. INLA-scaled-clim15 is the best model overall at 300 municipalities (JSD 0.1110, peak error 5.68 weeks), but no climate variant clears the 5 % bar against its own no-climate counterpart.
 Paired differences (a − b; negative means a is better), with 95 % CIs from the municipality and year-block bootstraps:
 
 | Contrast | Metric | Difference | Relative | CI (municipality) | CI (year) | Years a better |

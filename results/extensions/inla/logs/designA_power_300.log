@@ -17,3 +17,17 @@ INLA-scaled         0.1126    5.7345  4.9648     40.4574  0.7999  28.6618
 INLA-seasonal-only  0.1183    5.8181  5.2421     42.1153     NaN      NaN
 INLA-unscaled       0.1126    5.7345  4.9648     63.5154  0.7499  47.3433
 [inla designA_power_300] M=300 folds=12 variants=['base', 'clim20', 'clim15']
+[inla designA_power_300] A_T2012_k2: 236 eval rows, 30004 obs weeks; base 347s, clim20 218s, clim15 158s; total 508.4s; leakage pass; JSD INLA-scaled=0.1183 INLA-scaled-clim15=0.1182 INLA-scaled-clim20=0.1201 INLA-seasonal-only=0.1229 INLA-unscaled=0.1183
+[inla designA_power_300] M=300 folds=12 variants=['base', 'clim20', 'clim15']
+[inla designA_power_300] A_T2012_k2: checkpoint found, skipped
+[inla designA_power_300] A_T2013_k3: 275 eval rows, 44564 obs weeks; base 228s, clim20 431s, clim15 424s; total 764.2s; leakage pass; JSD INLA-scaled=0.1171 INLA-scaled-clim15=0.1169 INLA-scaled-clim20=0.1126 INLA-seasonal-only=0.1147 INLA-unscaled=0.1171
+[inla designA_power_300] A_T2014_k4: 251 eval rows, 59696 obs weeks; base 272s, clim20 499s, clim15 597s; total 1265.4s; leakage pass; JSD INLA-scaled=0.1011 INLA-scaled-clim15=0.0957 INLA-scaled-clim20=0.0989 INLA-seasonal-only=0.1074 INLA-unscaled=0.1011
+[inla designA_power_300] A_T2015_k5: 279 eval rows, 74695 obs weeks; base 372s, clim20 1125s, clim15 880s; total 2195.3s; leakage pass; JSD INLA-scaled=0.1102 INLA-scaled-clim15=0.1120 INLA-scaled-clim20=0.1090 INLA-seasonal-only=0.1243 INLA-unscaled=0.1102
+[inla designA_power_300] A_T2016_k6: 291 eval rows, 89931 obs weeks; base 375s, clim20 1277s, clim15 1192s; total 2678.6s; leakage pass; JSD INLA-scaled=0.1203 INLA-scaled-clim15=0.1106 INLA-scaled-clim20=0.1310 INLA-seasonal-only=0.1263 INLA-unscaled=0.1203
+[inla designA_power_300] M=300 folds=12 variants=['base', 'clim20', 'clim15']
+[inla designA_power_300] A_T2012_k2: checkpoint found, skipped
+[inla designA_power_300] A_T2013_k3: checkpoint found, skipped
+[inla designA_power_300] A_T2014_k4: checkpoint found, skipped
+[inla designA_power_300] A_T2015_k5: checkpoint found, skipped
+[inla designA_power_300] A_T2016_k6: checkpoint found, skipped
+[inla designA_power_300] A_T2017_k7: 259 eval rows, 105427 obs weeks; base 389s, clim20 938s, clim15 1198s; total 2371.7s; leakage pass; JSD INLA-scaled=0.1313 INLA-scaled-clim15=0.1329 INLA-scaled-clim20=0.1320 INLA-seasonal-only=0.1309 INLA-unscaled=0.1313
