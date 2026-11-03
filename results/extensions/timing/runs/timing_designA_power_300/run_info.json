@@ -1,0 +1,296 @@
+{
+ "design": "A",
+ "subset": 300,
+ "climate": "power",
+ "models": [
+  "B1",
+  "B4s",
+  "M1-noONI",
+  "M1",
+  "S1",
+  "S2",
+  "S3",
+  "S3C",
+  "T1",
+  "S1-wy",
+  "S2-wy",
+  "S3-wy",
+  "S3-wyTest",
+  "S1-ns",
+  "S1-p25",
+  "S1-p50",
+  "S3-p25",
+  "S3-p50",
+  "T1-p25",
+  "T1-p50"
+ ],
+ "n_municipalities": 300,
+ "panel_years": [
+  2010,
+  2011,
+  2012,
+  2013,
+  2014,
+  2015,
+  2016,
+  2017,
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2023
+ ],
+ "folds": [
+  {
+   "design": "A",
+   "test_year": 2012,
+   "train_years": [
+    2010,
+    2011
+   ],
+   "k": 2,
+   "fold_id": "A_T2012_k2"
+  },
+  {
+   "design": "A",
+   "test_year": 2013,
+   "train_years": [
+    2010,
+    2011,
+    2012
+   ],
+   "k": 3,
+   "fold_id": "A_T2013_k3"
+  },
+  {
+   "design": "A",
+   "test_year": 2014,
+   "train_years": [
+    2010,
+    2011,
+    2012,
+    2013
+   ],
+   "k": 4,
+   "fold_id": "A_T2014_k4"
+  },
+  {
+   "design": "A",
+   "test_year": 2015,
+   "train_years": [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014
+   ],
+   "k": 5,
+   "fold_id": "A_T2015_k5"
+  },
+  {
+   "design": "A",
+   "test_year": 2016,
+   "train_years": [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015
+   ],
+   "k": 6,
+   "fold_id": "A_T2016_k6"
+  },
+  {
+   "design": "A",
+   "test_year": 2017,
+   "train_years": [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016
+   ],
+   "k": 7,
+   "fold_id": "A_T2017_k7"
+  },
+  {
+   "design": "A",
+   "test_year": 2018,
+   "train_years": [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017
+   ],
+   "k": 8,
+   "fold_id": "A_T2018_k8"
+  },
+  {
+   "design": "A",
+   "test_year": 2019,
+   "train_years": [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018
+   ],
+   "k": 9,
+   "fold_id": "A_T2019_k9"
+  },
+  {
+   "design": "A",
+   "test_year": 2020,
+   "train_years": [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019
+   ],
+   "k": 10,
+   "fold_id": "A_T2020_k10"
+  },
+  {
+   "design": "A",
+   "test_year": 2021,
+   "train_years": [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020
+   ],
+   "k": 11,
+   "fold_id": "A_T2021_k11"
+  },
+  {
+   "design": "A",
+   "test_year": 2022,
+   "train_years": [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021
+   ],
+   "k": 12,
+   "fold_id": "A_T2022_k12"
+  },
+  {
+   "design": "A",
+   "test_year": 2023,
+   "train_years": [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022
+   ],
+   "k": 13,
+   "fold_id": "A_T2023_k13"
+  }
+ ],
+ "run_final_2024": false,
+ "seed": 20250811,
+ "pen": {
+  "g": 0.3,
+  "r": 0.4,
+  "c": 0.15,
+  "rw": 0.1,
+  "gamma_nat": 1.0,
+  "gamma_reg": 0.5,
+  "theta": 0.5,
+  "delta": 0.25,
+  "logphi_mu": 3.912023005428146,
+  "logphi_sd": 1.0
+ },
+ "excluded_state_years": [
+  [
+   "ES",
+   2021
+  ]
+ ],
+ "pool_sizes": {
+  "all": {
+   "median": 39.0,
+   "min": 0,
+   "n_empty": 2
+  },
+  "nonstudy": {
+   "median": 28.0,
+   "min": 0,
+   "n_empty": 28
+  },
+  "p25": {
+   "median": 10.0,
+   "min": 0,
+   "n_empty": 2
+  },
+  "p50": {
+   "median": 20.0,
+   "min": 0,
+   "n_empty": 2
+  }
+ },
+ "with_trends": true,
+ "trends_national_fallback": 0,
+ "pool_invariance_check": true,
+ "eps": 0.001,
+ "min_signal_total": 20.0,
+ "state_lags": [
+  -2,
+  -1,
+  0,
+  1,
+  2
+ ],
+ "trends_lags": [
+  0,
+  1,
+  2,
+  3
+ ],
+ "max_shift": 10,
+ "pool_seed": 20261028,
+ "onset_share": 0.1,
+ "status": "EXPLORATORY"
+}

@@ -1,0 +1,1364 @@
+{
+ "n_folds": 12,
+ "status": "EXPLORATORY",
+ "official_leakage_audit_all_pass": true,
+ "feature_audit_all_pass": true,
+ "feature_audit": {
+  "A_T2012_k2": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "A_T2013_k3": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "A_T2014_k4": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "A_T2015_k5": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "A_T2016_k6": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "A_T2017_k7": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "A_T2018_k8": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "A_T2019_k9": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "A_T2020_k10": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "A_T2021_k11": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "A_T2022_k12": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "A_T2023_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  }
+ },
+ "zero_coef_maxdiff": {
+  "A_T2012_k2": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 8.326672684688674e-17
+  },
+  "A_T2013_k3": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 9.71445146547012e-17
+  },
+  "A_T2014_k4": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 9.71445146547012e-17
+  },
+  "A_T2015_k5": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 1.249000902703301e-16
+  },
+  "A_T2016_k6": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 9.71445146547012e-17
+  },
+  "A_T2017_k7": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 8.326672684688674e-17
+  },
+  "A_T2018_k8": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 9.71445146547012e-17
+  },
+  "A_T2019_k9": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 8.326672684688674e-17
+  },
+  "A_T2020_k10": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 8.326672684688674e-17
+  },
+  "A_T2021_k11": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 9.71445146547012e-17
+  },
+  "A_T2022_k12": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 9.71445146547012e-17
+  },
+  "A_T2023_k13": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 8.326672684688674e-17
+  }
+ },
+ "zero_climate_maxdiff": {
+  "A_T2012_k2": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "A_T2013_k3": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "A_T2014_k4": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "A_T2015_k5": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "A_T2016_k6": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "A_T2017_k7": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "A_T2018_k8": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "A_T2019_k9": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "A_T2020_k10": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "A_T2021_k11": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "A_T2022_k12": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "A_T2023_k13": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  }
+ },
+ "exact_sums": "asserted for every allocation and every draw inside score_rows",
+ "years_scored": [
+  2012,
+  2013,
+  2014,
+  2015,
+  2016,
+  2017,
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2023
+ ],
+ "fold_wall_s": {
+  "A_T2012_k2": 199.1,
+  "A_T2013_k3": 296.0,
+  "A_T2014_k4": 312.8,
+  "A_T2015_k5": 398.3,
+  "A_T2016_k6": 438.9,
+  "A_T2017_k7": 436.4,
+  "A_T2018_k8": 464.20000000000005,
+  "A_T2019_k9": 438.8,
+  "A_T2020_k10": 679.8,
+  "A_T2021_k11": 688.1,
+  "A_T2022_k12": 729.0,
+  "A_T2023_k13": 756.5
+ },
+ "fit_convergence": {
+  "A_T2012_k2": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.01629175384048795,
+    "nit": 277
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.006433881226620475,
+    "nit": 425
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.042398154612908606,
+    "nit": 625
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.053998142317450676,
+    "nit": 427
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.006314431932805162,
+    "nit": 216
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.02638646751389262,
+    "nit": 464
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.07527780697379982,
+    "nit": 675
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.005956081130844865,
+    "nit": 227
+   },
+   "S1-wy": {
+    "success": true,
+    "grad_inf": 0.09903463767964907,
+    "nit": 503
+   },
+   "S2-wy": {
+    "success": true,
+    "grad_inf": 0.0476098454975422,
+    "nit": 269
+   },
+   "S3-wy": {
+    "success": true,
+    "grad_inf": 0.06204495837245309,
+    "nit": 508
+   },
+   "S1-ns": {
+    "success": true,
+    "grad_inf": 0.10713611843689366,
+    "nit": 290
+   },
+   "S1-p25": {
+    "success": true,
+    "grad_inf": 0.055790791331527506,
+    "nit": 379
+   },
+   "S1-p50": {
+    "success": true,
+    "grad_inf": 0.1080569554250827,
+    "nit": 384
+   },
+   "S3-p25": {
+    "success": true,
+    "grad_inf": 0.04113669562796717,
+    "nit": 428
+   },
+   "S3-p50": {
+    "success": true,
+    "grad_inf": 0.04297155393980745,
+    "nit": 434
+   },
+   "T1-p25": {
+    "success": true,
+    "grad_inf": 0.04039202869867882,
+    "nit": 236
+   },
+   "T1-p50": {
+    "success": true,
+    "grad_inf": 0.023783459747108243,
+    "nit": 250
+   }
+  },
+  "A_T2013_k3": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.07138180421461351,
+    "nit": 377
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.04337093647103919,
+    "nit": 606
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.16744131499309078,
+    "nit": 769
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.18685152906872363,
+    "nit": 534
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.12424356999627242,
+    "nit": 425
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.17335079077376747,
+    "nit": 685
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.2228374066372918,
+    "nit": 919
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.04865662850485365,
+    "nit": 355
+   },
+   "S1-wy": {
+    "success": true,
+    "grad_inf": 0.030378442527872272,
+    "nit": 685
+   },
+   "S2-wy": {
+    "success": true,
+    "grad_inf": 0.051007252922924726,
+    "nit": 462
+   },
+   "S3-wy": {
+    "success": true,
+    "grad_inf": 0.028316435342853295,
+    "nit": 730
+   },
+   "S1-ns": {
+    "success": true,
+    "grad_inf": 0.02160442133414603,
+    "nit": 597
+   },
+   "S1-p25": {
+    "success": true,
+    "grad_inf": 0.08150824960135411,
+    "nit": 603
+   },
+   "S1-p50": {
+    "success": true,
+    "grad_inf": 0.15805981984008244,
+    "nit": 525
+   },
+   "S3-p25": {
+    "success": true,
+    "grad_inf": 0.08966342624043064,
+    "nit": 667
+   },
+   "S3-p50": {
+    "success": true,
+    "grad_inf": 0.04961500323719292,
+    "nit": 611
+   },
+   "T1-p25": {
+    "success": true,
+    "grad_inf": 0.08254162623576275,
+    "nit": 354
+   },
+   "T1-p50": {
+    "success": true,
+    "grad_inf": 0.014222099331282004,
+    "nit": 360
+   }
+  },
+  "A_T2014_k4": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.04017176418182354,
+    "nit": 382
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.16055500717739807,
+    "nit": 596
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.20942646586473795,
+    "nit": 688
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.1036560209937406,
+    "nit": 534
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.10966275470161346,
+    "nit": 417
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.03176494194735202,
+    "nit": 624
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.1748986924278555,
+    "nit": 847
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.09220840954895443,
+    "nit": 318
+   },
+   "S1-wy": {
+    "success": true,
+    "grad_inf": 0.03155128363881463,
+    "nit": 576
+   },
+   "S2-wy": {
+    "success": true,
+    "grad_inf": 0.22469982645708317,
+    "nit": 459
+   },
+   "S3-wy": {
+    "success": true,
+    "grad_inf": 0.3248255353193352,
+    "nit": 580
+   },
+   "S1-ns": {
+    "success": true,
+    "grad_inf": 0.16666837694137204,
+    "nit": 537
+   },
+   "S1-p25": {
+    "success": true,
+    "grad_inf": 0.15586357380228882,
+    "nit": 542
+   },
+   "S1-p50": {
+    "success": true,
+    "grad_inf": 0.030501476328416304,
+    "nit": 553
+   },
+   "S3-p25": {
+    "success": true,
+    "grad_inf": 0.17590915430790519,
+    "nit": 608
+   },
+   "S3-p50": {
+    "success": true,
+    "grad_inf": 0.2142336192928141,
+    "nit": 572
+   },
+   "T1-p25": {
+    "success": true,
+    "grad_inf": 0.07616680520698728,
+    "nit": 328
+   },
+   "T1-p50": {
+    "success": true,
+    "grad_inf": 0.1124494784764471,
+    "nit": 346
+   }
+  },
+  "A_T2015_k5": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.07956015647530647,
+    "nit": 449
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.12851776747365704,
+    "nit": 657
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.03428501332183398,
+    "nit": 824
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.24619124488046767,
+    "nit": 563
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.22433478418961048,
+    "nit": 566
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.2985192082290399,
+    "nit": 654
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.19595383201827532,
+    "nit": 835
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.11901579511337654,
+    "nit": 441
+   },
+   "S1-wy": {
+    "success": true,
+    "grad_inf": 0.023370736576339368,
+    "nit": 724
+   },
+   "S2-wy": {
+    "success": true,
+    "grad_inf": 0.18672350000302793,
+    "nit": 545
+   },
+   "S3-wy": {
+    "success": true,
+    "grad_inf": 0.047980041870852336,
+    "nit": 777
+   },
+   "S1-ns": {
+    "success": true,
+    "grad_inf": 0.2842814850116402,
+    "nit": 633
+   },
+   "S1-p25": {
+    "success": true,
+    "grad_inf": 0.11020870397966753,
+    "nit": 647
+   },
+   "S1-p50": {
+    "success": true,
+    "grad_inf": 0.15473533097341757,
+    "nit": 687
+   },
+   "S3-p25": {
+    "success": true,
+    "grad_inf": 0.26730695262114823,
+    "nit": 670
+   },
+   "S3-p50": {
+    "success": true,
+    "grad_inf": 0.22540248744099958,
+    "nit": 718
+   },
+   "T1-p25": {
+    "success": true,
+    "grad_inf": 0.19964783121885482,
+    "nit": 414
+   },
+   "T1-p50": {
+    "success": true,
+    "grad_inf": 0.11753500611135431,
+    "nit": 437
+   }
+  },
+  "A_T2016_k6": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.06457635411946552,
+    "nit": 459
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.02951894156569218,
+    "nit": 592
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.07132042491792381,
+    "nit": 733
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.04282196763157664,
+    "nit": 643
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.15635388980710524,
+    "nit": 551
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.20470555003785196,
+    "nit": 704
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.4404629181193574,
+    "nit": 797
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.20395926409947082,
+    "nit": 439
+   },
+   "S1-wy": {
+    "success": true,
+    "grad_inf": 0.1923152555813475,
+    "nit": 635
+   },
+   "S2-wy": {
+    "success": true,
+    "grad_inf": 0.37563964378006814,
+    "nit": 534
+   },
+   "S3-wy": {
+    "success": true,
+    "grad_inf": 0.07939758157069425,
+    "nit": 695
+   },
+   "S1-ns": {
+    "success": true,
+    "grad_inf": 0.10457917857380972,
+    "nit": 647
+   },
+   "S1-p25": {
+    "success": true,
+    "grad_inf": 0.332400844343886,
+    "nit": 616
+   },
+   "S1-p50": {
+    "success": true,
+    "grad_inf": 0.05027401791581099,
+    "nit": 658
+   },
+   "S3-p25": {
+    "success": true,
+    "grad_inf": 0.12074923541109389,
+    "nit": 690
+   },
+   "S3-p50": {
+    "success": true,
+    "grad_inf": 0.030753690038851936,
+    "nit": 732
+   },
+   "T1-p25": {
+    "success": true,
+    "grad_inf": 0.26118718021681725,
+    "nit": 441
+   },
+   "T1-p50": {
+    "success": true,
+    "grad_inf": 0.22904168212510095,
+    "nit": 429
+   }
+  },
+  "A_T2017_k7": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.03938121415776057,
+    "nit": 470
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.04663490537920145,
+    "nit": 597
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.2797031906121126,
+    "nit": 686
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.06673967177294315,
+    "nit": 488
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.32769219434287444,
+    "nit": 445
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.05326056515765999,
+    "nit": 586
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.3522740018086896,
+    "nit": 765
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.2744782952238678,
+    "nit": 402
+   },
+   "S1-wy": {
+    "success": true,
+    "grad_inf": 0.07635165457244249,
+    "nit": 659
+   },
+   "S2-wy": {
+    "success": true,
+    "grad_inf": 0.3081678232599652,
+    "nit": 537
+   },
+   "S3-wy": {
+    "success": true,
+    "grad_inf": 0.22735799804654924,
+    "nit": 710
+   },
+   "S1-ns": {
+    "success": true,
+    "grad_inf": 0.24478939961587132,
+    "nit": 511
+   },
+   "S1-p25": {
+    "success": true,
+    "grad_inf": 0.050721725032708775,
+    "nit": 533
+   },
+   "S1-p50": {
+    "success": true,
+    "grad_inf": 0.5332071221942392,
+    "nit": 467
+   },
+   "S3-p25": {
+    "success": true,
+    "grad_inf": 0.3280196973020537,
+    "nit": 512
+   },
+   "S3-p50": {
+    "success": true,
+    "grad_inf": 0.2225016216393949,
+    "nit": 573
+   },
+   "T1-p25": {
+    "success": true,
+    "grad_inf": 0.16997326074975044,
+    "nit": 375
+   },
+   "T1-p50": {
+    "success": true,
+    "grad_inf": 0.27866589785754947,
+    "nit": 447
+   }
+  },
+  "A_T2018_k8": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.22799428588350137,
+    "nit": 364
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.2303282399548659,
+    "nit": 546
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.2811582968504043,
+    "nit": 571
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.05793511590552147,
+    "nit": 538
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.13638630447668448,
+    "nit": 489
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.244193420248699,
+    "nit": 599
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.27839949983115964,
+    "nit": 736
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.23104533944116037,
+    "nit": 378
+   },
+   "S1-wy": {
+    "success": true,
+    "grad_inf": 0.37029906062689477,
+    "nit": 477
+   },
+   "S2-wy": {
+    "success": true,
+    "grad_inf": 0.22438591545335512,
+    "nit": 434
+   },
+   "S3-wy": {
+    "success": true,
+    "grad_inf": 0.07783430387045875,
+    "nit": 578
+   },
+   "S1-ns": {
+    "success": true,
+    "grad_inf": 0.12320760711692033,
+    "nit": 520
+   },
+   "S1-p25": {
+    "success": true,
+    "grad_inf": 0.07456209790191992,
+    "nit": 534
+   },
+   "S1-p50": {
+    "success": true,
+    "grad_inf": 0.1874473360143059,
+    "nit": 549
+   },
+   "S3-p25": {
+    "success": true,
+    "grad_inf": 0.13681014582320422,
+    "nit": 600
+   },
+   "S3-p50": {
+    "success": true,
+    "grad_inf": 0.4933917068706014,
+    "nit": 591
+   },
+   "T1-p25": {
+    "success": true,
+    "grad_inf": 0.16206156600936594,
+    "nit": 386
+   },
+   "T1-p50": {
+    "success": true,
+    "grad_inf": 0.026925765152969613,
+    "nit": 396
+   }
+  },
+  "A_T2019_k9": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.35747892352833066,
+    "nit": 291
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.18248154019617457,
+    "nit": 493
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.058334653147233066,
+    "nit": 614
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.14804867694146706,
+    "nit": 447
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.0788669782238337,
+    "nit": 373
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.8579795448161908,
+    "nit": 429
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.20209357156393415,
+    "nit": 722
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.24154756919091733,
+    "nit": 385
+   },
+   "S1-wy": {
+    "success": true,
+    "grad_inf": 0.1854349213307693,
+    "nit": 486
+   },
+   "S2-wy": {
+    "success": true,
+    "grad_inf": 0.16482267062873404,
+    "nit": 455
+   },
+   "S3-wy": {
+    "success": true,
+    "grad_inf": 0.3167086195643819,
+    "nit": 517
+   },
+   "S1-ns": {
+    "success": true,
+    "grad_inf": 0.18128972666827148,
+    "nit": 425
+   },
+   "S1-p25": {
+    "success": true,
+    "grad_inf": 0.38046068798620686,
+    "nit": 384
+   },
+   "S1-p50": {
+    "success": true,
+    "grad_inf": 0.17792918930936708,
+    "nit": 436
+   },
+   "S3-p25": {
+    "success": true,
+    "grad_inf": 0.19923875083432713,
+    "nit": 468
+   },
+   "S3-p50": {
+    "success": true,
+    "grad_inf": 0.24684711715647722,
+    "nit": 442
+   },
+   "T1-p25": {
+    "success": true,
+    "grad_inf": 0.03788392237587532,
+    "nit": 397
+   },
+   "T1-p50": {
+    "success": true,
+    "grad_inf": 0.13173918403627402,
+    "nit": 398
+   }
+  },
+  "A_T2020_k10": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.38707373604662165,
+    "nit": 421
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.06667779441842082,
+    "nit": 549
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.42429145273624214,
+    "nit": 682
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.4272668675235377,
+    "nit": 511
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.1186700622125061,
+    "nit": 539
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.2522663226184637,
+    "nit": 658
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.34204300839022805,
+    "nit": 765
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.4689404871409312,
+    "nit": 324
+   },
+   "S1-wy": {
+    "success": true,
+    "grad_inf": 0.4932313375315386,
+    "nit": 552
+   },
+   "S2-wy": {
+    "success": true,
+    "grad_inf": 0.11062130826932735,
+    "nit": 526
+   },
+   "S3-wy": {
+    "success": true,
+    "grad_inf": 0.4658583760904079,
+    "nit": 609
+   },
+   "S1-ns": {
+    "success": true,
+    "grad_inf": 0.09370422306537826,
+    "nit": 588
+   },
+   "S1-p25": {
+    "success": true,
+    "grad_inf": 0.47984984163353306,
+    "nit": 464
+   },
+   "S1-p50": {
+    "success": true,
+    "grad_inf": 0.3982069647161558,
+    "nit": 604
+   },
+   "S3-p25": {
+    "success": true,
+    "grad_inf": 0.4761338381477884,
+    "nit": 528
+   },
+   "S3-p50": {
+    "success": true,
+    "grad_inf": 0.5772016056991557,
+    "nit": 533
+   },
+   "T1-p25": {
+    "success": true,
+    "grad_inf": 0.21421935791205132,
+    "nit": 450
+   },
+   "T1-p50": {
+    "success": true,
+    "grad_inf": 0.5461197542145779,
+    "nit": 373
+   }
+  },
+  "A_T2021_k11": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.055674333318286556,
+    "nit": 452
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.17635712578740032,
+    "nit": 547
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.3391583971885949,
+    "nit": 593
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.6129991607943356,
+    "nit": 474
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.4547774218631834,
+    "nit": 436
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.935983008177343,
+    "nit": 496
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.0676685377903222,
+    "nit": 810
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.31468979137148595,
+    "nit": 462
+   },
+   "S1-wy": {
+    "success": true,
+    "grad_inf": 0.0644544939591647,
+    "nit": 588
+   },
+   "S2-wy": {
+    "success": true,
+    "grad_inf": 0.44413362176791876,
+    "nit": 410
+   },
+   "S3-wy": {
+    "success": true,
+    "grad_inf": 0.06502739753769507,
+    "nit": 647
+   },
+   "S1-ns": {
+    "success": true,
+    "grad_inf": 0.28926471967689327,
+    "nit": 499
+   },
+   "S1-p25": {
+    "success": true,
+    "grad_inf": 0.7125130517025355,
+    "nit": 479
+   },
+   "S1-p50": {
+    "success": true,
+    "grad_inf": 0.1466018171724386,
+    "nit": 487
+   },
+   "S3-p25": {
+    "success": true,
+    "grad_inf": 0.39560844121063043,
+    "nit": 506
+   },
+   "S3-p50": {
+    "success": true,
+    "grad_inf": 0.8195336522761559,
+    "nit": 685
+   },
+   "T1-p25": {
+    "success": true,
+    "grad_inf": 0.3001268659653171,
+    "nit": 461
+   },
+   "T1-p50": {
+    "success": true,
+    "grad_inf": 0.6458481759585899,
+    "nit": 410
+   }
+  },
+  "A_T2022_k12": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.43338483618089135,
+    "nit": 352
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.2835015093935547,
+    "nit": 563
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.10451396438124516,
+    "nit": 617
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.9401627617712138,
+    "nit": 445
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.2932142611393287,
+    "nit": 446
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.5387530996724884,
+    "nit": 559
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.3998527816103355,
+    "nit": 820
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.10118528254503674,
+    "nit": 502
+   },
+   "S1-wy": {
+    "success": true,
+    "grad_inf": 0.2095071653760811,
+    "nit": 472
+   },
+   "S2-wy": {
+    "success": true,
+    "grad_inf": 0.09507162977796076,
+    "nit": 544
+   },
+   "S3-wy": {
+    "success": true,
+    "grad_inf": 0.4266166664030006,
+    "nit": 516
+   },
+   "S1-ns": {
+    "success": true,
+    "grad_inf": 0.3411974251705973,
+    "nit": 504
+   },
+   "S1-p25": {
+    "success": true,
+    "grad_inf": 0.3703271136488664,
+    "nit": 512
+   },
+   "S1-p50": {
+    "success": true,
+    "grad_inf": 0.38703577284351454,
+    "nit": 503
+   },
+   "S3-p25": {
+    "success": true,
+    "grad_inf": 0.8276137133720094,
+    "nit": 557
+   },
+   "S3-p50": {
+    "success": true,
+    "grad_inf": 0.3427169208648161,
+    "nit": 552
+   },
+   "T1-p25": {
+    "success": true,
+    "grad_inf": 0.3670456641511186,
+    "nit": 496
+   },
+   "T1-p50": {
+    "success": true,
+    "grad_inf": 0.23773404535443873,
+    "nit": 501
+   }
+  },
+  "A_T2023_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.16049256052874156,
+    "nit": 516
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.27846481282957286,
+    "nit": 584
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.7779026804227747,
+    "nit": 605
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.3223488437013261,
+    "nit": 670
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.691488240982095,
+    "nit": 449
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.7684062400815501,
+    "nit": 598
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.8294387584351447,
+    "nit": 835
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.4755140034493557,
+    "nit": 385
+   },
+   "S1-wy": {
+    "success": true,
+    "grad_inf": 0.08480051492538421,
+    "nit": 604
+   },
+   "S2-wy": {
+    "success": true,
+    "grad_inf": 0.1798432174845217,
+    "nit": 576
+   },
+   "S3-wy": {
+    "success": true,
+    "grad_inf": 0.5205648277588366,
+    "nit": 633
+   },
+   "S1-ns": {
+    "success": true,
+    "grad_inf": 0.41660560205377234,
+    "nit": 530
+   },
+   "S1-p25": {
+    "success": true,
+    "grad_inf": 0.25692439417046875,
+    "nit": 563
+   },
+   "S1-p50": {
+    "success": true,
+    "grad_inf": 0.11591364030654105,
+    "nit": 557
+   },
+   "S3-p25": {
+    "success": true,
+    "grad_inf": 0.13054283885377826,
+    "nit": 647
+   },
+   "S3-p50": {
+    "success": true,
+    "grad_inf": 0.13214256219455933,
+    "nit": 580
+   },
+   "T1-p25": {
+    "success": true,
+    "grad_inf": 0.5013665800050474,
+    "nit": 419
+   },
+   "T1-p50": {
+    "success": true,
+    "grad_inf": 0.3109160293251095,
+    "nit": 389
+   }
+  }
+ },
+ "run_wall_s": 5845.7
+}
