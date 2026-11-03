@@ -35,6 +35,7 @@ CLI: ``python -m dengue_recon.extensions.timing.run --design A --subset 300``.
 from __future__ import annotations
 
 import argparse
+import glob
 import json
 import os
 import time
@@ -76,6 +77,8 @@ SPECS = {
     "S3-p25": (("state", "trends"), "p25", False, False), "S3-p50": (("state", "trends"), "p50", False, False),
 }
 T_SPECS = {"T1": "all", "T1-p25": "p25", "T1-p50": "p50"}
+#: models that need the search (Google Trends) signal; dropped by ``with_trends=False``
+TRENDS_MODELS = {n for n, s in SPECS.items() if "trends" in s[0]} | {"S3-wyTest"}
 
 
 def work_dir() -> Path:
@@ -260,10 +263,17 @@ def run_fold(fold, Pfull, sig_full, Xc, ey, ew, oni, models, warm, ref_cache, ca
     return P, t, rows, preds, phi, flats, log
 
 
-def main(design="A", subset=300, climate="power", models=None, out_dir=None, test_years=None, seed=C.SEED):
+def main(design="A", subset=300, climate="power", models=None, out_dir=None, test_years=None, seed=C.SEED,
+         with_trends=True):
+    """Run one design. ``with_trends=False`` drops every model that needs Google
+    Trends (S2, S3, S3C and their checks) and writes to a separate ``_notrends`` tag."""
     t_start = time.time()
     models = models or MODELS[design]
-    tag = f"timing_design{design}_{climate}_{subset}"
+    if not with_trends:
+        models = [m for m in models if m not in TRENDS_MODELS]
+    elif not glob.glob(str(SG.trends_dir() / "dengue_*.csv")):
+        raise FileNotFoundError(f"no Google Trends files in {SG.trends_dir()}; download them or use --no-trends")
+    tag = f"timing_design{design}_{climate}_{subset}" + ("" if with_trends else "_notrends")
     out = Path(out_dir or work_dir()) / tag
     fdir = out / "folds"
     fdir.mkdir(parents=True, exist_ok=True)
@@ -275,7 +285,9 @@ def main(design="A", subset=300, climate="power", models=None, out_dir=None, tes
     uf_of = dict(zip(muni.geocode, muni.uf))
     study_ufs = [uf_of[int(g)] for g in Pfull.geocodes]
     exy = SG.excluded_state_years_from(d, muni)
-    sig = SG.build_signals(Pfull, study_ufs, excluded_state_years=exy)
+    sig = SG.build_signals(Pfull, study_ufs, excluded_state_years=exy, with_trends=with_trends)
+    if not with_trends:
+        sig["trends_fallback"] = np.zeros(len(Pfull.geocodes), bool)
     # pool invariance: the target's own counts never reach its pool
     pool_check = _pool_invariance(Pfull, sig)
     Xc, ey, ew = BD.climate_matrix(clim, Pfull.geocodes)
@@ -287,7 +299,7 @@ def main(design="A", subset=300, climate="power", models=None, out_dir=None, tes
                 pool_sizes={v: dict(median=float(np.median(sig[f"pool_size_{v}"])), min=int(sig[f"pool_size_{v}"].min()),
                                     n_empty=int((sig[f"pool_size_{v}"] == 0).sum()))
                             for v in ("all", "nonstudy", "p25", "p50")},
-                trends_national_fallback=int(sig["trends_fallback"].sum()),
+                with_trends=with_trends, trends_national_fallback=int(sig["trends_fallback"].sum()),
                 pool_invariance_check=pool_check, eps=TF.EPS, min_signal_total=TF.MIN_SIGNAL_TOTAL,
                 state_lags=TF.STATE_LAGS, trends_lags=TF.TRENDS_LAGS, max_shift=TF.MAX_SHIFT,
                 pool_seed=SG.POOL_SEED, onset_share=ONSET_SHARE, status="EXPLORATORY")
@@ -387,10 +399,11 @@ def cli():
     ap.add_argument("--models", default=None)
     ap.add_argument("--years", default=None)
     ap.add_argument("--out", default=None)
+    ap.add_argument("--no-trends", action="store_true", help="drop the Google Trends models (S2, S3, S3C, checks)")
     a = ap.parse_args()
     models = a.models.split(",") if a.models else None
     years = [int(y) for y in a.years.split(",")] if a.years else None
-    main(a.design, a.subset, a.climate, models, a.out, years)
+    main(a.design, a.subset, a.climate, models, a.out, years, with_trends=not a.no_trends)
 
 
 if __name__ == "__main__":
