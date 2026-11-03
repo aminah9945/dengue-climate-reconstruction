@@ -37,3 +37,5 @@ results/official_rerun/
 
 # timing extension: local run folders (checkpoints, per-row metrics)
 results/extensions/timing/runs/
+# timing extension S2C run: prediction arrays stay local (metrics and checks are committed)
+results/extensions/timing/runs_s2c/**/*.npz
