@@ -12,6 +12,8 @@ For every fold of an official design (A: expanding window 2012-2023, C: LOYO):
    S2          B4s + search (Google Trends) anomaly block (4 lags)
    S3          B4s + both blocks
    S3C         S3 + the 20 M1 climate features (incl. ONI)
+   S2C         S2 + the 20 M1 climate features (incl. ONI)
+   S2C-noONI   S2 + the 15 local climate features (the M1-noONI design)
    T1          B4s with the offset h rolled by the estimated state-curve shift
    S*-wy       wrong-year check: the new blocks deranged among the fold's years
                within each municipality (train and test), refitted
@@ -75,6 +77,7 @@ SPECS = {
     "S3-wy": (("state", "trends"), "all", False, True), "S1-ns": (("state",), "nonstudy", False, False),
     "S1-p25": (("state",), "p25", False, False), "S1-p50": (("state",), "p50", False, False),
     "S3-p25": (("state", "trends"), "p25", False, False), "S3-p50": (("state", "trends"), "p50", False, False),
+    "S2C": (("trends",), None, True, False), "S2C-noONI": (("trends",), None, "local", False),
 }
 T_SPECS = {"T1": "all", "T1-p25": "p25", "T1-p50": "p50"}
 #: models that need the search (Google Trends) signal; dropped by ``with_trends=False``
@@ -196,6 +199,9 @@ def run_fold(fold, Pfull, sig_full, Xc, ey, ew, oni, models, warm, ref_cache, ca
     h, _, _ = FS.offsets(P, tm, True, C.EPS_H)
     Z, _ = size_covariates(P, tm, None, True)
     X20, _ = FC.fold_climate_features(P, Xc, ey, ew, climate_years(fold), oni=oni, weekly=True)
+    X15 = None
+    if any(SPECS.get(m, (0, 0, None))[2] == "local" for m in models):
+        X15, _ = FC.fold_climate_features(P, Xc, ey, ew, climate_years(fold), oni=None, weekly=True)
     sig = SG.subset_signals(sig_full, P.years)
     new = [m for m in models if m not in REF_MODELS]
     blocks, finfo = fold_features(P, sig, tm, fold, new)
@@ -218,7 +224,7 @@ def run_fold(fold, Pfull, sig_full, Xc, ey, ew, oni, models, warm, ref_cache, ca
             if wy:
                 X = SH.shuffle_years(X, perm_tt)
             if clim:
-                X = np.concatenate([X, X20], -1)
+                X = np.concatenate([X, X15 if clim == "local" else X20], -1)
             dm = cache.get(P, X.shape[-1])
             hh = h
         else:   # T1 family: year-specific shifted offset, no new coefficient
