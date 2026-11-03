@@ -50,7 +50,7 @@ suppressPackageStartupMessages({
 
 args <- commandArgs(trailingOnly = TRUE)
 fold_dir <- args[1]
-variant <- args[2]                       # "base", "clim20" or "clim15"
+variant <- args[2]                       # "base", "clim20", "clim15", "trends" or "clim15trends"
 nsamp <- as.integer(args[3])
 seed <- as.integer(args[4])
 nthr <- as.integer(args[5])
@@ -102,6 +102,8 @@ form <- y ~ 1 +
 xcols <- character(0)
 if (variant == "clim20") xcols <- sprintf("x%02d", 1:20)
 if (variant == "clim15") xcols <- sprintf("x%02d", 1:15)
+if (variant == "trends") xcols <- sprintf("x%02d", 21:24)
+if (variant == "clim15trends") xcols <- sprintf("x%02d", c(1:15, 21:24))
 if (length(xcols)) {
   form <- update(form, as.formula(paste(". ~ . +", paste(xcols, collapse = " + "))))
 }

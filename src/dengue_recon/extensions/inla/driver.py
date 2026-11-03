@@ -21,6 +21,9 @@ INLA-scaled                 the same curve rescaled to N (largest remainder);
                             draws rescaled per draw to N, then integer-allocated
 INLA-scaled-clim20          + 20 climate features of M1 (15 local + 5 ONI)
 INLA-scaled-clim15          + 15 local climate features (as M1-noONI)
+INLA-scaled-trends          + 4 search (Google Trends) anomaly features, the
+                            block of the timing model's S2
+INLA-scaled-clim15trends    + 15 local climate + 4 search features
 INLA-seasonal-only          diagnostic: exp(seasonal terms) of the base fit only,
                             i.e. without the AR1(time) carry-over (not a model of
                             the base paper; used for the shape-variation check)
@@ -63,11 +66,16 @@ from ...features import climate as FC
 R_SCRIPT = Path(__file__).resolve().parent / "R" / "fit_inla.R"
 INLA_DIR = Path(os.environ.get("INLA_DIR", C.RESULTS_DIR / "extensions" / "inla"))
 #: R variant -> number of climate features
-VARIANTS = {"base": 0, "clim20": 20, "clim15": 15}
+VARIANTS = {"base": 0, "clim20": 20, "clim15": 15, "trends": 4, "clim15trends": 19}
+#: variants that need the search (Google Trends) block; it is written as columns x21..x24
+TRENDS_VARIANTS = ("trends", "clim15trends")
 #: R variant -> scaled model name
-SCALED_NAME = {"base": "INLA-scaled", "clim20": "INLA-scaled-clim20", "clim15": "INLA-scaled-clim15"}
-MODELS = ["INLA-unscaled", "INLA-scaled", "INLA-scaled-clim20", "INLA-scaled-clim15", "INLA-seasonal-only"]
-PROB_MODELS = ["INLA-unscaled", "INLA-scaled", "INLA-scaled-clim20", "INLA-scaled-clim15"]
+SCALED_NAME = {"base": "INLA-scaled", "clim20": "INLA-scaled-clim20", "clim15": "INLA-scaled-clim15",
+               "trends": "INLA-scaled-trends", "clim15trends": "INLA-scaled-clim15trends"}
+MODELS = ["INLA-unscaled", "INLA-scaled", "INLA-scaled-clim20", "INLA-scaled-clim15", "INLA-scaled-trends",
+          "INLA-scaled-clim15trends", "INLA-seasonal-only"]
+PROB_MODELS = ["INLA-unscaled", "INLA-scaled", "INLA-scaled-clim20", "INLA-scaled-clim15", "INLA-scaled-trends",
+               "INLA-scaled-clim15trends"]
 N_SAMPLES = 500           # posterior draws for coverage / CRPS (same number as the DM draws)
 BATCH_SIZE = 60           # municipalities per INLA fit (memory / time; see docs/INLA.md)
 
@@ -176,7 +184,7 @@ def prob_scores(truth_c, Sm):
 
 # ------------------------------------------------------------------ one fold
 def run_fold(fold, Pfull, Xc, ey, ew, oni, variants, wroot, n_samples, n_threads, seed=C.SEED, log=None,
-             prev_fid=None):
+             prev_fid=None, sig_full=None):
     """Export, fit (R), predict and score one design-A fold. Returns (metrics df, shape df, log, arrays)."""
     tf = time.time()
     fid = fold["fold_id"]
@@ -188,6 +196,17 @@ def run_fold(fold, Pfull, Xc, ey, ew, oni, variants, wroot, n_samples, n_threads
     cy = climate_years(fold)
     X20, cinfo = FC.fold_climate_features(P, Xc, ey, ew, cy, oni=oni, weekly=True)
     aud = official_leakage_audit(P, Xc, ey, ew, tm, fold, cy, oni=oni, weekly=True)
+    if any(v in TRENDS_VARIANTS for v in variants):
+        # search block of the timing model (S2): anomalies vs training-year climatology,
+        # standardised on training rows only; appended as x21..x24
+        from ..timing import features as TF
+        from ..timing import run as TR
+        from ..timing import signals as SG
+        sig = SG.subset_signals(sig_full, P.years)
+        tym = np.isin(P.years, list(fold["train_years"]))
+        XT, _ = TF.trends_block(sig["trends"], P, tym, tm)
+        X20 = np.concatenate([X20, XT], -1)
+        aud = dict(aud, **{f"trends_{k}": v for k, v in TR.feature_audit(P, sig, tm, fold).items()})
     rows = np.where(eval_ok[:, t])[0]
     n = int(P.nweeks[t])
     wdir = Path(wroot) / fid
@@ -330,6 +349,14 @@ def main(subset=60, climate="power", variants=("base", "clim20", "clim15"), n_sa
     assert_final_year_locked(Pfull)
     Xc, ey, ew = BD.climate_matrix(clim, Pfull.geocodes)
     oni = BD.oni_vector(BD.load_oni_weekly(), ey, ew)
+    sig_full = None
+    if any(v in TRENDS_VARIANTS for v in variants):
+        from ..timing import signals as SG
+        if not list(SG.trends_dir().glob("dengue_*.csv")):
+            raise FileNotFoundError(f"no Google Trends files in {SG.trends_dir()} (set TIMING_TRENDS_DIR)")
+        uf_of = dict(zip(muni.geocode, muni.uf))
+        sig_full = SG.build_signals(Pfull, [uf_of[int(g)] for g in Pfull.geocodes], pool_variants=("all",),
+                                    excluded_state_years=SG.excluded_state_years_from(d, muni))
     folds = design_folds("A", (), test_years)
     info = dict(label="EXPLORATORY (not pre-registered)", design="A", climate=climate, subset=subset,
                 variants=list(variants), models=MODELS, n_samples=n_samples, n_threads=n_threads,
@@ -351,7 +378,7 @@ def main(subset=60, climate="power", variants=("base", "clim20", "clim15"), n_sa
         if max_folds is not None and done_now >= max_folds:
             break
         df, shape, flog, arrs = run_fold(fold, Pfull, Xc, ey, ew, oni, variants, wroot, n_samples, n_threads,
-                                         seed, rlog, pf)
+                                         seed, rlog, pf, sig_full)
         df["climate"] = climate
         np.savez_compressed(f_npz, **arrs)
         df.to_csv(f_met, index=False)
