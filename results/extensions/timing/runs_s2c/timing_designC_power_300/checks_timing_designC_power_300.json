@@ -1,0 +1,608 @@
+{
+ "n_folds": 14,
+ "status": "EXPLORATORY",
+ "official_leakage_audit_all_pass": true,
+ "feature_audit_all_pass": true,
+ "feature_audit": {
+  "C_T2010_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2011_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2012_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2013_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2014_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2015_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2016_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2017_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2018_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2019_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2020_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2021_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2022_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2023_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  }
+ },
+ "zero_coef_maxdiff": {
+  "C_T2010_k13": {
+   "S2": 0.0
+  },
+  "C_T2011_k13": {
+   "S2": 0.0
+  },
+  "C_T2012_k13": {
+   "S2": 0.0
+  },
+  "C_T2013_k13": {
+   "S2": 0.0
+  },
+  "C_T2014_k13": {
+   "S2": 0.0
+  },
+  "C_T2015_k13": {
+   "S2": 0.0
+  },
+  "C_T2016_k13": {
+   "S2": 0.0
+  },
+  "C_T2017_k13": {
+   "S2": 0.0
+  },
+  "C_T2018_k13": {
+   "S2": 0.0
+  },
+  "C_T2019_k13": {
+   "S2": 0.0
+  },
+  "C_T2020_k13": {
+   "S2": 0.0
+  },
+  "C_T2021_k13": {
+   "S2": 0.0
+  },
+  "C_T2022_k13": {
+   "S2": 0.0
+  },
+  "C_T2023_k13": {
+   "S2": 0.0
+  }
+ },
+ "zero_climate_maxdiff": {
+  "C_T2010_k13": {
+   "M1-noONI": 0.0
+  },
+  "C_T2011_k13": {
+   "M1-noONI": 0.0
+  },
+  "C_T2012_k13": {
+   "M1-noONI": 0.0
+  },
+  "C_T2013_k13": {
+   "M1-noONI": 0.0
+  },
+  "C_T2014_k13": {
+   "M1-noONI": 0.0
+  },
+  "C_T2015_k13": {
+   "M1-noONI": 0.0
+  },
+  "C_T2016_k13": {
+   "M1-noONI": 0.0
+  },
+  "C_T2017_k13": {
+   "M1-noONI": 0.0
+  },
+  "C_T2018_k13": {
+   "M1-noONI": 0.0
+  },
+  "C_T2019_k13": {
+   "M1-noONI": 0.0
+  },
+  "C_T2020_k13": {
+   "M1-noONI": 0.0
+  },
+  "C_T2021_k13": {
+   "M1-noONI": 0.0
+  },
+  "C_T2022_k13": {
+   "M1-noONI": 0.0
+  },
+  "C_T2023_k13": {
+   "M1-noONI": 0.0
+  }
+ },
+ "exact_sums": "asserted for every allocation and every draw inside score_rows",
+ "years_scored": [
+  2010,
+  2011,
+  2012,
+  2013,
+  2014,
+  2015,
+  2016,
+  2017,
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2023
+ ],
+ "fold_wall_s": {
+  "C_T2010_k13": 317.90000000000003,
+  "C_T2011_k13": 256.7,
+  "C_T2012_k13": 917.2,
+  "C_T2013_k13": 565.7,
+  "C_T2014_k13": 226.5,
+  "C_T2015_k13": 217.9,
+  "C_T2016_k13": 198.20000000000002,
+  "C_T2017_k13": 230.0,
+  "C_T2018_k13": 199.7,
+  "C_T2019_k13": 236.0,
+  "C_T2020_k13": 224.4,
+  "C_T2021_k13": 200.5,
+  "C_T2022_k13": 233.1,
+  "C_T2023_k13": 221.8
+ },
+ "fit_convergence": {
+  "C_T2010_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.04913383982442965,
+    "nit": 860
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.7073592229128304,
+    "nit": 824
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.8868452523835262,
+    "nit": 691
+   },
+   "S2C": {
+    "success": true,
+    "grad_inf": 0.22844134851379638,
+    "nit": 834
+   },
+   "S2C-noONI": {
+    "success": true,
+    "grad_inf": 0.817764218781816,
+    "nit": 751
+   }
+  },
+  "C_T2011_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.5437602430611167,
+    "nit": 425
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.6304701021893732,
+    "nit": 538
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.735950819104254,
+    "nit": 596
+   },
+   "S2C": {
+    "success": true,
+    "grad_inf": 0.12485475685468511,
+    "nit": 745
+   },
+   "S2C-noONI": {
+    "success": true,
+    "grad_inf": 0.10485654026105687,
+    "nit": 698
+   }
+  },
+  "C_T2012_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.10318319080383814,
+    "nit": 383
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.7801831798600781,
+    "nit": 422
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.18412206713465687,
+    "nit": 461
+   },
+   "S2C": {
+    "success": true,
+    "grad_inf": 0.0951556931343589,
+    "nit": 687
+   },
+   "S2C-noONI": {
+    "success": true,
+    "grad_inf": 0.25426109506093203,
+    "nit": 518
+   }
+  },
+  "C_T2013_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 1.1746685926274238,
+    "nit": 378
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.42597112158530476,
+    "nit": 553
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.4915773120401632,
+    "nit": 440
+   },
+   "S2C": {
+    "success": true,
+    "grad_inf": 0.2946698013488167,
+    "nit": 682
+   },
+   "S2C-noONI": {
+    "success": true,
+    "grad_inf": 0.5194234561047286,
+    "nit": 502
+   }
+  },
+  "C_T2014_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.8988563265247382,
+    "nit": 421
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.05208056593099915,
+    "nit": 592
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.5372667929962964,
+    "nit": 531
+   },
+   "S2C": {
+    "success": true,
+    "grad_inf": 0.5537998206812669,
+    "nit": 715
+   },
+   "S2C-noONI": {
+    "success": true,
+    "grad_inf": 0.7468444883242863,
+    "nit": 498
+   }
+  },
+  "C_T2015_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.10932784173376409,
+    "nit": 491
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.5349932274193449,
+    "nit": 572
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.14220644289355244,
+    "nit": 463
+   },
+   "S2C": {
+    "success": true,
+    "grad_inf": 0.4321142615696685,
+    "nit": 727
+   },
+   "S2C-noONI": {
+    "success": true,
+    "grad_inf": 0.6183584773439955,
+    "nit": 481
+   }
+  },
+  "C_T2016_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.4326265158412959,
+    "nit": 412
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.7967447054196211,
+    "nit": 495
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.17768953821252703,
+    "nit": 468
+   },
+   "S2C": {
+    "success": true,
+    "grad_inf": 0.8199376653825737,
+    "nit": 679
+   },
+   "S2C-noONI": {
+    "success": true,
+    "grad_inf": 0.5675418967079923,
+    "nit": 547
+   }
+  },
+  "C_T2017_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.5588696361726319,
+    "nit": 470
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.10786928515497918,
+    "nit": 589
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.25519020455161867,
+    "nit": 612
+   },
+   "S2C": {
+    "success": true,
+    "grad_inf": 0.07005071222672621,
+    "nit": 737
+   },
+   "S2C-noONI": {
+    "success": true,
+    "grad_inf": 0.40702532949588355,
+    "nit": 582
+   }
+  },
+  "C_T2018_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.47709258399217414,
+    "nit": 358
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.4946170371445496,
+    "nit": 426
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.1615919728521925,
+    "nit": 458
+   },
+   "S2C": {
+    "success": true,
+    "grad_inf": 0.2877532066418918,
+    "nit": 698
+   },
+   "S2C-noONI": {
+    "success": true,
+    "grad_inf": 0.4207489398805535,
+    "nit": 505
+   }
+  },
+  "C_T2019_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.07997947095996036,
+    "nit": 502
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.6257913523781286,
+    "nit": 573
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.11436534094557646,
+    "nit": 608
+   },
+   "S2C": {
+    "success": true,
+    "grad_inf": 0.10365208889810915,
+    "nit": 732
+   },
+   "S2C-noONI": {
+    "success": true,
+    "grad_inf": 0.753708658593337,
+    "nit": 516
+   }
+  },
+  "C_T2020_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.32533028782420437,
+    "nit": 487
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.17036443068454135,
+    "nit": 605
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.190584122270846,
+    "nit": 495
+   },
+   "S2C": {
+    "success": true,
+    "grad_inf": 0.10388331437236822,
+    "nit": 736
+   },
+   "S2C-noONI": {
+    "success": true,
+    "grad_inf": 0.6184248158546803,
+    "nit": 570
+   }
+  },
+  "C_T2021_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.5888198289434945,
+    "nit": 359
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.25858106836430605,
+    "nit": 505
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.49316781976091795,
+    "nit": 482
+   },
+   "S2C": {
+    "success": true,
+    "grad_inf": 0.0783935317032671,
+    "nit": 731
+   },
+   "S2C-noONI": {
+    "success": true,
+    "grad_inf": 0.3671975124776543,
+    "nit": 530
+   }
+  },
+  "C_T2022_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.24202380117675484,
+    "nit": 488
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.06416430111190352,
+    "nit": 605
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.39675437813547937,
+    "nit": 476
+   },
+   "S2C": {
+    "success": true,
+    "grad_inf": 0.2040012657988451,
+    "nit": 746
+   },
+   "S2C-noONI": {
+    "success": true,
+    "grad_inf": 0.586435558465738,
+    "nit": 641
+   }
+  },
+  "C_T2023_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.06543843329734889,
+    "nit": 388
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.0380704500928295,
+    "nit": 587
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.27928342640397863,
+    "nit": 460
+   },
+   "S2C": {
+    "success": true,
+    "grad_inf": 0.08957314767608138,
+    "nit": 704
+   },
+   "S2C-noONI": {
+    "success": true,
+    "grad_inf": 0.7159565101744682,
+    "nit": 589
+   }
+  }
+ },
+ "run_wall_s": 4247.8
+}
