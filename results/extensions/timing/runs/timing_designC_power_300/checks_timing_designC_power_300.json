@@ -1,0 +1,888 @@
+{
+ "n_folds": 14,
+ "status": "EXPLORATORY",
+ "official_leakage_audit_all_pass": true,
+ "feature_audit_all_pass": true,
+ "feature_audit": {
+  "C_T2010_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2011_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2012_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2013_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2014_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2015_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2016_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2017_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2018_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2019_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2020_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2021_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2022_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2023_k13": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  }
+ },
+ "zero_coef_maxdiff": {
+  "C_T2010_k13": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 9.71445146547012e-17
+  },
+  "C_T2011_k13": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 9.71445146547012e-17
+  },
+  "C_T2012_k13": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 9.71445146547012e-17
+  },
+  "C_T2013_k13": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 9.71445146547012e-17
+  },
+  "C_T2014_k13": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 9.71445146547012e-17
+  },
+  "C_T2015_k13": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 8.326672684688674e-17
+  },
+  "C_T2016_k13": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 8.326672684688674e-17
+  },
+  "C_T2017_k13": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 9.71445146547012e-17
+  },
+  "C_T2018_k13": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 8.326672684688674e-17
+  },
+  "C_T2019_k13": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 1.1102230246251565e-16
+  },
+  "C_T2020_k13": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 9.71445146547012e-17
+  },
+  "C_T2021_k13": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 9.71445146547012e-17
+  },
+  "C_T2022_k13": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 8.326672684688674e-17
+  },
+  "C_T2023_k13": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 9.71445146547012e-17
+  }
+ },
+ "zero_climate_maxdiff": {
+  "C_T2010_k13": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "C_T2011_k13": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "C_T2012_k13": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "C_T2013_k13": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "C_T2014_k13": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "C_T2015_k13": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "C_T2016_k13": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "C_T2017_k13": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "C_T2018_k13": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "C_T2019_k13": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "C_T2020_k13": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "C_T2021_k13": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "C_T2022_k13": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "C_T2023_k13": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  }
+ },
+ "exact_sums": "asserted for every allocation and every draw inside score_rows",
+ "years_scored": [
+  2010,
+  2011,
+  2012,
+  2013,
+  2014,
+  2015,
+  2016,
+  2017,
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2023
+ ],
+ "fold_wall_s": {
+  "C_T2010_k13": 539.3,
+  "C_T2011_k13": 346.5,
+  "C_T2012_k13": 303.5,
+  "C_T2013_k13": 326.90000000000003,
+  "C_T2014_k13": 343.1,
+  "C_T2015_k13": 351.59999999999997,
+  "C_T2016_k13": 353.79999999999995,
+  "C_T2017_k13": 364.59999999999997,
+  "C_T2018_k13": 319.0,
+  "C_T2019_k13": 382.2,
+  "C_T2020_k13": 374.0,
+  "C_T2021_k13": 345.09999999999997,
+  "C_T2022_k13": 350.09999999999997,
+  "C_T2023_k13": 338.70000000000005
+ },
+ "fit_convergence": {
+  "C_T2010_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.04913383982442965,
+    "nit": 860
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.7073592229128304,
+    "nit": 824
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.268726155934917,
+    "nit": 1132
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.7178130122607029,
+    "nit": 816
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.8868452523835262,
+    "nit": 691
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.37844290626852395,
+    "nit": 1006
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.6010694372372357,
+    "nit": 931
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.6056513587735288,
+    "nit": 611
+   }
+  },
+  "C_T2011_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.5437602430611167,
+    "nit": 425
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.6304701021893732,
+    "nit": 538
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.2366859385241451,
+    "nit": 647
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 1.460256588309399,
+    "nit": 480
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.735950819104254,
+    "nit": 596
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.34667269945769474,
+    "nit": 606
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.341108171418795,
+    "nit": 842
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.7339546809683136,
+    "nit": 463
+   }
+  },
+  "C_T2012_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.10318319080383814,
+    "nit": 383
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.7801831798600781,
+    "nit": 422
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.7947973116663309,
+    "nit": 604
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 1.1897304167581755,
+    "nit": 488
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.18412206713465687,
+    "nit": 461
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.3154218057884748,
+    "nit": 581
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.20333652921672996,
+    "nit": 696
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.5884163073728674,
+    "nit": 495
+   }
+  },
+  "C_T2013_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 1.1746685926274238,
+    "nit": 378
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.42597112158530476,
+    "nit": 553
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.061289725953685675,
+    "nit": 647
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 1.2440315003340026,
+    "nit": 463
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.4915773120401632,
+    "nit": 440
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.18987770219164052,
+    "nit": 554
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.3024278545566179,
+    "nit": 778
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.14668196486796498,
+    "nit": 520
+   }
+  },
+  "C_T2014_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.8988563265247382,
+    "nit": 421
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.05208056593099915,
+    "nit": 592
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.06874249347497141,
+    "nit": 665
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 1.0925132219024372,
+    "nit": 468
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.5372667929962964,
+    "nit": 531
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.7833882008235912,
+    "nit": 569
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.5583994380710492,
+    "nit": 810
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.42684292840109045,
+    "nit": 507
+   }
+  },
+  "C_T2015_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.10932784173376409,
+    "nit": 491
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.5349932274193449,
+    "nit": 572
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.08761762556559916,
+    "nit": 657
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.45088146755815955,
+    "nit": 528
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.14220644289355244,
+    "nit": 463
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.5088907372297763,
+    "nit": 583
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.3011782262324994,
+    "nit": 822
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.5043399773629106,
+    "nit": 502
+   }
+  },
+  "C_T2016_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.4326265158412959,
+    "nit": 412
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.7967447054196211,
+    "nit": 495
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.27904760084593305,
+    "nit": 805
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.14594368529127166,
+    "nit": 513
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.17768953821252703,
+    "nit": 468
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.46162277232718146,
+    "nit": 546
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.09929496499185769,
+    "nit": 778
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.04892470580330184,
+    "nit": 550
+   }
+  },
+  "C_T2017_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.5588696361726319,
+    "nit": 470
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.10786928515497918,
+    "nit": 589
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.11303405983613235,
+    "nit": 717
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.8111251324494756,
+    "nit": 536
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.25519020455161867,
+    "nit": 612
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.7808849564602571,
+    "nit": 549
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.8362142232274777,
+    "nit": 774
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.06761237020565884,
+    "nit": 528
+   }
+  },
+  "C_T2018_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.47709258399217414,
+    "nit": 358
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.4946170371445496,
+    "nit": 426
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.4136309399713065,
+    "nit": 649
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.08735363343087954,
+    "nit": 509
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.1615919728521925,
+    "nit": 458
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.2539056901438892,
+    "nit": 550
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.5120036822490874,
+    "nit": 779
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.16434649282203395,
+    "nit": 370
+   }
+  },
+  "C_T2019_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.07997947095996036,
+    "nit": 502
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.6257913523781286,
+    "nit": 573
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.4215170461985079,
+    "nit": 647
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.7603915872444291,
+    "nit": 531
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.11436534094557646,
+    "nit": 608
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.7285717000673043,
+    "nit": 638
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.3759978110302539,
+    "nit": 831
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.6234655093413409,
+    "nit": 498
+   }
+  },
+  "C_T2020_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.32533028782420437,
+    "nit": 487
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.17036443068454135,
+    "nit": 605
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.08240036794119202,
+    "nit": 664
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.1317250790416935,
+    "nit": 534
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.190584122270846,
+    "nit": 495
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.3790701066126855,
+    "nit": 577
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.9724377400809329,
+    "nit": 686
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.18702755227379306,
+    "nit": 524
+   }
+  },
+  "C_T2021_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.5888198289434945,
+    "nit": 359
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.25858106836430605,
+    "nit": 505
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.07875844581431407,
+    "nit": 662
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.662005921412653,
+    "nit": 516
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.49316781976091795,
+    "nit": 482
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.5432132866639774,
+    "nit": 568
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.12730831059105996,
+    "nit": 853
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.4957396651906748,
+    "nit": 393
+   }
+  },
+  "C_T2022_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.24202380117675484,
+    "nit": 488
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.06416430111190352,
+    "nit": 605
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.5359424327165278,
+    "nit": 658
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.7116666068582929,
+    "nit": 502
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.39675437813547937,
+    "nit": 476
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.14045446847435983,
+    "nit": 552
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.08956765295778783,
+    "nit": 820
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.06400907764356134,
+    "nit": 421
+   }
+  },
+  "C_T2023_k13": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.06543843329734889,
+    "nit": 388
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.0380704500928295,
+    "nit": 587
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.09401135122000337,
+    "nit": 663
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.08522603301109655,
+    "nit": 541
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.27928342640397863,
+    "nit": 460
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.3414718424788057,
+    "nit": 569
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.5538380466893836,
+    "nit": 833
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.5962847769107483,
+    "nit": 368
+   }
+  }
+ },
+ "run_wall_s": 5042.2
+}
