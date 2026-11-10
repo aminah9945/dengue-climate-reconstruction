@@ -395,6 +395,58 @@ def main():
     fig.savefig(FIG / "fig6_learning_curve.pdf")
     plt.close(fig)
 
+    # ---- Figure 10 / Table: learning curve with Google Trends (design B + the k = 1 fold)
+    lcdir = TIM / "runs_lc"
+    lb = pd.read_csv(lcdir / "timing_designB_power_300" / "metrics_detail_timing_designB_power_300.csv")
+    l1 = pd.read_csv(lcdir / "timing_designA_power_300" / "metrics_detail_timing_designA_power_300.csv")
+    l1 = l1[l1.year == 2011].assign(k=1)
+    lcm = pd.concat([lb, l1], ignore_index=True)
+    assert lcm.year.max() <= 2023
+    lcm["uf"] = (lcm.geocode // 100000).map(UF)
+    lrows, curve = [], []
+    for k in sorted(lcm.k.unique()):
+        g = lcm[lcm.k == k]
+        wk = g.pivot_table(index=["geocode", "year", "region", "uf", "N"], columns="model", values="jsd").reset_index()
+        ny = wk.year.nunique()
+        r1, r2, r3 = paired(wk, "S2", "B4s"), paired(wk, "M1-noONI", "B4s"), paired(wk, "S2C-noONI", "S2")
+        yrs = " ".join(str(y) for y in sorted(wk.year.unique()))
+        lrows.append([str(k), yrs, f"{wk.B4s.mean():.4f}", f"{wk.S2.mean():.4f}", pct(r1["rel"]),
+                      ci(r1["rel_lo_muni"], r1["rel_hi_muni"]), pct(r2["rel"]), pct(r3["rel"])])
+        curve.append(dict(k=k, ny=ny, **{m_: wk[m_].mean() for m_ in ("B1", "B4s", "M1-noONI", "S2", "S2C-noONI")},
+                          rel=r1["rel"], lo=r1["rel_lo_muni"], hi=r1["rel_hi_muni"]))
+    curve = pd.DataFrame(curve)
+    lrows = sep_groups(lrows, [0 if int(r[0]) == 1 else (1 if int(r[0]) <= 9 else 2) for r in lrows])
+    write_table("tab_lc", ["k", "Test years", "B4s", "S2 (Trends)", "Trends vs B4s \\%", "95\\% CI towns",
+                           "Weather vs B4s \\%", "Weather on Trends \\%"], lrows, "llrrrrrr",
+                "Learning curve with Google Trends. $k$ = number of training years immediately before the test "
+                "year. $k=1$: train 2010, test 2011. $k=2$--9: all three fixed test years (2019, 2021, 2023); "
+                "$k \\ge 10$: fewer test years remain, so these rows are not comparable with the others.", "tab:lc",
+                "Year-bootstrap intervals are not given: at most three test years per row.")
+    main_k = curve[(curve.k >= 2) & (curve.k <= 9)]
+    num("lcGainMin", pct(main_k.rel.max(), False).lstrip("-"))
+    num("lcGainMax", pct(main_k.rel.min(), False).lstrip("-"))
+    num("lcGainTwo", pct(curve[curve.k == 2].rel.iloc[0], False).lstrip("-"))
+    num("lcWeatherTwo", pct(curve[curve.k == 2]["M1-noONI"].iloc[0] / curve[curve.k == 2].B4s.iloc[0] - 1))
+    num("lcWeatherOnTrendsTwo", pct(curve[curve.k == 2]["S2C-noONI"].iloc[0] / curve[curve.k == 2].S2.iloc[0] - 1))
+    fig, axs = plt.subplots(1, 2, figsize=(7.0, 3.0), gridspec_kw={"width_ratios": [1.25, 1], "wspace": 0.35})
+    cm = curve[curve.k <= 9]
+    for mdl, c, lab in (("B1", "#b9bec7", "B1 seasonal"), ("B4s", COL["base"], "B4s"),
+                        ("M1-noONI", COL["climate"], "B4s + weather"), ("S2", COL["search"], "B4s + Trends"),
+                        ("S2C-noONI", "#8c4a14", "Trends + weather")):
+        axs[0].plot(cm.k, cm[mdl], marker="o", ms=3, color=c, label=lab)
+    axs[0].axvspan(0.5, 1.5, color="#eeeeee", zorder=0)
+    axs[0].set_xlabel("Training years k")
+    axs[0].set_ylabel("Mean JSD")
+    axs[0].legend(fontsize=6.5, frameon=False)
+    axs[1].errorbar(curve.k, curve.rel * 100, yerr=[(curve.rel - curve.lo) * 100, (curve.hi - curve.rel) * 100],
+                    fmt="o", ms=3, color=COL["search"], capsize=2)
+    axs[1].axhline(0, color="#222", lw=0.8)
+    axs[1].axvline(9.5, color="#999", ls=":", lw=0.8)
+    axs[1].set_xlabel("Training years k")
+    axs[1].set_ylabel("Trends vs B4s (%)")
+    fig.savefig(FIG / "fig10_learning_curve_trends.pdf")
+    plt.close(fig)
+
     # ---- Figure 7 / Table 4: failure analysis by state and region
     st = wA.groupby("uf").apply(lambda g: pd.Series({"rel": g.S2.mean() / g.B4s.mean() - 1, "n": len(g)}),
                                 include_groups=False).sort_values("rel")
