@@ -39,3 +39,9 @@ results/official_rerun/
 results/extensions/timing/runs/
 # timing extension S2C run: prediction arrays stay local (metrics and checks are committed)
 results/extensions/timing/runs_s2c/**/*.npz
+# INLA extension (exploratory): per-fold checkpoints, R work files, large per-row files
+results/extensions/inla/**/folds/
+results/extensions/inla/**/work/
+results/extensions/inla/**/metrics_detail_*_300*.csv
+results/extensions/inla/**/shape_diag_*_300*.csv
+results/extensions/inla/**/R_fits.log

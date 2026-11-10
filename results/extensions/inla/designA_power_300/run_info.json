@@ -1,0 +1,228 @@
+{
+ "label": "EXPLORATORY (not pre-registered)",
+ "design": "A",
+ "climate": "power",
+ "subset": 300,
+ "variants": [
+  "base",
+  "clim20",
+  "clim15"
+ ],
+ "models": [
+  "INLA-unscaled",
+  "INLA-scaled",
+  "INLA-scaled-clim20",
+  "INLA-scaled-clim15",
+  "INLA-seasonal-only"
+ ],
+ "n_samples": 500,
+ "n_threads": 4,
+ "n_municipalities": 300,
+ "panel_years": [
+  2010,
+  2011,
+  2012,
+  2013,
+  2014,
+  2015,
+  2016,
+  2017,
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2023
+ ],
+ "folds": [
+  {
+   "design": "A",
+   "test_year": 2012,
+   "train_years": [
+    2010,
+    2011
+   ],
+   "k": 2,
+   "fold_id": "A_T2012_k2"
+  },
+  {
+   "design": "A",
+   "test_year": 2013,
+   "train_years": [
+    2010,
+    2011,
+    2012
+   ],
+   "k": 3,
+   "fold_id": "A_T2013_k3"
+  },
+  {
+   "design": "A",
+   "test_year": 2014,
+   "train_years": [
+    2010,
+    2011,
+    2012,
+    2013
+   ],
+   "k": 4,
+   "fold_id": "A_T2014_k4"
+  },
+  {
+   "design": "A",
+   "test_year": 2015,
+   "train_years": [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014
+   ],
+   "k": 5,
+   "fold_id": "A_T2015_k5"
+  },
+  {
+   "design": "A",
+   "test_year": 2016,
+   "train_years": [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015
+   ],
+   "k": 6,
+   "fold_id": "A_T2016_k6"
+  },
+  {
+   "design": "A",
+   "test_year": 2017,
+   "train_years": [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016
+   ],
+   "k": 7,
+   "fold_id": "A_T2017_k7"
+  },
+  {
+   "design": "A",
+   "test_year": 2018,
+   "train_years": [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017
+   ],
+   "k": 8,
+   "fold_id": "A_T2018_k8"
+  },
+  {
+   "design": "A",
+   "test_year": 2019,
+   "train_years": [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018
+   ],
+   "k": 9,
+   "fold_id": "A_T2019_k9"
+  },
+  {
+   "design": "A",
+   "test_year": 2020,
+   "train_years": [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019
+   ],
+   "k": 10,
+   "fold_id": "A_T2020_k10"
+  },
+  {
+   "design": "A",
+   "test_year": 2021,
+   "train_years": [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020
+   ],
+   "k": 11,
+   "fold_id": "A_T2021_k11"
+  },
+  {
+   "design": "A",
+   "test_year": 2022,
+   "train_years": [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021
+   ],
+   "k": 12,
+   "fold_id": "A_T2022_k12"
+  },
+  {
+   "design": "A",
+   "test_year": 2023,
+   "train_years": [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022
+   ],
+   "k": 13,
+   "fold_id": "A_T2023_k13"
+  }
+ ],
+ "run_final_2024": false,
+ "seed": 20250811,
+ "r_script": "fit_inla.R"
+}
