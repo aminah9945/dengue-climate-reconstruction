@@ -44,9 +44,10 @@ WINDOWS = [
 ]
 
 
-#: first-level regions (ISO 3166-2 suffixes) of the other study countries; Google Trends uses these geo codes
+#: first-level regions of the other study countries, as Google Trends codes them (ISO 3166-2 suffixes,
+#: except Mexico City, which Google keeps as the former "DIF")
 REGIONS = {
-    "MX": ["AGU", "BCN", "BCS", "CAM", "CHH", "CHP", "CMX", "COA", "COL", "DUR", "GRO", "GUA", "HID", "JAL", "MEX",
+    "MX": ["AGU", "BCN", "BCS", "CAM", "CHH", "CHP", "DIF", "COA", "COL", "DUR", "GRO", "GUA", "HID", "JAL", "MEX",
            "MIC", "MOR", "NAY", "NLE", "OAX", "PUE", "QUE", "ROO", "SIN", "SLP", "SON", "TAB", "TAM", "TLA", "VER",
            "YUC", "ZAC"],
     "CO": ["AMA", "ANT", "ARA", "ATL", "BOL", "BOY", "CAL", "CAQ", "CAS", "CAU", "CES", "CHO", "COR", "CUN", "DC",
@@ -80,6 +81,9 @@ def fetch_one(pt, geo, timeframe, max_tries=6, wait=60):
         except Exception as e:  # noqa: BLE001 - rate limits come as several exception types
             if "not weekly" in str(e):
                 raise
+            if "code 400" in str(e):     # Google rejects the geo code itself: retrying cannot help
+                print(f"  {geo} {timeframe}: rejected by Google (400), recorded as empty", flush=True)
+                return None
             w = wait * (2 ** k) + random.uniform(0, 10)
             print(f"  {geo} {timeframe}: {type(e).__name__}: {str(e)[:80]} -> wait {w:.0f}s", flush=True)
             time.sleep(w)
