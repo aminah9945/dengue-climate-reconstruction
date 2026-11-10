@@ -1,0 +1,36 @@
+\begin{table}[t]
+\centering
+\small
+\caption{Mean shape error (JSD, lower is better) of every model on design A (expanding window, 12 test years, 3{,}194 municipality-years) and design C (leave one year out, 14 folds). Negative ``vs B4s'' = less error than the B4s baseline. Scaled INLA was run on design A only.}
+\label{tab:main}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llrrrrrrr}
+\toprule
+Model & Description & JSD (A) & 95\% CI (towns) & vs B4s \% & Peak err (wk) & Onset err (wk) & JSD (C) & vs B4s \% (C) \\
+\midrule
+B0 & Uniform weeks & 0.1861 & [0.1797, 0.1926] & +56.4 & 11.74 & -- & 0.1888 & +70.0 \\
+B1 & Seasonal profile & 0.1282 & [0.1230, 0.1337] & +7.7 & 6.27 & 3.22 & 0.1197 & +7.8 \\
+B4 & Base paper's DM & 0.1256 & [0.1204, 0.1310] & +5.6 & 6.22 & -- & 0.1191 & +7.2 \\
+B4s & DM + annual size (baseline) & 0.1190 & [0.1137, 0.1247] & -- & 6.41 & 2.99 & 0.1110 & -- \\
+\midrule
+M1-noONI & B4s + local weather & 0.1175 & [0.1121, 0.1232] & -1.3 & 6.25 & 2.91 & 0.1077 & -3.0 \\
+M1 & B4s + weather + ONI & 0.1191 & [0.1138, 0.1247] & +0.1 & 6.26 & 2.90 & 0.1090 & -1.8 \\
+M1-short & B4s + weather, lags 0--3 wk & 0.1166 & [0.1114, 0.1223] & -2.0 & 6.30 & -- & 0.1089 & -1.9 \\
+M2 & Boosted softmax (weather) & 0.1267 & [0.1216, 0.1321] & +6.5 & 6.21 & -- & 0.1182 & +6.4 \\
+\midrule
+INLA-scaled & Scaled INLA (base paper's final) & 0.1126 & [0.1084, 0.1171] & -5.3 & 5.74 & -- & -- & -- \\
+INLA-scaled-clim15 & Scaled INLA + local weather & 0.1110 & [0.1068, 0.1154] & -6.7 & 5.68 & -- & -- & -- \\
+INLA-scaled-clim20 & Scaled INLA + weather + ONI & 0.1131 & [0.1088, 0.1175] & -4.9 & 5.70 & -- & -- & -- \\
+\midrule
+T1 & B4s, seasonal shape shifted & 0.1096 & [0.1039, 0.1155] & -7.9 & 5.70 & 2.55 & 0.1041 & -6.2 \\
+S2 & B4s + Google Trends & 0.1039 & [0.0985, 0.1096] & -12.7 & 5.77 & 2.57 & 0.0968 & -12.8 \\
+S2C-noONI & S2 + local weather & 0.1056 & [0.1003, 0.1113] & -11.2 & 5.80 & 2.58 & 0.0968 & -12.8 \\
+S2C & S2 + weather + ONI & 0.1073 & [0.1019, 0.1129] & -9.9 & 5.84 & 2.60 & 0.0979 & -11.8 \\
+\midrule
+S1 & B4s + state curve (upper bound) & 0.0971 & [0.0920, 0.1026] & -18.4 & 5.43 & 2.44 & 0.0871 & -21.6 \\
+S3 & S1 + Google Trends (upper bound) & 0.0963 & [0.0912, 0.1018] & -19.1 & 5.41 & 2.41 & 0.0868 & -21.8 \\
+S3C & S3 + weather + ONI (upper bound) & 0.0991 & [0.0940, 0.1046] & -16.7 & 5.45 & 2.44 & 0.0873 & -21.4 \\
+\bottomrule
+\end{tabular}}
+\par\vspace{2pt}\footnotesize Upper-bound rows need the same year's weekly counts of other towns in the state, which a truly missing year does not have; they are reported as a ceiling, not as a usable method.
+\end{table}
