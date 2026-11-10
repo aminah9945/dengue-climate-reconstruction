@@ -19,7 +19,7 @@ Writes ``<TIMING_TRENDS_DIR>/dengue_<geo>_<start>_<end>.csv`` with columns
 Google Trends values are a sample: a later download can differ slightly from an
 earlier one. Keep the files you used (for example on Google Drive).
 
-CLI: ``python -m dengue_recon.extensions.timing.trends_download [--sleep 20]``.
+CLI: ``python -m dengue_recon.extensions.timing.trends_download [--sleep 20] [--country MX --out DIR]``.
 """
 from __future__ import annotations
 
@@ -44,9 +44,22 @@ WINDOWS = [
 ]
 
 
-def study_geos() -> list[str]:
-    """``BR`` plus all 27 states (the 300 study municipalities cover every state)."""
-    return ["BR"] + [f"BR-{u}" for u in sorted(SG.UF_CODE.values())]
+#: first-level regions (ISO 3166-2 suffixes) of the other study countries; Google Trends uses these geo codes
+REGIONS = {
+    "MX": ["AGU", "BCN", "BCS", "CAM", "CHH", "CHP", "CMX", "COA", "COL", "DUR", "GRO", "GUA", "HID", "JAL", "MEX",
+           "MIC", "MOR", "NAY", "NLE", "OAX", "PUE", "QUE", "ROO", "SIN", "SLP", "SON", "TAB", "TAM", "TLA", "VER",
+           "YUC", "ZAC"],
+    "CO": ["AMA", "ANT", "ARA", "ATL", "BOL", "BOY", "CAL", "CAQ", "CAS", "CAU", "CES", "CHO", "COR", "CUN", "DC",
+           "GUA", "GUV", "HUI", "LAG", "MAG", "MET", "NAR", "NSA", "PUT", "QUI", "RIS", "SAN", "SAP", "SUC", "TOL",
+           "VAC", "VAU", "VID"],
+}
+
+
+def study_geos(country: str = "BR") -> list[str]:
+    """Country code plus its first-level regions (Brazil: the 27 states of the study municipalities)."""
+    if country == "BR":
+        return ["BR"] + [f"BR-{u}" for u in sorted(SG.UF_CODE.values())]
+    return [country] + [f"{country}-{r}" for r in REGIONS[country]]
 
 
 def fetch_one(pt, geo, timeframe, max_tries=6, wait=60):
@@ -77,12 +90,13 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--sleep", type=float, default=20, help="seconds between requests")
     ap.add_argument("--out", default=None, help="folder (default TIMING_TRENDS_DIR or DATA_DIR/raw/google_trends)")
+    ap.add_argument("--country", default="BR", choices=["BR", *REGIONS], help="country and its regions")
     a = ap.parse_args(argv)
     from pytrends.request import TrendReq
 
     out = Path(a.out) if a.out else SG.trends_dir()
     out.mkdir(parents=True, exist_ok=True)
-    geos = study_geos()
+    geos = study_geos(a.country)
     empty_f = out / "empty_geos.txt"
     empty = set(empty_f.read_text().split()) if empty_f.exists() else set()
     name = lambda g, w: f"dengue_{g}_{w[0]}_{w[1]}"  # noqa: E731

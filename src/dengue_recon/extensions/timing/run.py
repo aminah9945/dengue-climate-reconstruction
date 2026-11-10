@@ -65,7 +65,8 @@ REF_MODELS = ["B1", "B4s", "M1-noONI", "M1"]
 MAIN = ["S1", "S2", "S3", "S3C", "T1"]
 CHECKS = ["S1-wy", "S2-wy", "S3-wy", "S3-wyTest", "S1-ns"]
 MIXED = ["S1-p25", "S1-p50", "S3-p25", "S3-p50", "T1-p25", "T1-p50"]
-MODELS = {"A": REF_MODELS + MAIN + CHECKS + MIXED, "C": REF_MODELS + MAIN}
+LC_MODELS = ["B1", "B4s", "M1-noONI", "S2", "S2C-noONI"]
+MODELS = {"A": REF_MODELS + MAIN + CHECKS + MIXED, "B": LC_MODELS, "C": REF_MODELS + MAIN}
 PROB = ["B4s", "M1-noONI", "M1"] + MAIN
 ONSET_SHARE = 0.10
 
@@ -399,7 +400,7 @@ def assemble(out, tag, folds, t_start=None):
 
 def cli():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--design", default="A", choices=["A", "C"])
+    ap.add_argument("--design", default="A", choices=["A", "B", "C"])
     ap.add_argument("--subset", type=int, default=300)
     ap.add_argument("--climate", default="power")
     ap.add_argument("--models", default=None)
