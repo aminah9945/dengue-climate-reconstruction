@@ -1,0 +1,104 @@
+{
+ "design": "A",
+ "subset": 300,
+ "climate": "power",
+ "models": [
+  "B1",
+  "B4s",
+  "M1-noONI",
+  "S2",
+  "S2C-noONI"
+ ],
+ "n_municipalities": 300,
+ "panel_years": [
+  2010,
+  2011,
+  2012,
+  2013,
+  2014,
+  2015,
+  2016,
+  2017,
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2023
+ ],
+ "folds": [
+  {
+   "design": "A",
+   "test_year": 2011,
+   "train_years": [
+    2010
+   ],
+   "k": 1,
+   "fold_id": "A_T2011_k1"
+  }
+ ],
+ "run_final_2024": false,
+ "seed": 20250811,
+ "pen": {
+  "g": 0.3,
+  "r": 0.4,
+  "c": 0.15,
+  "rw": 0.1,
+  "gamma_nat": 1.0,
+  "gamma_reg": 0.5,
+  "theta": 0.5,
+  "delta": 0.25,
+  "logphi_mu": 3.912023005428146,
+  "logphi_sd": 1.0
+ },
+ "excluded_state_years": [
+  [
+   "ES",
+   2021
+  ]
+ ],
+ "pool_sizes": {
+  "all": {
+   "median": 39.0,
+   "min": 0,
+   "n_empty": 2
+  },
+  "nonstudy": {
+   "median": 28.0,
+   "min": 0,
+   "n_empty": 28
+  },
+  "p25": {
+   "median": 10.0,
+   "min": 0,
+   "n_empty": 2
+  },
+  "p50": {
+   "median": 20.0,
+   "min": 0,
+   "n_empty": 2
+  }
+ },
+ "with_trends": true,
+ "trends_national_fallback": 0,
+ "pool_invariance_check": true,
+ "eps": 0.001,
+ "min_signal_total": 20.0,
+ "state_lags": [
+  -2,
+  -1,
+  0,
+  1,
+  2
+ ],
+ "trends_lags": [
+  0,
+  1,
+  2,
+  3
+ ],
+ "max_shift": 10,
+ "pool_seed": 20261028,
+ "onset_share": 0.1,
+ "status": "EXPLORATORY"
+}

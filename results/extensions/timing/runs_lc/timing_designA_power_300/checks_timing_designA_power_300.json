@@ -1,0 +1,57 @@
+{
+ "n_folds": 1,
+ "status": "EXPLORATORY",
+ "official_leakage_audit_all_pass": true,
+ "feature_audit_all_pass": true,
+ "feature_audit": {
+  "A_T2011_k1": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  }
+ },
+ "zero_coef_maxdiff": {
+  "A_T2011_k1": {
+   "S2": 0.0
+  }
+ },
+ "zero_climate_maxdiff": {
+  "A_T2011_k1": {
+   "M1-noONI": 0.0
+  }
+ },
+ "exact_sums": "asserted for every allocation and every draw inside score_rows",
+ "years_scored": [
+  2011
+ ],
+ "fold_wall_s": {
+  "A_T2011_k1": 18.0
+ },
+ "fit_convergence": {
+  "A_T2011_k1": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.003917102410428419,
+    "nit": 116
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.01819800583213227,
+    "nit": 255
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.007896622420179314,
+    "nit": 1
+   },
+   "S2C-noONI": {
+    "success": true,
+    "grad_inf": 0.004672926604870273,
+    "nit": 252
+   }
+  }
+ },
+ "run_wall_s": 19.2
+}
