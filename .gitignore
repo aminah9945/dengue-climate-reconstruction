@@ -46,3 +46,4 @@ results/extensions/inla/**/metrics_detail_*_300*.csv
 results/extensions/inla/**/shape_diag_*_300*.csv
 results/extensions/inla/**/R_fits.log
 results/extensions/timing/runs_lc/**/*.npz
+results/extensions/inla_trends/**/*.npz
