@@ -1,7 +1,7 @@
 \begin{table}[t]
 \centering
 \small
-\caption{Mean shape error (JSD, lower is better) of every model on design A (expanding window, 12 test years, 3{,}194 municipality-years) and design C (leave one year out, 14 folds). Negative ``vs B4s'' = less error than the B4s baseline. Scaled INLA was run on design A only.}
+\caption{Mean shape error (JSD, lower is better) of every model on design A (expanding window, 12 test years, 3{,}194 municipality-years) and design C (leave one year out, 14 folds). Negative ``vs B4s'' = less error than the B4s baseline. Scaled INLA was run on design A only; onset error is not stored for the INLA + Trends run.}
 \label{tab:main}
 \resizebox{\linewidth}{!}{%
 \begin{tabular}{llrrrrrrr}
@@ -21,6 +21,8 @@ M2 & Boosted softmax (weather) & 0.1267 & [0.1216, 0.1321] & +6.5 & 6.21 & -- & 
 INLA-scaled & Scaled INLA (base paper's final) & 0.1126 & [0.1084, 0.1171] & -5.3 & 5.74 & -- & -- & -- \\
 INLA-scaled-clim15 & Scaled INLA + local weather & 0.1110 & [0.1068, 0.1154] & -6.7 & 5.68 & -- & -- & -- \\
 INLA-scaled-clim20 & Scaled INLA + weather + ONI & 0.1131 & [0.1088, 0.1175] & -4.9 & 5.70 & -- & -- & -- \\
+INLA-scaled-trends & Scaled INLA + Google Trends & 0.1062 & [0.1019, 0.1106] & -10.8 & 5.58 & -- & -- & -- \\
+INLA-scaled-clim15trends & Scaled INLA + Trends + weather & 0.1054 & [0.1010, 0.1098] & -11.4 & 5.46 & -- & -- & -- \\
 \midrule
 T1 & B4s, seasonal shape shifted & 0.1096 & [0.1039, 0.1155] & -7.9 & 5.70 & 2.55 & 0.1041 & -6.2 \\
 S2 & B4s + Google Trends & 0.1039 & [0.0985, 0.1096] & -12.7 & 5.77 & 2.57 & 0.0968 & -12.8 \\

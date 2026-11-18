@@ -21,6 +21,10 @@ Google Trends block (S2) & S2 vs B4s & 0.1039 & 0.1190 & -12.7 & [-13.9, -11.6] 
 Local weather on top of Trends & S2C-noONI vs S2 & 0.1056 & 0.1039 & +1.7 & [+1.2, +2.2] & [-0.8, +4.3] & 4/12 & not clear \\
 ONI on top of Trends + weather & S2C vs S2C-noONI & 0.1073 & 0.1056 & +1.6 & [+1.1, +2.0] & [+0.2, +4.0] & 2/12 & clearly worse \\
 \midrule
+Google Trends in scaled INLA & INLA-scaled-trends vs INLA-rerun & 0.1062 & 0.1126 & -5.7 & [-6.2, -5.2] & [-7.4, -4.2] & 12/12 & clearly better \\
+Local weather on top of INLA + Trends & INLA-scaled-clim15trends vs INLA-scaled-trends & 0.1054 & 0.1062 & -0.8 & [-1.1, -0.4] & [-2.9, +1.1] & 6/12 & not clear \\
+Scaled INLA + Trends instead of S2 & INLA-scaled-trends vs S2 & 0.1062 & 0.1039 & +2.2 & [+0.0, +4.5] & [-5.6, +10.6] & 4/12 & not clear \\
+\midrule
 State-curve block (S1) & S1 vs B4s & 0.0971 & 0.1190 & -18.4 & [-19.8, -17.0] & [-24.2, -13.5] & 12/12 & clearly better \\
 Trends on top of state curve & S3 vs S1 & 0.0963 & 0.0971 & -0.8 & [-1.1, -0.6] & [-1.4, -0.5] & 11/12 & clearly better \\
 Weather + ONI on top of S3 & S3C vs S3 & 0.0991 & 0.0963 & +2.9 & [+2.4, +3.5] & [+1.4, +4.4] & 3/12 & clearly worse \\
@@ -35,5 +39,5 @@ Wrong-year state curve (refitted) & S1-wy vs S1 & 0.1185 & 0.0971 & +22.1 & [+20
 Wrong-year signals at test only & S3-wyTest vs S3 & 0.1320 & 0.0963 & +37.2 & [+34.0, +40.5] & [+26.9, +49.9] & 0/12 & clearly worse \\
 \bottomrule
 \end{tabular}}
-\par\vspace{2pt}\footnotesize Scaled INLA: per-municipality rows are not stored, so only the year-level interval is given. Rows 1, 4 and 5 come from the official climate run (same folds and municipalities).
+\par\vspace{2pt}\footnotesize Scaled INLA vs B4s: per-municipality rows of the first INLA run are not stored, so only the year-level interval is given. The INLA + Trends rows compare variants of one later INLA run (its base fit agrees with the first run to four decimals). Rows 1, 4 and 5 come from the official climate run (same folds and municipalities).
 \end{table}

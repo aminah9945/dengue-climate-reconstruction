@@ -8,6 +8,7 @@ Inputs (all committed in this repository; nothing is typed by hand):
 * results/extensions/inla/tables/*_300.csv          scaled INLA, design A, 300 municipalities
 * results/extensions/timing/runs/.../metrics_detail_*.csv      timing model, designs A and C (per municipality-year)
 * results/extensions/timing/runs_s2c/.../metrics_detail_*.csv  search + weather variants (S2C, S2C-noONI)
+* results/extensions/inla_trends/designA_power_300/metrics_detail_*.csv  scaled INLA + Google Trends, design A
 * results/extensions/timing/examples_designA.csv    weekly shares for the qualitative figure; rebuilt from the
                                                     fold arrays (.npz) and the processed data when those exist locally
 
@@ -48,12 +49,15 @@ DESC = {
     "T1": "B4s, seasonal shape shifted", "S2": "B4s + Google Trends", "S2C-noONI": "S2 + local weather",
     "S2C": "S2 + weather + ONI", "S1": "B4s + state curve (upper bound)", "S3": "S1 + Google Trends (upper bound)",
     "S3C": "S3 + weather + ONI (upper bound)",
+    "INLA-scaled-trends": "Scaled INLA + Google Trends", "INLA-scaled-clim15trends": "Scaled INLA + Trends + weather",
 }
 COL = {"base": "#8a8f98", "climate": "#2f6fb0", "inla": "#6250d6", "search": "#e07a2e", "upper": "#b9bec7"}
 GROUP = {"B0": "base", "B1": "base", "B4": "base", "B4s": "base", "M1": "climate", "M1-noONI": "climate",
          "M1-short": "climate", "M2": "climate", "INLA-scaled": "inla", "INLA-scaled-clim15": "inla",
          "INLA-scaled-clim20": "inla", "T1": "search", "S2": "search", "S2C-noONI": "search", "S2C": "search",
-         "S1": "upper", "S3": "upper", "S3C": "upper"}
+         "S1": "upper", "S3": "upper", "S3C": "upper", "INLA-scaled-trends": "inla",
+         "INLA-scaled-clim15trends": "inla"}
+INLA_TR = ROOT / "results" / "extensions" / "inla_trends" / "designA_power_300"
 
 plt.rcParams.update({"font.size": 9, "axes.spines.top": False, "axes.spines.right": False,
                      "figure.dpi": 150, "savefig.bbox": "tight", "pdf.fonttype": 42})
@@ -71,6 +75,15 @@ def timing_rows(design: str) -> pd.DataFrame:
     both = main.merge(s2c, on=key, suffixes=("", "_r"))
     assert np.allclose(both.jsd, both.jsd_r, atol=1e-9), "S2C run does not reproduce the main run"
     m = pd.concat([main, s2c[s2c.model.isin(["S2C", "S2C-noONI"])]], ignore_index=True)
+    if design == "A":
+        # INLA + Google Trends run (design A): its own base fit is kept as "INLA-rerun" so that the Trends
+        # contrasts compare variants of the same INLA run
+        it = pd.read_csv(INLA_TR / "metrics_detail_inla_designA_power_300.csv")
+        it = it[it.model.isin(["INLA-scaled", "INLA-scaled-trends", "INLA-scaled-clim15trends"])].copy()
+        it["model"] = it.model.replace({"INLA-scaled": "INLA-rerun"})
+        keys = set(map(tuple, main[["geocode", "year"]].drop_duplicates().to_numpy()))
+        assert set(map(tuple, it[["geocode", "year"]].drop_duplicates().to_numpy())) == keys
+        m = pd.concat([m, it[[c for c in it.columns if c in m.columns]]], ignore_index=True)
     m["uf"] = (m.geocode // 100000).map(UF)
     assert m.year.max() <= 2023
     return m
@@ -162,12 +175,15 @@ def main():
     b4s_A, b4s_C = wA.B4s.mean(), wC.B4s.mean()
 
     # ---- Table 1: main comparison
+    assert abs(wA["INLA-rerun"].mean() - inla.loc["INLA-scaled", "jsd"]) < 5e-4, "INLA runs disagree"
     order = ["B0", "B1", "B4", "B4s", "M1-noONI", "M1", "M1-short", "M2", "INLA-scaled", "INLA-scaled-clim15",
-             "INLA-scaled-clim20", "T1", "S2", "S2C-noONI", "S2C", "S1", "S3", "S3C"]
+             "INLA-scaled-clim20", "INLA-scaled-trends", "INLA-scaled-clim15trends", "T1", "S2", "S2C-noONI", "S2C",
+             "S1", "S3", "S3C"]
     rows, fig1 = [], []
     for mdl in order:
         if mdl in wA:
-            jA, peak, onset = wA[mdl].mean(), pA[mdl].mean(), oA[mdl].mean()
+            jA, peak = wA[mdl].mean(), pA[mdl].mean()
+            onset = oA[mdl].mean() if mdl in oA else np.nan
             rng = np.random.default_rng(SEED)
             sums = wA.groupby("geocode")[mdl].sum().to_numpy()
             cnts = wA.groupby("geocode")[mdl].count().to_numpy()
@@ -192,7 +208,8 @@ def main():
                      f"{peak:.2f}", "--" if np.isnan(onset) else f"{onset:.2f}",
                      "--" if np.isnan(jC) else f"{jC:.4f}",
                      "--" if np.isnan(jC) or mdl == "B4s" else pct(jC / b4s_C - 1)])
-        tag = {"B4s": "Base", "M1-noONI": "Weather", "INLA-scaled": "Inla", "S2": "Trends", "S1": "State"}
+        tag = {"B4s": "Base", "M1-noONI": "Weather", "INLA-scaled": "Inla", "S2": "Trends", "S1": "State",
+               "INLA-scaled-trends": "InlaTrends", "INLA-scaled-clim15trends": "InlaTrendsClim"}
         if mdl in tag:
             num(f"jsd{tag[mdl]}A", f"{jA:.4f}")
     rows = sep_groups(rows, [GROUP[r[0]] for r in rows])
@@ -201,7 +218,8 @@ def main():
                 [[esc(c) for c in r] if r != ["--"] else r for r in rows], "llrrrrrrr",
                 "Mean shape error (JSD, lower is better) of every model on design A (expanding window, 12 test years, "
                 "3{,}194 municipality-years) and design C (leave one year out, 14 folds). Negative ``vs B4s'' = less "
-                "error than the B4s baseline. Scaled INLA was run on design A only.", "tab:main",
+                "error than the B4s baseline. Scaled INLA was run on design A only; onset error is not stored "
+                "for the INLA + Trends run.", "tab:main",
                 "Upper-bound rows need the same year's weekly counts of other towns in the state, which a truly "
                 "missing year does not have; they are reported as a ceiling, not as a usable method.")
 
@@ -234,6 +252,9 @@ def main():
         ("Google Trends block (S2)", "S2", "B4s", "timing"),
         ("Local weather on top of Trends", "S2C-noONI", "S2", "timing"),
         ("ONI on top of Trends + weather", "S2C", "S2C-noONI", "timing"),
+        ("Google Trends in scaled INLA", "INLA-scaled-trends", "INLA-rerun", "timing"),
+        ("Local weather on top of INLA + Trends", "INLA-scaled-clim15trends", "INLA-scaled-trends", "timing"),
+        ("Scaled INLA + Trends instead of S2", "INLA-scaled-trends", "S2", "timing"),
         ("State-curve block (S1)", "S1", "B4s", "timing"),
         ("Trends on top of state curve", "S3", "S1", "timing"),
         ("Weather + ONI on top of S3", "S3C", "S3", "timing"),
@@ -275,7 +296,8 @@ def main():
         arows.append([name, esc(f"{a} vs {b}"), f"{ma:.4f}", f"{mb:.4f}", pct(rel),
                       "--" if np.isnan(lom) else ci(lom, him), ci(loy, hiy), yb, verdict])
         fig4.append((name, rel, lom, him, loy, hiy))
-    block = [0] * 5 + [1] + [2] * 4 + [3] * 4 + [4] * 3 + [5] * 3
+    block = [0] * 5 + [1] + [2] * 4 + [6] * 3 + [3] * 4 + [4] * 3 + [5] * 3
+    assert len(block) == len(abl)
     arows = sep_groups(arows, block)
     write_table("tab_ablation", ["Component changed", "Models", "JSD with", "JSD without", "Change \\%",
                                  "95\\% CI towns", "95\\% CI years", "Years better", "Verdict"],
@@ -284,7 +306,9 @@ def main():
                 "Ablation study, design A: each row adds, removes or alters one component and reports the paired "
                 "change in mean JSD (negative = the component lowers the error). ``Clearly'' requires both the "
                 "municipality and the year bootstrap intervals to exclude zero.", "tab:ablation",
-                "Scaled INLA: per-municipality rows are not stored, so only the year-level interval is given. "
+                "Scaled INLA vs B4s: per-municipality rows of the first INLA run are not stored, so only the "
+                "year-level interval is given. The INLA + Trends rows compare variants of one later INLA run "
+                "(its base fit agrees with the first run to four decimals). "
                 "Rows 1, 4 and 5 come from the official climate run (same folds and municipalities).")
 
     fig, ax = plt.subplots(figsize=(6.4, 5.2))
@@ -334,6 +358,8 @@ def main():
                             ("S1", "State curve (upper bound)", "#8a8f98", ":")):
         ax.plot(by[mdl].mean().index, by[mdl].mean().values, marker="o", ms=3, color=c, ls=ls, label=lab)
     ax.plot(inla_y.index, inla_y["INLA-scaled"], marker="s", ms=3, color=COL["inla"], label="Scaled INLA")
+    ax.plot(by["INLA-scaled-trends"].mean().index, by["INLA-scaled-trends"].mean().values, marker="s", ms=3,
+            color=COL["inla"], ls="--", label="Scaled INLA + Trends")
     ax.set_xlabel("Test year (design A; training = 2010 to year before)")
     ax.set_ylabel("Mean JSD")
     ax.legend(fontsize=7, frameon=False, ncol=2)
@@ -538,6 +564,19 @@ def main():
     num("inlaGainA", pct(inla.loc["INLA-scaled", "jsd"] / b4s_A - 1, False).lstrip("-"))
     num("trendsVsInla", pct(wA.S2.mean() / inla.loc["INLA-scaled", "jsd"] - 1, False).lstrip("-"))
     num("weatherGainA", pct(wA["M1-noONI"].mean() / b4s_A - 1, False).lstrip("-"))
+    # INLA + Google Trends (design A)
+    r_it = paired(wA, "INLA-scaled-trends", "INLA-rerun")
+    num("inlaTrendsGain", pct(r_it["rel"], False).lstrip("-"))
+    num("inlaTrendsYears", f"{r_it['years_better']} of {r_it['n_years']}")
+    r_s2 = paired(wA, "INLA-scaled-trends", "S2")
+    num("inlaTrendsVsSTwo", pct(r_s2["rel"], False).lstrip("-"))
+    num("inlaTrendsVsSTwoCImuni", ci(r_s2["rel_lo_muni"], r_s2["rel_hi_muni"]))
+    num("inlaTrendsVsSTwoCIyear", ci(r_s2["rel_lo_year"], r_s2["rel_hi_year"]))
+    num("inlaTrendsVsSTwoYears", f"{r_s2['years_better']} of {r_s2['n_years']}")
+    num("inlaTrendsClimVsSTwo", pct(wA["INLA-scaled-clim15trends"].mean() / wA.S2.mean() - 1, False).lstrip("-"))
+    num("peakInlaTrendsClim", f"{pA['INLA-scaled-clim15trends'].mean():.2f}")
+    early = wA[wA.year <= 2015].groupby("year")
+    num("inlaTrendsEarlyYears", str(int((early["INLA-scaled-trends"].mean() < early.S2.mean()).sum())))
     (OUT / "numbers.tex").write_text("% generated by scripts/make_results_report.py -- do not edit\n" +
                                      "".join(f"\\newcommand{{\\{k}}}{{{v}}}\n" for k, v in sorted(NUM.items())))
     print(f"wrote {len(list(FIG.glob('*.pdf')))} figures, {len(list(TAB.glob('*.tex')))} tables, "
