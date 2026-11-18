@@ -17,7 +17,8 @@ def main(argv=None):
     p.add_argument("--variants", default="base,clim20,clim15")
     p.add_argument("--samples", type=int, default=None, help="posterior draws per fit (default 500)")
     p.add_argument("--threads", type=int, default=4)
-    p.add_argument("--years", default=None, help="restrict design-A test years (smoke tests)")
+    p.add_argument("--design", default="A", choices=["A", "C"], help="A = expanding window, C = leave one year out")
+    p.add_argument("--years", default=None, help="restrict test years (smoke tests)")
     p.add_argument("--max-folds", type=int, default=None, help="stop after this many new folds (time-boxed runs)")
     p.add_argument("--out", default=None, help="output folder (default RESULTS_DIR/extensions/inla)")
     p.add_argument("--work", default=None, help="folder for the per-fold R data and draws")
@@ -28,7 +29,7 @@ def main(argv=None):
         years = [int(y) for y in a.years.split(",")] if a.years else None
         run(subset=a.subset, climate=a.climate, variants=tuple(a.variants.split(",")),
             n_samples=N_SAMPLES if a.samples is None else a.samples, n_threads=a.threads, test_years=years,
-            out_dir=a.out, work_dir=a.work, max_folds=a.max_folds)
+            out_dir=a.out, work_dir=a.work, max_folds=a.max_folds, design=a.design)
     else:
         from .report import main as report
         report(subset=a.subset, climate=a.climate, out_dir=a.out, official_dir=a.official_dir)

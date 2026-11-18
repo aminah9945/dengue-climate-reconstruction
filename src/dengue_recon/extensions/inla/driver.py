@@ -98,12 +98,13 @@ def municipality_batches(region, batch_size=BATCH_SIZE):
     return [np.where(lab == b)[0] for b in range(nb)]
 
 
-def fold_long_table(P, t, train_mask, eval_rows, X, munis=None):
+def fold_long_table(P, t, train_mask, eval_rows, X, munis=None, later_years_ok=False):
     """Long INLA table of one fold: training rows (observed y) + test rows (y = NA).
 
     ``P`` fold panel, ``t`` index of the test year, ``train_mask`` (M, T), ``eval_rows``
     municipalities scored in the test year, ``X`` (M, T, 53, F) climate features,
     ``munis`` optional subset (batch) of municipalities, renumbered 1..len(munis).
+    ``later_years_ok``: design C (leave one year out) trains on years after the test year too.
     Rows: every valid week of every training municipality-year and of every
     evaluated test municipality-year. Returns (DataFrame, (m, tt, s) index arrays).
     """
@@ -128,7 +129,8 @@ def fold_long_table(P, t, train_mask, eval_rows, X, munis=None):
     for f in range(X.shape[-1]):
         df[f"x{f + 1:02d}"] = np.round(X[m, tt, s, f], 6)
     assert df.loc[df.test == 1, "y"].isna().all() and df.loc[df.test == 0, "y"].notna().all()
-    assert (df.year <= t + 1).all()
+    if not later_years_ok:
+        assert (df.year <= t + 1).all()
     return df, (m, tt, s)
 
 
@@ -224,7 +226,8 @@ def run_fold(fold, Pfull, Xc, ey, ew, oni, variants, wroot, n_samples, n_threads
     for b, munis in enumerate(batches):
         bdir = wdir / f"b{b}"
         bdir.mkdir(parents=True, exist_ok=True)
-        df_long, (mi, ti, si) = fold_long_table(P, t, tm, rows, X20, munis=munis)
+        df_long, (mi, ti, si) = fold_long_table(P, t, tm, rows, X20, munis=munis,
+                                                later_years_ok=fold["design"] == "C")
         if not (bdir / "data.csv").exists():
             df_long.to_csv(bdir / "data.csv", index=False, na_rep="NA", float_format="%.6g")
         te = np.where(df_long.test.values == 1)[0]
@@ -332,10 +335,11 @@ def shape_diagnostics(P, t, rows, comp):
 
 # ------------------------------------------------------------------ run
 def main(subset=60, climate="power", variants=("base", "clim20", "clim15"), n_samples=N_SAMPLES,
-         n_threads=4, test_years=None, out_dir=None, work_dir=None, seed=C.SEED, max_folds=None):
-    """Run INLA on design A; resumable per fold. Returns the assembled metrics DataFrame."""
+         n_threads=4, test_years=None, out_dir=None, work_dir=None, seed=C.SEED, max_folds=None, design="A"):
+    """Run INLA on design A (default) or C; resumable per fold. Returns the assembled metrics DataFrame."""
+    assert design in ("A", "C"), "INLA supports designs A and C"
     t_start = time.time()
-    tag = run_tag(climate, subset)
+    tag = run_tag(climate, subset, design)
     out = Path(out_dir or INLA_DIR) / tag
     fdir = out / "folds"
     fdir.mkdir(parents=True, exist_ok=True)
@@ -357,8 +361,8 @@ def main(subset=60, climate="power", variants=("base", "clim20", "clim15"), n_sa
         uf_of = dict(zip(muni.geocode, muni.uf))
         sig_full = SG.build_signals(Pfull, [uf_of[int(g)] for g in Pfull.geocodes], pool_variants=("all",),
                                     excluded_state_years=SG.excluded_state_years_from(d, muni))
-    folds = design_folds("A", (), test_years)
-    info = dict(label="EXPLORATORY (not pre-registered)", design="A", climate=climate, subset=subset,
+    folds = design_folds(design, (), test_years)
+    info = dict(label="EXPLORATORY (not pre-registered)", design=design, climate=climate, subset=subset,
                 variants=list(variants), models=MODELS, n_samples=n_samples, n_threads=n_threads,
                 n_municipalities=len(Pfull.geocodes), panel_years=Pfull.years.tolist(),
                 folds=[dict(f, train_years=list(f["train_years"])) for f in folds],
