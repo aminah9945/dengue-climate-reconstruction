@@ -111,6 +111,22 @@ M2_MAX_ROUNDS = 2000
 M2_EARLY_STOP = 50
 M2_NTHREAD = 4
 
+# ---------------------------------------------------------------- country (EXPLORATORY Mexico extension)
+# ``DENGUE_COUNTRY=MX`` runs the same models on Mexican states (the "municipality"
+# axis holds the 32 states; pools are the other states of the region). Brazil
+# (default) is unchanged. Mexico has clean weekly data only for 2017-2023
+# (OpenDengue V1.3.1, filled from DGE open data; see scripts/build_mexico_data.py).
+COUNTRY = os.environ.get("DENGUE_COUNTRY", "BR").upper()
+assert COUNTRY in ("BR", "MX"), f"unknown DENGUE_COUNTRY {COUNTRY!r}"
+if COUNTRY == "MX":
+    LOYO_YEARS = list(range(2017, 2024))               # 7 leave-one-year-out folds
+    OFFICIAL_FIRST_TRAIN = 2017
+    OFFICIAL_TEST_YEARS_A = list(range(2019, 2024))
+    LC_TEST_YEARS = (2021, 2023)
+    REGIONS = ["Northwest", "Northeast", "West", "Center", "South-Southeast"]
+    REG_COL = {"Northwest": "#1b9e77", "Northeast": "#d95f02", "West": "#7570b3",
+               "Center": "#e7298a", "South-Southeast": "#66a61e"}
+
 # ---------------------------------------------------------------- climate features (Step 4)
 CLIM_VARS = ["temp_mean", "precip", "humid_mean"]
 LAG_BLOCKS = [(0, 3), (4, 7), (8, 11), (12, 15), (16, 20)]

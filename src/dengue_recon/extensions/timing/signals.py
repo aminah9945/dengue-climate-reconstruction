@@ -47,6 +47,29 @@ POOL_SEED = 20261028
 POOL_FRACTIONS = {"p25": 0.25, "p50": 0.50}
 
 
+def _mx_region_of() -> dict:
+    """Mexico: state code -> region (``municipalities.csv`` of the Mexico ``DATA_DIR``)."""
+    m = pd.read_csv(C.DATA_DIR / "municipalities.csv")
+    return dict(zip(m.geocode.astype(int), m.region))
+
+
+def pool_groups(geocodes) -> list:
+    """Pool grouping key per geocode. Brazil: the state (UF) of the municipality.
+    Mexico (``DENGUE_COUNTRY=MX``): the region of the state, so a state's pool is the
+    other states of its region."""
+    if C.COUNTRY == "MX":
+        reg = _mx_region_of()
+        return [reg[int(g)] for g in geocodes]
+    return [UF_CODE[int(g) // 100000] for g in geocodes]
+
+
+def _group_code(u) -> int:
+    """Integer code of a pool group (seed offset of the random pool fractions)."""
+    if C.COUNTRY == "MX":
+        return C.REGIONS.index(u) + 1
+    return [k for k, v in UF_CODE.items() if v == u][0]
+
+
 def infodengue_dir() -> Path:
     return Path(os.environ.get("TIMING_INFODENGUE_DIR", C.RAW_DIR / "infodengue"))
 
@@ -91,8 +114,16 @@ def load_infodengue_counts(years=None, cache: Path | None = None) -> pd.DataFram
     on first use and re-read with a year filter.
     """
     mx = C.max_loaded_year()
-    years = list(range(2010, mx + 1)) if years is None else [int(y) for y in years]
+    years = list(range(C.LOYO_YEARS[0], mx + 1)) if years is None else [int(y) for y in years]
     C.assert_year_allowed(years)
+    if C.COUNTRY == "MX":
+        # Mexico: the pool data are the study states themselves (weekly cases per state)
+        d = pd.read_parquet(C.DATA_DIR / "dengue_weekly.parquet", columns=["geocode", "epi_year", "epi_week", "cases"],
+                            filters=[("epi_year", "<=", mx)])
+        d = d[d.epi_year.isin(years)].reset_index(drop=True)
+        d["uf"] = pool_groups(d.geocode)
+        assert len(d) == 0 or d.epi_year.max() <= mx
+        return d
     cache = Path(cache) if cache else C.DATA_DIR / "extensions" / f"timing_infodengue_counts_2010_{mx}.parquet"
     if cache.exists():
         d = pd.read_parquet(cache, filters=[("epi_year", "<=", mx)])
@@ -121,7 +152,7 @@ def count_cube(d: pd.DataFrame, years) -> tuple[np.ndarray, np.ndarray, list]:
     d = d[d.epi_year.isin(list(ti))]
     A = np.zeros((len(geos), len(years), 53))
     A[d.geocode.map(gi).values, d.epi_year.map(ti).values, d.epi_week.values - 1] = d.cases.values
-    ufs = [UF_CODE[int(g) // 100000] for g in geos]
+    ufs = pool_groups(geos)
     return A, geos, ufs
 
 
@@ -165,7 +196,7 @@ def fraction_pools(study_geos, all_geos, all_ufs, p, seed=POOL_SEED):
         by_uf.setdefault(u, []).append(int(g))
     perm = {}
     for u, mem in by_uf.items():
-        code = [k for k, v in UF_CODE.items() if v == u][0]
+        code = _group_code(u)
         rng = np.random.default_rng(seed + code)
         perm[u] = [mem[i] for i in rng.permutation(len(mem))]
     out = {}
@@ -203,14 +234,14 @@ def load_trends(years=None) -> pd.DataFrame:
     shares are therefore never mixed across windows.
     """
     mx = C.max_loaded_year()
-    years = list(range(2010, mx + 1)) if years is None else [int(y) for y in years]
+    years = list(range(C.LOYO_YEARS[0], mx + 1)) if years is None else [int(y) for y in years]
     cal = calendar(2009, mx)
     last = str(cal.week_start.max())[:10]
     cal = cal[cal.epi_year.isin(years)]
     cal = cal.assign(week_start=pd.to_datetime(cal.week_start).dt.strftime("%Y-%m-%d"))
     rows = []
     for f in sorted(glob.glob(str(trends_dir() / "dengue_*.csv"))):
-        mt = re.search(r"dengue_(BR(?:-[A-Z]{2})?)_(\d{4})_(\d{4})\.csv$", f)
+        mt = re.search(rf"dengue_({C.COUNTRY}(?:-[A-Z]{{2,3}})?)_(\d{{4}})_(\d{{4}})\.csv$", f)
         if not mt:
             continue
         txt = _filtered_lines(Path(f), lambda ln: ln[:10] <= last)
@@ -241,9 +272,9 @@ def trends_cube(tr: pd.DataFrame, study_ufs, years):
     out = np.zeros((len(study_ufs), len(years), 53))
     fb = np.zeros(len(study_ufs), bool)
     for m, u in enumerate(study_ufs):
-        g = f"BR-{u}"
+        g = f"{C.COUNTRY}-{u}"
         if g not in cube:
-            g, fb[m] = "BR", True
+            g, fb[m] = C.COUNTRY, True
         out[m] = cube[g]
     return out, fb
 
