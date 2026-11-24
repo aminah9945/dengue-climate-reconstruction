@@ -1,0 +1,28 @@
+{
+ "label": "EXPLORATORY (not pre-registered)",
+ "n_folds": 7,
+ "leakage_audit_all_pass": true,
+ "test_y_all_na": true,
+ "all_fits_ok": true,
+ "years_scored": [
+  2017,
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2023
+ ],
+ "no_2024": true,
+ "fold_wall_s": {
+  "C_T2017_k6": 211.5,
+  "C_T2018_k6": 200.3,
+  "C_T2019_k6": 179.0,
+  "C_T2020_k6": 220.7,
+  "C_T2021_k6": 371.7,
+  "C_T2022_k6": 267.7,
+  "C_T2023_k6": 211.8
+ },
+ "total_fold_wall_s": 1662.7,
+ "run_wall_s": 1665.4
+}

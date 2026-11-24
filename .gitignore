@@ -47,3 +47,11 @@ results/extensions/inla/**/shape_diag_*_300*.csv
 results/extensions/inla/**/R_fits.log
 results/extensions/timing/runs_lc/**/*.npz
 results/extensions/inla_trends/**/*.npz
+results/extensions/inla_trends/**/folds/
+results/extensions/inla_trends/**/work/
+results/extensions/inla_trends/**/R_fits.log
+# Mexico extension: INLA checkpoints and work files, smoke tests
+results/extensions/mexico/**/work/
+results/extensions/mexico/designC_power_300/folds/
+results/extensions/mexico/**/R_fits.log
+results/extensions/mexico/smoke/

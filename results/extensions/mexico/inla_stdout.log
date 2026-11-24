@@ -1,0 +1,15 @@
+[inla designC_power_300] M=32 folds=7 variants=['base', 'trends', 'clim15trends']
+[inla designC_power_300] C_T2017_k6: 28 eval rows, 8763 obs weeks; base 66s, trends 41s, clim15trends 80s; total 211.5s; leakage pass; JSD INLA-scaled=0.0744 INLA-scaled-clim15trends=0.0711 INLA-scaled-trends=0.0727 INLA-seasonal-only=0.0821 INLA-unscaled=0.0744
+[inla designC_power_300] C_T2018_k6: 24 eval rows, 8919 obs weeks; base 61s, trends 44s, clim15trends 71s; total 200.3s; leakage pass; JSD INLA-scaled=0.0534 INLA-scaled-clim15trends=0.0536 INLA-scaled-trends=0.0505 INLA-seasonal-only=0.0526 INLA-unscaled=0.0534
+[inla designC_power_300] C_T2019_k6: 28 eval rows, 8711 obs weeks; base 46s, trends 47s, clim15trends 61s; total 179.0s; leakage pass; JSD INLA-scaled=0.1165 INLA-scaled-clim15trends=0.0972 INLA-scaled-trends=0.1057 INLA-seasonal-only=0.1199 INLA-unscaled=0.1165
+[inla designC_power_300] C_T2020_k6: 26 eval rows, 8892 obs weeks; base 52s, trends 59s, clim15trends 85s; total 220.7s; leakage pass; JSD INLA-scaled=0.1025 INLA-scaled-clim15trends=0.0980 INLA-scaled-trends=0.0956 INLA-seasonal-only=0.1332 INLA-unscaled=0.1025
+[inla designC_power_300] C_T2021_k6: 24 eval rows, 8971 obs weeks; base 159s, trends 85s, clim15trends 103s; total 371.7s; leakage pass; JSD INLA-scaled=0.0920 INLA-scaled-clim15trends=0.0810 INLA-scaled-trends=0.0852 INLA-seasonal-only=0.0987 INLA-unscaled=0.0920
+[inla designC_power_300] C_T2022_k6: 26 eval rows, 8867 obs weeks; base 86s, trends 73s, clim15trends 82s; total 267.7s; leakage pass; JSD INLA-scaled=0.0990 INLA-scaled-clim15trends=0.0929 INLA-scaled-trends=0.0925 INLA-seasonal-only=0.0945 INLA-unscaled=0.0990
+[inla designC_power_300] C_T2023_k6: 28 eval rows, 8815 obs weeks; base 39s, trends 87s, clim15trends 61s; total 211.8s; leakage pass; JSD INLA-scaled=0.0862 INLA-scaled-clim15trends=0.0743 INLA-scaled-trends=0.0788 INLA-seasonal-only=0.0938 INLA-unscaled=0.0862
+                             jsd  peak_err     emd  mae_counts   cov80     crps
+model                                                                          
+INLA-scaled               0.0896    5.3370  4.3243     39.3994  0.8504  28.8126
+INLA-scaled-clim15trends  0.0815    5.3424  3.7758     35.8053  0.8635  26.6710
+INLA-scaled-trends        0.0834    5.3261  3.9771     37.3371  0.8618  27.4010
+INLA-seasonal-only        0.0969    5.7120  4.7120     41.5373     NaN      NaN
+INLA-unscaled             0.0896    5.3370  4.3243     89.4355  0.7987  55.1219

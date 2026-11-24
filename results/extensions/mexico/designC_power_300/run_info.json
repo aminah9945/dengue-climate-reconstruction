@@ -1,0 +1,135 @@
+{
+ "label": "EXPLORATORY (not pre-registered)",
+ "design": "C",
+ "climate": "power",
+ "subset": 300,
+ "variants": [
+  "base",
+  "trends",
+  "clim15trends"
+ ],
+ "models": [
+  "INLA-unscaled",
+  "INLA-scaled",
+  "INLA-scaled-clim20",
+  "INLA-scaled-clim15",
+  "INLA-scaled-trends",
+  "INLA-scaled-clim15trends",
+  "INLA-seasonal-only"
+ ],
+ "n_samples": 500,
+ "n_threads": 4,
+ "n_municipalities": 32,
+ "panel_years": [
+  2017,
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2023
+ ],
+ "folds": [
+  {
+   "design": "C",
+   "test_year": 2017,
+   "train_years": [
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023
+   ],
+   "k": 6,
+   "fold_id": "C_T2017_k6"
+  },
+  {
+   "design": "C",
+   "test_year": 2018,
+   "train_years": [
+    2017,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023
+   ],
+   "k": 6,
+   "fold_id": "C_T2018_k6"
+  },
+  {
+   "design": "C",
+   "test_year": 2019,
+   "train_years": [
+    2017,
+    2018,
+    2020,
+    2021,
+    2022,
+    2023
+   ],
+   "k": 6,
+   "fold_id": "C_T2019_k6"
+  },
+  {
+   "design": "C",
+   "test_year": 2020,
+   "train_years": [
+    2017,
+    2018,
+    2019,
+    2021,
+    2022,
+    2023
+   ],
+   "k": 6,
+   "fold_id": "C_T2020_k6"
+  },
+  {
+   "design": "C",
+   "test_year": 2021,
+   "train_years": [
+    2017,
+    2018,
+    2019,
+    2020,
+    2022,
+    2023
+   ],
+   "k": 6,
+   "fold_id": "C_T2021_k6"
+  },
+  {
+   "design": "C",
+   "test_year": 2022,
+   "train_years": [
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2023
+   ],
+   "k": 6,
+   "fold_id": "C_T2022_k6"
+  },
+  {
+   "design": "C",
+   "test_year": 2023,
+   "train_years": [
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022
+   ],
+   "k": 6,
+   "fold_id": "C_T2023_k6"
+  }
+ ],
+ "run_final_2024": false,
+ "seed": 20250811,
+ "r_script": "fit_inla.R"
+}

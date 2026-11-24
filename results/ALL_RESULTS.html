@@ -1,0 +1,541 @@
+<title>Dengue Week-Splitting Results</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column (~760px) with wide tables allowed to scroll; a sticky contents rail on wide screens. */
+:root {
+  --bg: #f6f8f8;
+  --panel: #ffffff;
+  --fg: #17201f;
+  --muted: #56625f;
+  --line: #d9e1df;
+  --accent: #0f766e;
+  --accent-soft: #dff1ee;
+  --br: #2f8f4e;
+  --mx: #b4462f;
+  --good: #1f7a3f;
+  --good-bg: #e3f3e8;
+  --bad: #a83a2a;
+  --bad-bg: #f8e4df;
+  --neutral-bg: #eceff0;
+  --bar: #9fb7b2;
+  --f-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111716; --panel: #18201f; --fg: #e4ebe9; --muted: #9aa8a4; --line: #2c3836;
+    --accent: #4fc2b4; --accent-soft: #1c3532; --br: #5fbf7d; --mx: #e7836b;
+    --good: #7fd69a; --good-bg: #1b3324; --bad: #f09a86; --bad-bg: #3a221d; --neutral-bg: #222b2a; --bar: #4d6661;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111716; --panel: #18201f; --fg: #e4ebe9; --muted: #9aa8a4; --line: #2c3836;
+  --accent: #4fc2b4; --accent-soft: #1c3532; --br: #5fbf7d; --mx: #e7836b;
+  --good: #7fd69a; --good-bg: #1b3324; --bad: #f09a86; --bad-bg: #3a221d; --neutral-bg: #222b2a; --bar: #4d6661;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 17px; line-height: 1.55; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 40px 80px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 48px; }
+@media (max-width: 900px) { .wrap { grid-template-columns: minmax(0, 1fr); gap: 0; } nav.toc { display: none; } }
+nav.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); align-self: start; font-size: 14px; }
+nav.toc ol { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; }
+nav.toc a { color: var(--muted); text-decoration: none; display: block; padding: 3px 8px; border-radius: 4px; }
+nav.toc a:hover, nav.toc a:focus-visible { color: var(--accent); background: var(--accent-soft); outline: none; }
+nav.toc .grp { font-family: var(--f-display); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 14px 8px 4px; }
+main { min-width: 0; max-width: 820px; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; line-height: 1.2; }
+h1 { font-size: clamp(30px, 5vw, 42px); margin: 0 0 12px; letter-spacing: -.01em; }
+h2 { font-size: 26px; margin: 64px 0 12px; padding-top: 8px; border-top: 1px solid var(--line); }
+h3 { font-size: 19px; margin: 32px 0 8px; }
+p, li { max-width: 68ch; }
+.lede { font-size: 19px; color: var(--muted); margin: 0 0 24px; }
+.eyebrow { font-family: var(--f-display); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin: 0 0 8px; }
+.meta { font-size: 14px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 18px; margin-bottom: 28px; }
+code, .mono { font-family: var(--f-mono); font-size: .86em; }
+a { color: var(--accent); }
+.flag { display: inline-block; font-family: var(--f-display); font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 1px 7px; border-radius: 3px; vertical-align: 2px; }
+.flag.br { background: color-mix(in srgb, var(--br) 18%, transparent); color: var(--br); }
+.flag.mx { background: color-mix(in srgb, var(--mx) 18%, transparent); color: var(--mx); }
+.flag.pre { background: var(--neutral-bg); color: var(--muted); }
+
+.findings { display: grid; gap: 12px; padding: 0; margin: 20px 0; list-style: none; }
+.findings li { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 14px 18px; max-width: none; }
+.findings b { font-family: var(--f-display); font-weight: 600; }
+
+.tbl { overflow-x: auto; margin: 16px 0 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th, td { padding: 7px 12px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--f-display); font-weight: 600; font-size: 13px; color: var(--muted); background: var(--neutral-bg); white-space: nowrap; }
+td.n, th.n { text-align: right; font-family: var(--f-mono); font-size: 13.5px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+tr.sep td { background: var(--neutral-bg); font-family: var(--f-display); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: 5px 12px; }
+tr.best td { font-weight: 700; }
+.note { font-size: 14px; color: var(--muted); margin: 6px 0 0; }
+.v { display: inline-block; font-size: 12.5px; font-weight: 600; padding: 1px 8px; border-radius: 10px; white-space: nowrap; }
+.v.good { background: var(--good-bg); color: var(--good); }
+.v.bad { background: var(--bad-bg); color: var(--bad); }
+.v.nc { background: var(--neutral-bg); color: var(--muted); }
+
+.models { display: grid; gap: 10px; margin: 12px 0; }
+.model { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 4px 16px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.model:last-child { border-bottom: 0; }
+.model .name { font-family: var(--f-mono); font-weight: 600; font-size: 14px; color: var(--accent); }
+.model .what { margin: 0; }
+.model .why { margin: 4px 0 0; color: var(--muted); font-size: 15.5px; }
+.model .why::before { content: "Why: "; font-weight: 600; color: var(--fg); }
+@media (max-width: 560px) { .model { grid-template-columns: minmax(0, 1fr); } }
+
+.chart { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 16px 18px 12px; margin: 16px 0; }
+.chart h4 { font-family: var(--f-display); font-size: 14px; margin: 0 0 10px; }
+.bars { display: grid; grid-template-columns: minmax(120px, 210px) minmax(0, 1fr) 56px; gap: 5px 10px; align-items: center; font-size: 14px; }
+.bars .lab { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bars .track { height: 14px; background: var(--neutral-bg); border-radius: 2px; position: relative; }
+.bars .fill { height: 100%; background: var(--bar); border-radius: 2px; }
+.bars .fill.br { background: var(--br); } .bars .fill.mx { background: var(--mx); } .bars .fill.k { background: var(--accent); }
+.bars .val { font-family: var(--f-mono); font-size: 13px; text-align: right; font-variant-numeric: tabular-nums; }
+.axis { display: grid; grid-template-columns: minmax(120px, 210px) minmax(0, 1fr) 56px; gap: 10px; font-size: 12px; color: var(--muted); margin-top: 6px; }
+.axis .ticks { display: flex; justify-content: space-between; font-family: var(--f-mono); }
+@media (max-width: 560px) { .bars, .axis { grid-template-columns: 110px minmax(0, 1fr) 50px; } }
+
+.callout { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 16px 0; }
+.callout p { margin: 0; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.two > div { min-width: 0; }
+</style>
+
+<div class="wrap">
+<nav class="toc" aria-label="Contents">
+  <ol>
+    <li class="grp">Start here</li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#task">The task and the scores</a></li>
+    <li><a href="#designs">How models are tested</a></li>
+    <li><a href="#models">Every model, explained</a></li>
+    <li class="grp">Brazil</li>
+    <li><a href="#e1">1. Reproducing the base paper</a></li>
+    <li><a href="#e2">2. Pilot climate study</a></li>
+    <li><a href="#e3">3. Official climate study</a></li>
+    <li><a href="#e4">4. Rain-lag follow-up</a></li>
+    <li><a href="#e5">5. Learning curve (climate)</a></li>
+    <li><a href="#e6">6. Same-year timing signals</a></li>
+    <li><a href="#e7">7. Ablation</a></li>
+    <li><a href="#e8">8. Learning curve (Trends)</a></li>
+    <li><a href="#e9">9. INLA with Trends</a></li>
+    <li class="grp">Mexico</li>
+    <li><a href="#e10">10. Mexico data</a></li>
+    <li><a href="#e11">11. Mexico timing models</a></li>
+    <li><a href="#e12">12. Mexico INLA</a></li>
+    <li class="grp">Wrap-up</li>
+    <li><a href="#compare">Brazil vs Mexico</a></li>
+    <li><a href="#limits">Limitations</a></li>
+    <li><a href="#files">Where the files are</a></li>
+  </ol>
+</nav>
+
+<main>
+<p class="eyebrow">All experiments · Brazil and Mexico · status 24 Nov 2026</p>
+<h1>Rebuilding weekly dengue curves from annual totals</h1>
+<p class="lede">Every model and experiment run so far, with plain explanations of what each model does and why it was included. 2024 has never been loaded; it stays locked as the final test.</p>
+<div class="meta">
+  <span><span class="flag br">BR</span> 300 municipalities, 27 states, 2010–2023</span>
+  <span><span class="flag mx">MX</span> 32 states, 2017–2023</span>
+  <span>Primary score: JSD (lower is better)</span>
+</div>
+
+<!-- ============================================================ SUMMARY -->
+<h2 id="summary">Summary</h2>
+<ul class="findings">
+  <li><b>Climate barely helps.</b> Local weather lowers the error by about 1–3 %, and the El Niño index (ONI) makes it worse. The pre-registered climate hypotheses H1, H2 and H3 are <em>not supported</em> (Section 3).</li>
+  <li><b>Knowing the size of the year matters.</b> Letting the shape depend on how big the year is (B4s vs B4) lowers the error by about 5–7 %, more in epidemic years.</li>
+  <li><b>Same-year Google Trends is the strongest usable signal.</b> Adding state-level searches for “dengue” lowers the error by 12.7 % in Brazil, and it is better in every one of the 12 test years (Section 6). It also helps from only two years of training data (Section 8).</li>
+  <li><b>Trends also improves the base paper's final model.</b> Scaled INLA + Trends is about 7 % better than scaled INLA in both countries, in every test year (Sections 9 and 12). Weather on top adds almost nothing.</li>
+  <li><b>Mexico gives the same ranking</b> on far less data (7 years, 32 states): Trends and the regional curve help, climate does not. The gains are smaller (3–8 %) and less certain.</li>
+  <li><b>Best usable models:</b> in Brazil, B4s + Trends (S2) has the lowest error. In Mexico, INLA + Trends + weather and S2 tie (both 0.0815 JSD).</li>
+</ul>
+
+<!-- ============================================================ TASK -->
+<h2 id="task">The task and the scores</h2>
+<p>Many places only report dengue as yearly totals. The task is to split a known yearly total <em>N</em> into weekly counts. Each model predicts what share of <em>N</em> falls in each epidemiological week. The counts are then rounded so they add up exactly to <em>N</em>. We test this on places and years where the true weekly counts are known, hiding them from the model.</p>
+<div class="tbl"><table>
+<thead><tr><th>Score</th><th>What it measures</th><th>Good value</th></tr></thead>
+<tbody>
+<tr><td><b>JSD</b> (Jensen–Shannon divergence)</td><td>How different the rebuilt weekly shape is from the true one. The main score.</td><td>0 = identical. Pure random noise alone gives about 0.015 (Brazil) or 0.010 (Mexico), so that is the best reachable.</td></tr>
+<tr><td>Peak-week error</td><td>Weeks between the true and the rebuilt peak week.</td><td>Lower is better</td></tr>
+<tr><td>Onset error</td><td>Weeks between the true and rebuilt week in which 10 % of the year's cases are reached.</td><td>Lower is better</td></tr>
+<tr><td>EMD</td><td>On average, how many weeks the cases have to be moved to turn the rebuilt curve into the true one.</td><td>Lower is better</td></tr>
+<tr><td>MAE counts, 80 % coverage, CRPS</td><td>Error in weekly case counts, and how honest the uncertainty bands are (80 % of true weeks should fall in the 80 % band).</td><td>Coverage near 0.80</td></tr>
+</tbody></table></div>
+<p>“Change %” in the tables means the relative change in mean JSD against the stated comparator; negative means less error. A difference is called <span class="v good">clearly better</span> or <span class="v bad">clearly worse</span> only if two bootstrap checks both agree: one resamples places, the other resamples test years. Otherwise it is <span class="v nc">not clear</span>.</p>
+
+<!-- ============================================================ DESIGNS -->
+<h2 id="designs">How models are tested</h2>
+<div class="tbl"><table>
+<thead><tr><th>Design</th><th>How it works</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td><b>A</b> Expanding window</td><td>Train on 2010 up to the year before, test the next year. 12 test years (2012–2023).</td><td>The pre-registered primary design. Like real use: only the past is known.</td></tr>
+<tr><td><b>B</b> Learning curve</td><td>Fixed test years (2019, 2021, 2023), trained on the <em>k</em> years just before them.</td><td>Shows how many years of history each model needs. Important for countries with short records.</td></tr>
+<tr><td><b>C</b> Leave one year out</td><td>Hide one year, train on all others (including later years). 14 folds in Brazil, 7 in Mexico.</td><td>Uses the most data. Checks that design-A findings hold. The only design possible for Mexico's 7 years.</td></tr>
+</tbody></table></div>
+<p>In every design the hidden year's weekly data are removed before any feature is computed. An automatic leakage audit re-runs the feature code with the hidden year replaced by random numbers and checks nothing changes. Every fold of every run passed it.</p>
+
+<!-- ============================================================ MODELS -->
+<h2 id="models">Every model, explained</h2>
+<p>All models answer the same question: what share of this year's cases falls in each week? They differ in what information they use.</p>
+
+<h3>Baselines</h3>
+<div class="models">
+  <div class="model"><div class="name">B0</div><div><p class="what">Uniform: every week gets the same share.</p><p class="why">The worst sensible answer. Any useful model must beat it by far.</p></div></div>
+  <div class="model"><div class="name">B1</div><div><p class="what">Seasonal profile: the average share of each week over the training years of that place.</p><p class="why">The obvious simple method. Shows how much a fitted model adds over plain averaging.</p></div></div>
+  <div class="model"><div class="name">B1p</div><div><p class="what">B1 using past years only (pilot).</p><p class="why">Measures how much “future” training years in leave-one-year-out make results look better.</p></div></div>
+  <div class="model"><div class="name">B4</div><div><p class="what">The base paper's Dirichlet-multinomial (DM) model (Lim et al., 2026): national, regional and local seasonal terms.</p><p class="why">The published method we start from. Its weak point: every year of a place gets the same shape, so early or late epidemics are missed.</p></div></div>
+  <div class="model"><div class="name">B4s</div><div><p class="what">B4 plus terms that let the shape depend on how big the year is (log of the annual total).</p><p class="why">Big epidemics tend to peak more sharply. The annual total is known in this task, so using it is fair. B4s is the <b>main comparator</b> for every new model.</p></div></div>
+</div>
+
+<h3>Climate models</h3>
+<div class="models">
+  <div class="model"><div class="name">M1</div><div><p class="what">B4s + this year's weather anomalies (temperature, rainfall, humidity; lags of 0–20 weeks in 5 blocks) + the El Niño index (ONI).</p><p class="why">The main hypothesis (H1): weather tells when this year's epidemic happens.</p></div></div>
+  <div class="model"><div class="name">M1-noONI</div><div><p class="what">M1 without ONI: local weather only.</p><p class="why">Separates local weather from the global El Niño signal.</p></div></div>
+  <div class="model"><div class="name">M1-short</div><div><p class="what">M1 with only lags of 0–3 weeks.</p><p class="why">Tests H2: do long lags (mosquito breeding time) matter?</p></div></div>
+  <div class="model"><div class="name">M1-mult</div><div><p class="what">M1 with a multinomial instead of a DM likelihood (pilot).</p><p class="why">Checks that the DM's extra spread is needed.</p></div></div>
+  <div class="model"><div class="name">M2</div><div><p class="what">Boosted trees (XGBoost) with a softmax, using the same weather features.</p><p class="why">Checks whether a flexible machine-learning model finds more in the weather than the DM.</p></div></div>
+  <div class="model"><div class="name">M1-shufTT<br>M1-shufTest</div><div><p class="what">M1 refitted with weather shuffled between years / M1 given the wrong year's weather at test time.</p><p class="why">Controls. If climate gains were real, shuffled weather should lose them.</p></div></div>
+  <div class="model"><div class="name">M1-R<br>M1-RTH</div><div><p class="what">Rain-lag follow-up: lags to 26 weeks; rain (or all three variables) split into wet and dry anomalies.</p><p class="why">Tests whether a richer rain description rescues climate.</p></div></div>
+</div>
+
+<h3>INLA models (the base paper's final method)</h3>
+<div class="models">
+  <div class="model"><div class="name">INLA-scaled</div><div><p class="what">The Bayesian model the base paper chose: a smooth seasonal curve shared across places, regional and local deviations, and week-to-week carry-over. Its predicted counts are rescaled to the known annual total.</p><p class="why">The strongest published competitor. Any new method should be compared to it.</p></div></div>
+  <div class="model"><div class="name">INLA-unscaled</div><div><p class="what">The same fit without rescaling.</p><p class="why">Same shape as scaled (identical JSD), but counts that do not add up; shows why scaling matters for count errors.</p></div></div>
+  <div class="model"><div class="name">INLA-seasonal-only</div><div><p class="what">Only the seasonal part of the same fit.</p><p class="why">Diagnostic: how much the rest of the model adds.</p></div></div>
+  <div class="model"><div class="name">+clim15 / +clim20</div><div><p class="what">INLA-scaled plus 15 local weather features, or 20 with ONI (Brazil, design A).</p><p class="why">Same climate question, asked of the base paper's model.</p></div></div>
+  <div class="model"><div class="name">INLA-scaled-trends</div><div><p class="what">INLA-scaled plus the same Google Trends features as S2.</p><p class="why">Tests whether the Trends gain is specific to the DM or works in any model.</p></div></div>
+  <div class="model"><div class="name">…-clim15trends</div><div><p class="what">INLA-scaled plus Trends plus 15 weather features.</p><p class="why">Does weather add anything once Trends is in?</p></div></div>
+</div>
+
+<h3>Same-year timing models (extension)</h3>
+<div class="models">
+  <div class="model"><div class="name">S2</div><div><p class="what">B4s + Google Trends: weekly search interest for “dengue” in the state that year, as anomalies against training years (lags 0–3 weeks).</p><p class="why">Searches rise and fall with the actual epidemic of that year, and they exist even where case data are missing. This is the <b>main usable timing model</b>.</p></div></div>
+  <div class="model"><div class="name">S2C / S2C-noONI</div><div><p class="what">S2 + weather, with or without ONI.</p><p class="why">Checks whether climate adds anything on top of Trends.</p></div></div>
+  <div class="model"><div class="name">T1</div><div><p class="what">The seasonal shape of B4s, shifted earlier or later by the timing shift of the state curve that year.</p><p class="why">The simplest possible use of timing: only a shift, no shape change.</p></div></div>
+  <div class="model"><div class="name">S1</div><div><p class="what">B4s + the weekly curve of the other places in the same state (Brazil) or region (Mexico) that year, with the target left out.</p><p class="why">An <b>upper bound</b>: it needs the neighbours' weekly counts for the same year, which a truly missing year usually does not have.</p></div></div>
+  <div class="model"><div class="name">S3 / S3C</div><div><p class="what">S1 + Trends; S3C adds weather and ONI.</p><p class="why">Upper bounds: how far all signals together can go.</p></div></div>
+  <div class="model"><div class="name">S1-p50 / p25 / ns</div><div><p class="what">S1 built from a random 50 % or 25 % of the state's towns, or only from towns outside the study.</p><p class="why">How well the state curve works when fewer towns report.</p></div></div>
+  <div class="model"><div class="name">S2-wy, S1-wy, S3-wyTest</div><div><p class="what">Fitted with another year's searches or state curve, or given the wrong year only at test time.</p><p class="why">Controls: if the gain disappears with the wrong year, it comes from real timing, not from extra model flexibility.</p></div></div>
+</div>
+
+<!-- ============================================================ E1 -->
+<h2 id="e1">1. Reproducing the base paper <span class="flag pre">done</span></h2>
+<p>We re-implemented the base paper's DM model and ran it on their own cross-validation data (3,648 country-months).</p>
+<div class="tbl"><table>
+<thead><tr><th></th><th class="n">MAE</th><th class="n">RMSE</th><th class="n">80 % cov.</th><th class="n">CRPS</th></tr></thead>
+<tbody>
+<tr><td>Published DM</td><td class="n">13.4</td><td class="n">78.5</td><td class="n">0.95</td><td class="n">9.6</td></tr>
+<tr class="best"><td>Our reproduction (NUTS)</td><td class="n">13.34</td><td class="n">78.1</td><td class="n">0.948</td><td class="n">9.53</td></tr>
+</tbody></table></div>
+<p><b>Result: reproduced</b> (MAE within 0.5 %). Two facts motivated everything after: the DM's point error is no better than simple historical shares, and every held-out year of a country gets an <em>identical</em> shape (differences below 1e-16). The model cannot tell an early year from a late one.</p>
+
+<!-- ============================================================ E2 -->
+<h2 id="e2">2. Pilot climate study <span class="flag br">BR</span></h2>
+<p>60 municipalities, leave one year out, settings fixed in advance. Then confirmed on 300 municipalities with the same settings.</p>
+<div class="tbl"><table>
+<thead><tr><th>Model</th><th class="n">JSD, 60</th><th class="n">JSD, 300</th><th class="n">Peak err, 300</th></tr></thead>
+<tbody>
+<tr><td>B0 uniform</td><td class="n">0.137</td><td class="n">0.189</td><td class="n">11.7</td></tr>
+<tr><td>B1p past-only profile</td><td class="n">0.094</td><td class="n">0.136</td><td class="n">6.33</td></tr>
+<tr><td>B1 seasonal profile</td><td class="n">0.082</td><td class="n">0.120</td><td class="n">6.04</td></tr>
+<tr><td>B4 base-paper DM</td><td class="n">0.082</td><td class="n">0.119</td><td class="n">5.94</td></tr>
+<tr><td>B4s + annual size</td><td class="n">0.0735</td><td class="n">0.111</td><td class="n">5.99</td></tr>
+<tr class="best"><td>M1 + climate</td><td class="n">0.0727</td><td class="n">0.108</td><td class="n">5.91</td></tr>
+<tr><td>M2 boosted trees</td><td class="n">0.0769</td><td class="n">–</td><td class="n">–</td></tr>
+<tr><td>M1-mult</td><td class="n">0.0819</td><td class="n">–</td><td class="n">–</td></tr>
+</tbody></table></div>
+<p>Climate gave −1.1 % (60) and −3.0 % (300) against B4s: a small gain. Annual size gave −7 to −10 %. The shuffled-climate controls lost the gain, so the small climate effect is real, just small. This justified the full pre-registered study.</p>
+
+<!-- ============================================================ E3 -->
+<h2 id="e3">3. Official climate study <span class="flag br">BR</span> <span class="flag pre">pre-registered</span></h2>
+<p>300 municipalities, design A (primary), NASA POWER weather. Every number is from <code>results/official/OFFICIAL_RESULTS.md</code>.</p>
+<div class="tbl"><table>
+<thead><tr><th>Hypothesis</th><th>Contrast</th><th class="n">Change</th><th>Decision</th></tr></thead>
+<tbody>
+<tr><td><b>H1</b> climate beats the baseline by ≥ 5 %</td><td>M1 vs B4s</td><td class="n">+0.1 %</td><td><span class="v bad">not supported</span></td></tr>
+<tr><td><b>H2</b> long lags beat short lags</td><td>M1 vs M1-short</td><td class="n">+2.1 %</td><td><span class="v bad">not supported</span> (wrong direction)</td></tr>
+<tr><td><b>H3</b> climate helps more in South/Southeast than North</td><td>gain difference</td><td class="n">+0.0047</td><td><span class="v nc">not supported</span> (right direction, years interval includes 0)</td></tr>
+<tr><td><b>H4</b> more training years help</td><td>learning curve</td><td class="n">–</td><td>yes, see Section 5</td></tr>
+</tbody></table></div>
+<p>Other findings: local weather alone (M1-noONI) is 1.3 % better than B4s; adding ONI makes it 1.4 % worse. Giving M1 the wrong year's weather costs 3.8 %, so the model does use the weather, but the gain is small and changes sign from year to year. Results hold with CHIRPS rainfall instead of NASA POWER (+0.1 %) and without 2020 (+0.6 %). Climate helps most in epidemic years (M1-noONI −4.3 %) and hurts in the North and Northeast, where satellite rainfall is least reliable.</p>
+
+<!-- ============================================================ E4 -->
+<h2 id="e4">4. Rain-lag follow-up <span class="flag br">BR</span></h2>
+<p>Pre-registered before fitting. Longer lags (to 26 weeks) and separate wet/dry anomalies.</p>
+<div class="tbl"><table>
+<thead><tr><th>Model</th><th class="n">JSD, 60</th><th class="n">JSD, 300</th><th class="n">vs M1, 300</th></tr></thead>
+<tbody>
+<tr><td>B4s</td><td class="n">0.0735</td><td class="n">0.1110</td><td class="n">–</td></tr>
+<tr class="best"><td>M1</td><td class="n">0.0727</td><td class="n">0.1077</td><td class="n">–</td></tr>
+<tr><td>M1-R (wet/dry rain)</td><td class="n">0.0739</td><td class="n">0.1083</td><td class="n">+0.6 %</td></tr>
+<tr><td>M1-RTH (wet/dry everything)</td><td class="n">0.0759</td><td class="n">0.1097</td><td class="n">+1.9 %</td></tr>
+</tbody></table></div>
+<p><b>No improvement.</b> The richer rain features fit consistently but do not rebuild held-out years better.</p>
+
+<!-- ============================================================ E5 -->
+<h2 id="e5">5. Learning curve, climate models <span class="flag br">BR</span> design B</h2>
+<div class="tbl"><table>
+<thead><tr><th class="n">Training years k</th><th class="n">B1</th><th class="n">B4s</th><th class="n">M1</th><th class="n">M2</th><th class="n">M1 vs B4s</th></tr></thead>
+<tbody>
+<tr><td class="n">2</td><td class="n">0.1258</td><td class="n">0.1070</td><td class="n">0.1445</td><td class="n">0.1258</td><td class="n">+37.5 %</td></tr>
+<tr><td class="n">3</td><td class="n">0.1497</td><td class="n">0.1440</td><td class="n">0.1494</td><td class="n">0.1520</td><td class="n">+3.6 %</td></tr>
+<tr><td class="n">4</td><td class="n">0.1359</td><td class="n">0.1199</td><td class="n">0.1270</td><td class="n">0.1422</td><td class="n">+5.9 %</td></tr>
+<tr><td class="n">5</td><td class="n">0.1285</td><td class="n">0.1128</td><td class="n">0.1097</td><td class="n">0.1410</td><td class="n">−2.9 %</td></tr>
+<tr><td class="n">7</td><td class="n">0.1234</td><td class="n">0.1084</td><td class="n">0.1073</td><td class="n">0.1319</td><td class="n">−1.1 %</td></tr>
+<tr><td class="n">9</td><td class="n">0.1183</td><td class="n">0.1040</td><td class="n">0.1023</td><td class="n">0.1103</td><td class="n">−1.8 %</td></tr>
+</tbody></table></div>
+<p class="note">Average of test years 2019, 2021, 2023. At k = 2 every model falls back on regional profiles, so that row is out of line.</p>
+<p>All models improve with more years. The climate model needs about 5 years before it stops hurting, and even then it gains only 1–3 %.</p>
+
+<!-- ============================================================ E6 -->
+<h2 id="e6">6. Same-year timing signals <span class="flag br">BR</span> <span class="flag pre">exploratory</span></h2>
+<p>All models on the same folds and the same 3,194 (design A) or 3,723 (design C) municipality-years.</p>
+<div class="tbl"><table>
+<thead><tr><th>Model</th><th class="n">JSD A</th><th class="n">vs B4s</th><th class="n">Peak err</th><th class="n">Onset err</th><th class="n">JSD C</th><th class="n">vs B4s (C)</th></tr></thead>
+<tbody>
+<tr class="sep"><td colspan="7">Baselines</td></tr>
+<tr><td>B0 uniform</td><td class="n">0.1861</td><td class="n">+56.4 %</td><td class="n">11.74</td><td class="n">–</td><td class="n">0.1888</td><td class="n">+70.0 %</td></tr>
+<tr><td>B1 seasonal profile</td><td class="n">0.1282</td><td class="n">+7.7 %</td><td class="n">6.27</td><td class="n">3.22</td><td class="n">0.1197</td><td class="n">+7.8 %</td></tr>
+<tr><td>B4 base-paper DM</td><td class="n">0.1256</td><td class="n">+5.6 %</td><td class="n">6.22</td><td class="n">–</td><td class="n">0.1191</td><td class="n">+7.2 %</td></tr>
+<tr><td><b>B4s</b> comparator</td><td class="n">0.1190</td><td class="n">–</td><td class="n">6.41</td><td class="n">2.99</td><td class="n">0.1110</td><td class="n">–</td></tr>
+<tr class="sep"><td colspan="7">Climate</td></tr>
+<tr><td>M1-noONI local weather</td><td class="n">0.1175</td><td class="n">−1.3 %</td><td class="n">6.25</td><td class="n">2.91</td><td class="n">0.1077</td><td class="n">−3.0 %</td></tr>
+<tr><td>M1 weather + ONI</td><td class="n">0.1191</td><td class="n">+0.1 %</td><td class="n">6.26</td><td class="n">2.90</td><td class="n">0.1090</td><td class="n">−1.8 %</td></tr>
+<tr><td>M1-short lags 0–3</td><td class="n">0.1166</td><td class="n">−2.0 %</td><td class="n">6.30</td><td class="n">–</td><td class="n">0.1089</td><td class="n">−1.9 %</td></tr>
+<tr><td>M2 boosted trees</td><td class="n">0.1267</td><td class="n">+6.5 %</td><td class="n">6.21</td><td class="n">–</td><td class="n">0.1182</td><td class="n">+6.4 %</td></tr>
+<tr class="sep"><td colspan="7">Scaled INLA (Section 9)</td></tr>
+<tr><td>INLA-scaled</td><td class="n">0.1126</td><td class="n">−5.3 %</td><td class="n">5.74</td><td class="n">–</td><td class="n">0.1074</td><td class="n">−3.2 %</td></tr>
+<tr><td>INLA + weather</td><td class="n">0.1110</td><td class="n">−6.7 %</td><td class="n">5.68</td><td class="n">–</td><td class="n">–</td><td class="n">–</td></tr>
+<tr><td>INLA + weather + ONI</td><td class="n">0.1131</td><td class="n">−4.9 %</td><td class="n">5.70</td><td class="n">–</td><td class="n">–</td><td class="n">–</td></tr>
+<tr><td>INLA + Trends</td><td class="n">0.1062</td><td class="n">−10.8 %</td><td class="n">5.58</td><td class="n">–</td><td class="n">0.0997</td><td class="n">−10.2 %</td></tr>
+<tr><td>INLA + Trends + weather</td><td class="n">0.1054</td><td class="n">−11.4 %</td><td class="n">5.46</td><td class="n">–</td><td class="n">0.0994</td><td class="n">−10.5 %</td></tr>
+<tr class="sep"><td colspan="7">Timing, usable</td></tr>
+<tr><td>T1 shifted shape</td><td class="n">0.1096</td><td class="n">−7.9 %</td><td class="n">5.70</td><td class="n">2.55</td><td class="n">0.1041</td><td class="n">−6.2 %</td></tr>
+<tr class="best"><td>S2 + Google Trends</td><td class="n">0.1039</td><td class="n">−12.7 %</td><td class="n">5.77</td><td class="n">2.57</td><td class="n">0.0968</td><td class="n">−12.8 %</td></tr>
+<tr><td>S2C-noONI + weather</td><td class="n">0.1056</td><td class="n">−11.2 %</td><td class="n">5.80</td><td class="n">2.58</td><td class="n">0.0968</td><td class="n">−12.8 %</td></tr>
+<tr><td>S2C + weather + ONI</td><td class="n">0.1073</td><td class="n">−9.9 %</td><td class="n">5.84</td><td class="n">2.60</td><td class="n">0.0979</td><td class="n">−11.8 %</td></tr>
+<tr class="sep"><td colspan="7">Timing, upper bounds (need neighbours' same-year weekly data)</td></tr>
+<tr><td>S1 state curve</td><td class="n">0.0971</td><td class="n">−18.4 %</td><td class="n">5.43</td><td class="n">2.44</td><td class="n">0.0871</td><td class="n">−21.6 %</td></tr>
+<tr><td>S3 state curve + Trends</td><td class="n">0.0963</td><td class="n">−19.1 %</td><td class="n">5.41</td><td class="n">2.41</td><td class="n">0.0868</td><td class="n">−21.8 %</td></tr>
+<tr><td>S3C + weather + ONI</td><td class="n">0.0991</td><td class="n">−16.7 %</td><td class="n">5.45</td><td class="n">2.44</td><td class="n">0.0873</td><td class="n">−21.4 %</td></tr>
+</tbody></table></div>
+<p class="note">Design-C INLA values come from the run finished on 24 Nov 2026 (14 folds). Peak and onset errors are design A, in weeks.</p>
+
+<div class="chart" role="img" aria-label="Bar chart of mean JSD, Brazil design A, selected models">
+  <h4>Brazil, design A: mean JSD (lower is better)</h4>
+  <div class="bars">
+    <span class="lab">B1 seasonal profile</span><span class="track"><span class="fill" style="display:block;width:85.5%"></span></span><span class="val">0.1282</span>
+    <span class="lab">B4 base-paper DM</span><span class="track"><span class="fill" style="display:block;width:83.7%"></span></span><span class="val">0.1256</span>
+    <span class="lab">B4s comparator</span><span class="track"><span class="fill" style="display:block;width:79.3%"></span></span><span class="val">0.1190</span>
+    <span class="lab">M1-noONI weather</span><span class="track"><span class="fill" style="display:block;width:78.3%"></span></span><span class="val">0.1175</span>
+    <span class="lab">INLA-scaled</span><span class="track"><span class="fill" style="display:block;width:75.1%"></span></span><span class="val">0.1126</span>
+    <span class="lab">T1 shifted shape</span><span class="track"><span class="fill" style="display:block;width:73.1%"></span></span><span class="val">0.1096</span>
+    <span class="lab">INLA + Trends</span><span class="track"><span class="fill k" style="display:block;width:70.8%"></span></span><span class="val">0.1062</span>
+    <span class="lab">S2 + Trends</span><span class="track"><span class="fill k" style="display:block;width:69.3%"></span></span><span class="val">0.1039</span>
+    <span class="lab">S1 state curve (bound)</span><span class="track"><span class="fill" style="display:block;width:64.7%"></span></span><span class="val">0.0971</span>
+  </div>
+  <div class="axis"><span></span><span class="ticks"><span>0</span><span>0.05</span><span>0.10</span><span>0.15</span></span><span></span></div>
+</div>
+
+<div class="callout"><p><b>Reading:</b> weather moves the error by about 1 %. Trends moves it by about 13 %, more than twice the gap between the base paper's DM and its final INLA model. S2 is better than B4s in all 12 test years (design A) and all 14 years (design C), and in 72 % of single municipality-years. Peak-week error is still about 5.8 weeks: timing improves but is not solved.</p></div>
+
+<!-- ============================================================ E7 -->
+<h2 id="e7">7. Ablation: which part does the work <span class="flag br">BR</span></h2>
+<p>Each row adds or changes one thing, design A, paired on the same municipality-years.</p>
+<div class="tbl"><table>
+<thead><tr><th>Component</th><th>Models</th><th class="n">Change</th><th class="n">Years better</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Annual size terms</td><td>B4s vs B4</td><td class="n">−5.3 %</td><td class="n">10/12</td><td><span class="v nc">not clear</span></td></tr>
+<tr><td>Local weather</td><td>M1-noONI vs B4s</td><td class="n">−1.3 %</td><td class="n">6/12</td><td><span class="v nc">not clear</span></td></tr>
+<tr><td>ONI on top of weather</td><td>M1 vs M1-noONI</td><td class="n">+1.4 %</td><td class="n">5/12</td><td><span class="v nc">not clear</span></td></tr>
+<tr><td>Long lags</td><td>M1 vs M1-short</td><td class="n">+2.1 %</td><td class="n">3/12</td><td><span class="v nc">not clear</span></td></tr>
+<tr><td>Boosted trees instead of DM</td><td>M2 vs B4s</td><td class="n">+6.5 %</td><td class="n">2/12</td><td><span class="v nc">not clear</span></td></tr>
+<tr><td>Scaled INLA instead of B4s</td><td>INLA-scaled vs B4s</td><td class="n">−5.3 %</td><td class="n">7/12</td><td><span class="v nc">not clear</span></td></tr>
+<tr><td>Shift-only timing</td><td>T1 vs B4s</td><td class="n">−7.9 %</td><td class="n">11/12</td><td><span class="v good">clearly better</span></td></tr>
+<tr><td>Google Trends</td><td>S2 vs B4s</td><td class="n">−12.7 %</td><td class="n">12/12</td><td><span class="v good">clearly better</span></td></tr>
+<tr><td>Weather on top of Trends</td><td>S2C-noONI vs S2</td><td class="n">+1.7 %</td><td class="n">4/12</td><td><span class="v nc">not clear</span></td></tr>
+<tr><td>ONI on top of Trends + weather</td><td>S2C vs S2C-noONI</td><td class="n">+1.6 %</td><td class="n">2/12</td><td><span class="v bad">clearly worse</span></td></tr>
+<tr><td>Trends in scaled INLA</td><td>INLA-trends vs INLA</td><td class="n">−5.7 %</td><td class="n">12/12</td><td><span class="v good">clearly better</span></td></tr>
+<tr><td>Weather on INLA + Trends</td><td>INLA-clim15trends vs INLA-trends</td><td class="n">−0.8 %</td><td class="n">6/12</td><td><span class="v nc">not clear</span></td></tr>
+<tr><td>INLA + Trends instead of S2</td><td>INLA-trends vs S2</td><td class="n">+2.2 %</td><td class="n">4/12</td><td><span class="v nc">not clear</span></td></tr>
+<tr><td>State curve</td><td>S1 vs B4s</td><td class="n">−18.4 %</td><td class="n">12/12</td><td><span class="v good">clearly better</span></td></tr>
+<tr><td>Trends on top of state curve</td><td>S3 vs S1</td><td class="n">−0.8 %</td><td class="n">11/12</td><td><span class="v good">clearly better</span></td></tr>
+<tr><td>Weather + ONI on top of S3</td><td>S3C vs S3</td><td class="n">+2.9 %</td><td class="n">3/12</td><td><span class="v bad">clearly worse</span></td></tr>
+<tr><td>State curve as features, not shift</td><td>S1 vs T1</td><td class="n">−11.4 %</td><td class="n">12/12</td><td><span class="v good">clearly better</span></td></tr>
+<tr><td>State curve from 50 % of towns</td><td>S1-p50 vs S1</td><td class="n">+1.4 %</td><td class="n">1/12</td><td><span class="v bad">clearly worse</span></td></tr>
+<tr><td>State curve from 25 % of towns</td><td>S1-p25 vs S1</td><td class="n">+2.6 %</td><td class="n">1/12</td><td><span class="v bad">clearly worse</span></td></tr>
+<tr><td>State curve, non-study towns only</td><td>S1-ns vs S1</td><td class="n">+5.7 %</td><td class="n">0/12</td><td><span class="v bad">clearly worse</span></td></tr>
+<tr><td>Wrong-year Trends (refitted)</td><td>S2-wy vs S2</td><td class="n">+14.1 %</td><td class="n">1/12</td><td><span class="v bad">clearly worse</span></td></tr>
+<tr><td>Wrong-year state curve</td><td>S1-wy vs S1</td><td class="n">+22.1 %</td><td class="n">0/12</td><td><span class="v bad">clearly worse</span></td></tr>
+<tr><td>Wrong-year signals at test only</td><td>S3-wyTest vs S3</td><td class="n">+37.2 %</td><td class="n">0/12</td><td><span class="v bad">clearly worse</span></td></tr>
+</tbody></table></div>
+<p>The wrong-year controls are the key check: with another year's searches the model drops back exactly to the B4s level (0.1185 vs 0.1190). The gain comes from the right year's timing, not from extra flexibility. Even with only a quarter of towns reporting, the state curve keeps most of its value.</p>
+
+<!-- ============================================================ E8 -->
+<h2 id="e8">8. Learning curve with Trends <span class="flag br">BR</span> design B</h2>
+<div class="tbl"><table>
+<thead><tr><th class="n">k</th><th>Test years</th><th class="n">B4s</th><th class="n">S2</th><th class="n">Trends vs B4s</th><th class="n">Weather vs B4s</th></tr></thead>
+<tbody>
+<tr><td class="n">1</td><td>2011</td><td class="n">0.1014</td><td class="n">0.1014</td><td class="n">0.0 %</td><td class="n">+7.2 %</td></tr>
+<tr><td class="n">2</td><td>2019, 2021, 2023</td><td class="n">0.1056</td><td class="n">0.0929</td><td class="n">−12.0 %</td><td class="n">+11.3 %</td></tr>
+<tr><td class="n">3</td><td>2019, 2021, 2023</td><td class="n">0.1424</td><td class="n">0.1101</td><td class="n">−22.7 %</td><td class="n">−1.5 %</td></tr>
+<tr><td class="n">5</td><td>2019, 2021, 2023</td><td class="n">0.1112</td><td class="n">0.0932</td><td class="n">−16.2 %</td><td class="n">−2.8 %</td></tr>
+<tr><td class="n">7</td><td>2019, 2021, 2023</td><td class="n">0.1071</td><td class="n">0.0896</td><td class="n">−16.3 %</td><td class="n">−3.9 %</td></tr>
+<tr><td class="n">9</td><td>2019, 2021, 2023</td><td class="n">0.1027</td><td class="n">0.0881</td><td class="n">−14.1 %</td><td class="n">−3.4 %</td></tr>
+<tr><td class="n">13</td><td>2023</td><td class="n">0.0746</td><td class="n">0.0663</td><td class="n">−11.2 %</td><td class="n">−2.2 %</td></tr>
+</tbody></table></div>
+<p>Trends helps from <b>two training years</b> on, by 12–23 %, with every municipality interval below zero. With one year it cannot help by construction (anomalies against one year are all zero). Weather hurts with two years and gives about 3 % from four years on. This matters for countries with short weekly records, like Mexico.</p>
+
+<!-- ============================================================ E9 -->
+<h2 id="e9">9. Scaled INLA with Trends <span class="flag br">BR</span></h2>
+<p>Design A (12 folds) finished earlier; design C (14 folds, 210 fits) finished on 24 Nov 2026. Same 300 municipalities.</p>
+<div class="tbl"><table>
+<thead><tr><th>Model</th><th class="n">JSD A</th><th class="n">JSD C</th><th class="n">Peak err C</th><th class="n">EMD C</th><th class="n">MAE counts C</th><th class="n">80 % cov. C</th><th class="n">CRPS C</th></tr></thead>
+<tbody>
+<tr><td>INLA-seasonal-only</td><td class="n">0.1183</td><td class="n">0.1150</td><td class="n">5.71</td><td class="n">5.08</td><td class="n">40.8</td><td class="n">–</td><td class="n">–</td></tr>
+<tr><td>INLA-unscaled</td><td class="n">0.1126</td><td class="n">0.1074</td><td class="n">5.50</td><td class="n">4.63</td><td class="n">63.1</td><td class="n">0.790</td><td class="n">43.7</td></tr>
+<tr><td>INLA-scaled</td><td class="n">0.1126</td><td class="n">0.1074</td><td class="n">5.50</td><td class="n">4.63</td><td class="n">38.3</td><td class="n">0.787</td><td class="n">27.6</td></tr>
+<tr><td>INLA-scaled + Trends</td><td class="n">0.1062</td><td class="n">0.0997</td><td class="n">5.23</td><td class="n">4.40</td><td class="n">35.3</td><td class="n">0.804</td><td class="n">25.3</td></tr>
+<tr class="best"><td>INLA-scaled + Trends + weather</td><td class="n">0.1054</td><td class="n">0.0994</td><td class="n">5.19</td><td class="n">4.42</td><td class="n">35.0</td><td class="n">0.803</td><td class="n">25.1</td></tr>
+</tbody></table></div>
+<h3>Design C paired tests (new)</h3>
+<div class="tbl"><table>
+<thead><tr><th>Contrast</th><th class="n">Change</th><th class="n">CI places</th><th class="n">CI years</th><th class="n">Years better</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>INLA-scaled vs B4s</td><td class="n">−3.2 %</td><td class="n">[−5.4, −1.1]</td><td class="n">[−10.4, +4.8]</td><td class="n">9/14</td><td><span class="v nc">not clear</span></td></tr>
+<tr><td>Trends in INLA</td><td class="n">−7.2 %</td><td class="n">[−7.8, −6.6]</td><td class="n">[−9.5, −5.2]</td><td class="n">14/14</td><td><span class="v good">clearly better</span></td></tr>
+<tr><td>Weather on INLA + Trends</td><td class="n">−0.3 %</td><td class="n">[−0.6, +0.0]</td><td class="n">[−1.6, +0.9]</td><td class="n">7/14</td><td><span class="v nc">not clear</span></td></tr>
+<tr><td>INLA + Trends vs S2</td><td class="n">+3.0 %</td><td class="n">[+0.5, +5.6]</td><td class="n">[−5.5, +10.9]</td><td class="n">6/14</td><td><span class="v nc">not clear</span></td></tr>
+</tbody></table></div>
+<p>Design C confirms design A. Trends lowers INLA's error in every one of the 14 years and also improves its count errors and CRPS. Weather adds nothing on top. S2 (the simpler DM with Trends) still has slightly lower error than INLA + Trends, but the difference is not clear across years. The one exception is 2023, where Trends alone did best (0.072) and weather on top did not help.</p>
+
+<!-- ============================================================ E10 -->
+<h2 id="e10">10. Mexico: data <span class="flag mx">MX</span></h2>
+<ul>
+  <li><b>Cases:</b> OpenDengue V1.3.1, weekly by state (source WHO/PAHO, all reported cases). Checked against the official DGE case-level open data for 2020–2022: yearly totals within 3 %, weekly correlation ≥ 0.98, and 83–99 % of state-weeks exactly identical. No discrepancy, so OpenDengue was used.</li>
+  <li><b>Gaps filled from DGE</b> with the same case definition: 2020 week 53, 2021 weeks 50–52, 2022 weeks 33–51, and all of 2023.</li>
+  <li><b>Usable span:</b> 2017–2023 only (earlier years use a different case definition or are missing). So 7 leave-one-year-out folds.</li>
+  <li><b>Units:</b> the 32 states take the place of municipalities. 31 states have at least one year with ≥ 100 cases and are scored: 184 state-years.</li>
+  <li><b>Weather:</b> NASA POWER at each state capital. <b>Trends:</b> every state has its own series. <b>“State curve” (S1)</b> becomes the summed curve of the other states in the same region (5 regions, 3–7 states each).</li>
+</ul>
+
+<!-- ============================================================ E11 -->
+<h2 id="e11">11. Mexico timing models <span class="flag mx">MX</span> design C</h2>
+<div class="tbl"><table>
+<thead><tr><th>Model</th><th class="n">JSD</th><th class="n">vs B4s</th><th class="n">Peak err</th><th class="n">Onset err</th><th class="n">EMD</th><th class="n">Years better</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>B1 seasonal profile</td><td class="n">0.1030</td><td class="n">+22.3 %</td><td class="n">6.10</td><td class="n">8.11</td><td class="n">4.85</td><td class="n">–</td><td></td></tr>
+<tr><td><b>B4s</b> comparator</td><td class="n">0.0842</td><td class="n">–</td><td class="n">6.78</td><td class="n">5.40</td><td class="n">3.50</td><td class="n">–</td><td></td></tr>
+<tr><td>M1-noONI weather</td><td class="n">0.0861</td><td class="n">+2.3 %</td><td class="n">6.04</td><td class="n">5.39</td><td class="n">3.52</td><td class="n">2/7</td><td><span class="v nc">not clear</span></td></tr>
+<tr><td>M1 weather + ONI</td><td class="n">0.0871</td><td class="n">+3.5 %</td><td class="n">5.92</td><td class="n">5.49</td><td class="n">3.62</td><td class="n">2/7</td><td><span class="v nc">not clear</span></td></tr>
+<tr><td>T1 shifted shape</td><td class="n">0.0929</td><td class="n">+10.3 %</td><td class="n">6.54</td><td class="n">5.38</td><td class="n">3.60</td><td class="n">1/7</td><td><span class="v bad">clearly worse</span></td></tr>
+<tr><td>S2 + Trends</td><td class="n">0.0815</td><td class="n">−3.1 %</td><td class="n">6.57</td><td class="n">5.14</td><td class="n">3.31</td><td class="n">6/7</td><td><span class="v good">clearly better</span></td></tr>
+<tr><td>S1 regional curve (bound)</td><td class="n">0.0791</td><td class="n">−6.1 %</td><td class="n">6.14</td><td class="n">5.37</td><td class="n">3.39</td><td class="n">6/7</td><td><span class="v good">clearly better</span></td></tr>
+<tr class="best"><td>S3 regional curve + Trends (bound)</td><td class="n">0.0775</td><td class="n">−7.9 %</td><td class="n">6.05</td><td class="n">5.03</td><td class="n">3.29</td><td class="n">6/7</td><td><span class="v good">clearly better</span></td></tr>
+<tr><td>S3C + weather + ONI (bound)</td><td class="n">0.0829</td><td class="n">vs S3 +6.9 %</td><td class="n">6.08</td><td class="n">5.21</td><td class="n">3.56</td><td class="n">1/7</td><td><span class="v bad">clearly worse</span> than S3</td></tr>
+</tbody></table></div>
+<p>Same ranking as Brazil: Trends and the neighbour curve help, climate does not. The gains are smaller than in Brazil (Trends −3 % vs −13 %). Two likely reasons: states are large and mix several epidemics, and the neighbours are whole states rather than nearby towns. T1 (a pure shift) hurts in Mexico, unlike Brazil, probably because a region's timing is a poor guide to one state's timing.</p>
+
+<!-- ============================================================ E12 -->
+<h2 id="e12">12. Mexico INLA <span class="flag mx">MX</span> design C</h2>
+<p>7 folds, 21 fits, 28 minutes. All leakage audits passed.</p>
+<div class="tbl"><table>
+<thead><tr><th>Model</th><th class="n">JSD</th><th class="n">Peak err</th><th class="n">EMD</th><th class="n">MAE counts</th><th class="n">80 % cov.</th><th class="n">CRPS</th></tr></thead>
+<tbody>
+<tr><td>INLA-seasonal-only</td><td class="n">0.0969</td><td class="n">5.71</td><td class="n">4.71</td><td class="n">41.5</td><td class="n">–</td><td class="n">–</td></tr>
+<tr><td>INLA-unscaled</td><td class="n">0.0896</td><td class="n">5.34</td><td class="n">4.32</td><td class="n">89.4</td><td class="n">0.799</td><td class="n">55.1</td></tr>
+<tr><td>INLA-scaled</td><td class="n">0.0896</td><td class="n">5.34</td><td class="n">4.32</td><td class="n">39.4</td><td class="n">0.850</td><td class="n">28.8</td></tr>
+<tr><td>INLA-scaled + Trends</td><td class="n">0.0834</td><td class="n">5.33</td><td class="n">3.98</td><td class="n">37.3</td><td class="n">0.862</td><td class="n">27.4</td></tr>
+<tr class="best"><td>INLA-scaled + Trends + weather</td><td class="n">0.0815</td><td class="n">5.34</td><td class="n">3.78</td><td class="n">35.8</td><td class="n">0.864</td><td class="n">26.7</td></tr>
+</tbody></table></div>
+<div class="tbl"><table>
+<thead><tr><th>Contrast</th><th class="n">Change</th><th class="n">CI places</th><th class="n">CI years</th><th class="n">Years better</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>INLA-scaled vs B4s</td><td class="n">+6.5 %</td><td class="n">[−4.5, +18.6]</td><td class="n">[−3.4, +17.1]</td><td class="n">3/7</td><td><span class="v nc">not clear</span></td></tr>
+<tr><td>Trends in INLA</td><td class="n">−6.9 %</td><td class="n">[−9.0, −5.2]</td><td class="n">[−9.2, −4.6]</td><td class="n">7/7</td><td><span class="v good">clearly better</span></td></tr>
+<tr><td>Weather on INLA + Trends</td><td class="n">−2.4 %</td><td class="n">[−4.6, −0.0]</td><td class="n">[−5.9, +1.0]</td><td class="n">4/7</td><td><span class="v nc">not clear</span></td></tr>
+<tr><td>INLA + Trends vs S2</td><td class="n">+2.3 %</td><td class="n">[−8.7, +14.2]</td><td class="n">[−7.0, +12.3]</td><td class="n">4/7</td><td><span class="v nc">not clear</span></td></tr>
+</tbody></table></div>
+<p>Trends improves INLA in all 7 years, as in Brazil. Plain scaled INLA is a bit <em>worse</em> than B4s in Mexico (not clear), the opposite of Brazil. INLA has better peak-week errors than the DM models (5.3 vs 6.6 weeks) and its 80 % bands are slightly too wide (0.86 coverage).</p>
+
+<!-- ============================================================ COMPARE -->
+<h2 id="compare">Brazil vs Mexico, design C</h2>
+<div class="two">
+<div class="chart" role="img" aria-label="Bar chart of mean JSD, Brazil design C">
+  <h4><span class="flag br">BR</span> 14 folds, 3,723 municipality-years</h4>
+  <div class="bars">
+    <span class="lab">B4s</span><span class="track"><span class="fill br" style="display:block;width:92.5%"></span></span><span class="val">0.1110</span>
+    <span class="lab">INLA-scaled</span><span class="track"><span class="fill br" style="display:block;width:89.5%"></span></span><span class="val">0.1074</span>
+    <span class="lab">M1-noONI</span><span class="track"><span class="fill br" style="display:block;width:89.8%"></span></span><span class="val">0.1077</span>
+    <span class="lab">INLA + Trends</span><span class="track"><span class="fill br" style="display:block;width:83.1%"></span></span><span class="val">0.0997</span>
+    <span class="lab">INLA + Tr. + wx</span><span class="track"><span class="fill br" style="display:block;width:82.8%"></span></span><span class="val">0.0994</span>
+    <span class="lab">S2 + Trends</span><span class="track"><span class="fill br" style="display:block;width:80.7%"></span></span><span class="val">0.0968</span>
+    <span class="lab">S3 (bound)</span><span class="track"><span class="fill br" style="display:block;width:72.3%"></span></span><span class="val">0.0868</span>
+  </div>
+  <div class="axis"><span></span><span class="ticks"><span>0</span><span>0.06</span><span>0.12</span></span><span></span></div>
+</div>
+<div class="chart" role="img" aria-label="Bar chart of mean JSD, Mexico design C">
+  <h4><span class="flag mx">MX</span> 7 folds, 184 state-years</h4>
+  <div class="bars">
+    <span class="lab">B4s</span><span class="track"><span class="fill mx" style="display:block;width:70.2%"></span></span><span class="val">0.0842</span>
+    <span class="lab">INLA-scaled</span><span class="track"><span class="fill mx" style="display:block;width:74.7%"></span></span><span class="val">0.0896</span>
+    <span class="lab">M1-noONI</span><span class="track"><span class="fill mx" style="display:block;width:71.8%"></span></span><span class="val">0.0861</span>
+    <span class="lab">INLA + Trends</span><span class="track"><span class="fill mx" style="display:block;width:69.5%"></span></span><span class="val">0.0834</span>
+    <span class="lab">INLA + Tr. + wx</span><span class="track"><span class="fill mx" style="display:block;width:67.9%"></span></span><span class="val">0.0815</span>
+    <span class="lab">S2 + Trends</span><span class="track"><span class="fill mx" style="display:block;width:67.9%"></span></span><span class="val">0.0815</span>
+    <span class="lab">S3 (bound)</span><span class="track"><span class="fill mx" style="display:block;width:64.6%"></span></span><span class="val">0.0775</span>
+  </div>
+  <div class="axis"><span></span><span class="ticks"><span>0</span><span>0.06</span><span>0.12</span></span><span></span></div>
+</div>
+</div>
+<p class="note">Both charts use the same 0–0.12 scale. Mexico's lower values partly reflect larger units (states smooth out noise), so compare models within a country, not levels across countries.</p>
+<div class="tbl"><table>
+<thead><tr><th>Question</th><th><span class="flag br">BR</span></th><th><span class="flag mx">MX</span></th></tr></thead>
+<tbody>
+<tr><td>Does local weather help the DM?</td><td>−3.0 % (C), small</td><td>+2.3 %, no</td></tr>
+<tr><td>Does ONI help?</td><td>No, it hurts</td><td>No, it hurts</td></tr>
+<tr><td>Does Trends help the DM (S2 vs B4s)?</td><td>−12.8 %, clearly, 14/14 years</td><td>−3.1 %, clearly, 6/7 years</td></tr>
+<tr><td>Does Trends help INLA?</td><td>−7.2 %, clearly, 14/14 years</td><td>−6.9 %, clearly, 7/7 years</td></tr>
+<tr><td>Weather on top of Trends?</td><td>~0 %</td><td>−2.4 % in INLA, not clear</td></tr>
+<tr><td>Best usable model</td><td>S2 (0.0968)</td><td>S2 = INLA + Trends + weather (0.0815)</td></tr>
+</tbody></table></div>
+
+<!-- ============================================================ LIMITS -->
+<h2 id="limits">Limitations</h2>
+<ul>
+  <li><b>Exploratory.</b> The climate study (Section 3) was pre-registered. The Trends, timing and Mexico work came after its results were known, so it is exploratory. The locked 2024 test year and other countries are the real out-of-sample checks.</li>
+  <li><b>Upper bounds.</b> S1, S3 and S3C use other places' weekly counts for the same year. They show what is possible if neighbours report, not a usable method where a year is fully missing.</li>
+  <li><b>Google Trends</b> starts in 2004 and is sparse in small states (14 Mexican state-years are all zeros). The Trends gain is smallest in the North of Brazil and in low-search states.</li>
+  <li><b>Mexico is small:</b> 7 years, 184 scored state-years, weather taken at the capital (dengue is often in lowland cities away from highland capitals).</li>
+  <li><b>Notified cases are not infections;</b> 2020 has COVID-era reporting effects (removing it changes no conclusion in Brazil).</li>
+  <li><b>Timing is improved, not solved:</b> peak-week error is still about 5–6 weeks on average.</li>
+</ul>
+
+<!-- ============================================================ FILES -->
+<h2 id="files">Where the files are</h2>
+<div class="tbl"><table>
+<thead><tr><th>Experiment</th><th>Folder (in the repository)</th></tr></thead>
+<tbody>
+<tr><td>1–2 Reproduction and pilot</td><td><code>results/repro_lim/</code>, <code>results/brazil/</code>, <code>docs/RESULTS.md</code></td></tr>
+<tr><td>3, 5 Official climate study</td><td><code>results/official/</code> (<code>OFFICIAL_RESULTS.md</code>, <code>tables/</code>)</td></tr>
+<tr><td>4 Rain-lag follow-up</td><td><code>results/rain_extension/</code></td></tr>
+<tr><td>6–8 Timing and Trends</td><td><code>results/extensions/timing/</code>, report in <code>report/main.pdf</code></td></tr>
+<tr><td>9 INLA (design A / C)</td><td><code>results/extensions/inla/</code>, <code>results/extensions/inla_trends/designA_power_300/</code>, <code>…/designC_power_300/</code></td></tr>
+<tr><td>10 Mexico data</td><td><code>scripts/build_mexico_data.py</code> → <code>C:\dr_data_mx</code> (local)</td></tr>
+<tr><td>11–12 Mexico runs</td><td><code>results/extensions/mexico/timing_designC_power_300/</code>, <code>…/mexico/designC_power_300/</code></td></tr>
+</tbody></table></div>
+<p class="note">Design-C paired tests in Sections 9, 11 and 12 were computed for this page with 2,000 bootstrap replicates (seed 1), resampling places and test years, from the <code>metrics_detail_*.csv</code> files of those runs.</p>
+</main>
+</div>

@@ -1,0 +1,22 @@
+[inla designC_power_300] M=300 folds=14 variants=['base', 'trends', 'clim15trends']
+[inla designC_power_300] C_T2010_k13: checkpoint found, skipped
+[inla designC_power_300] C_T2011_k13: checkpoint found, skipped
+[inla designC_power_300] C_T2012_k13: checkpoint found, skipped
+[inla designC_power_300] C_T2013_k13: 275 eval rows, 196460 obs weeks; base 1440s, trends 1662s, clim15trends 2028s; total 1053.4s; leakage pass; JSD INLA-scaled=0.0972 INLA-scaled-clim15trends=0.0915 INLA-scaled-trends=0.0920 INLA-seasonal-only=0.1104 INLA-unscaled=0.0972
+[inla designC_power_300] C_T2014_k13: 251 eval rows, 196593 obs weeks; base 1314s, trends 1409s, clim15trends 1993s; total 5323.7s; leakage pass; JSD INLA-scaled=0.0878 INLA-scaled-clim15trends=0.0808 INLA-scaled-trends=0.0829 INLA-seasonal-only=0.0973 INLA-unscaled=0.0878
+[inla designC_power_300] C_T2015_k13: 279 eval rows, 196356 obs weeks; base 1507s, trends 1522s, clim15trends 2000s; total 5738.9s; leakage pass; JSD INLA-scaled=0.1116 INLA-scaled-clim15trends=0.1021 INLA-scaled-trends=0.1013 INLA-seasonal-only=0.1247 INLA-unscaled=0.1116
+[inla designC_power_300] C_T2016_k13: 291 eval rows, 196096 obs weeks; base 1298s, trends 1306s, clim15trends 1599s; total 4646.9s; leakage pass; JSD INLA-scaled=0.1236 INLA-scaled-clim15trends=0.1012 INLA-scaled-trends=0.1050 INLA-seasonal-only=0.1401 INLA-unscaled=0.1236
+[inla designC_power_300] C_T2017_k13: 259 eval rows, 196460 obs weeks; base 1021s, trends 1073s, clim15trends 4183s; total 6842.2s; leakage pass; JSD INLA-scaled=0.1371 INLA-scaled-clim15trends=0.1279 INLA-scaled-trends=0.1258 INLA-seasonal-only=0.1262 INLA-unscaled=0.1371
+[inla designC_power_300] C_T2018_k13: 237 eval rows, 196980 obs weeks; base 2076s, trends 1871s, clim15trends 2379s; total 6956.1s; leakage pass; JSD INLA-scaled=0.1285 INLA-scaled-clim15trends=0.1167 INLA-scaled-trends=0.1174 INLA-seasonal-only=0.1315 INLA-unscaled=0.1285
+[inla designC_power_300] C_T2019_k13: 268 eval rows, 196356 obs weeks; base 8584s, trends 1010s, clim15trends 1495s; total 11544.1s; leakage pass; JSD INLA-scaled=0.1030 INLA-scaled-clim15trends=0.0856 INLA-scaled-trends=0.0913 INLA-seasonal-only=0.1172 INLA-unscaled=0.1030
+[inla designC_power_300] C_T2020_k13: 272 eval rows, 196063 obs weeks; base 1046s, trends 1266s, clim15trends 17551s; total 20257.1s; leakage pass; JSD INLA-scaled=0.1009 INLA-scaled-clim15trends=0.0952 INLA-scaled-trends=0.0952 INLA-seasonal-only=0.1077 INLA-unscaled=0.1009
+[inla designC_power_300] C_T2021_k13: 245 eval rows, 196928 obs weeks; base 1108s, trends 1119s, clim15trends 1692s; total 4283.5s; leakage pass; JSD INLA-scaled=0.1090 INLA-scaled-clim15trends=0.1041 INLA-scaled-trends=0.1049 INLA-seasonal-only=0.1219 INLA-unscaled=0.1090
+[inla designC_power_300] C_T2022_k13: 288 eval rows, 196200 obs weeks; base 1010s, trends 1176s, clim15trends 1462s; total 4015.2s; leakage pass; JSD INLA-scaled=0.1124 INLA-scaled-clim15trends=0.1033 INLA-scaled-trends=0.1028 INLA-seasonal-only=0.1252 INLA-unscaled=0.1124
+[inla designC_power_300] C_T2023_k13: 293 eval rows, 195992 obs weeks; base 1046s, trends 1033s, clim15trends 1527s; total 3973.9s; leakage pass; JSD INLA-scaled=0.0755 INLA-scaled-clim15trends=0.0753 INLA-scaled-trends=0.0719 INLA-seasonal-only=0.0751 INLA-unscaled=0.0755
+                             jsd  peak_err     emd  mae_counts   cov80     crps
+model                                                                          
+INLA-scaled               0.1074    5.4974  4.6293     38.3233  0.7871  27.5520
+INLA-scaled-clim15trends  0.0994    5.1937  4.4204     34.9532  0.8031  25.0781
+INLA-scaled-trends        0.0997    5.2280  4.3972     35.2887  0.8043  25.3370
+INLA-seasonal-only        0.1150    5.7078  5.0826     40.8070     NaN      NaN
+INLA-unscaled             0.1074    5.4974  4.6293     63.1481  0.7901  43.6623

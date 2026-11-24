@@ -1,0 +1,454 @@
+{
+ "n_folds": 7,
+ "status": "EXPLORATORY",
+ "official_leakage_audit_all_pass": true,
+ "feature_audit_all_pass": true,
+ "feature_audit": {
+  "C_T2017_k6": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2018_k6": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2019_k6": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2020_k6": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2021_k6": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2022_k6": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  },
+  "C_T2023_k6": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  }
+ },
+ "zero_coef_maxdiff": {
+  "C_T2017_k6": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 1.1102230246251565e-16
+  },
+  "C_T2018_k6": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 8.326672684688674e-17
+  },
+  "C_T2019_k6": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 8.326672684688674e-17
+  },
+  "C_T2020_k6": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 8.326672684688674e-17
+  },
+  "C_T2021_k6": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 9.71445146547012e-17
+  },
+  "C_T2022_k6": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 6.938893903907228e-17
+  },
+  "C_T2023_k6": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 6.938893903907228e-17
+  }
+ },
+ "zero_climate_maxdiff": {
+  "C_T2017_k6": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "C_T2018_k6": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "C_T2019_k6": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "C_T2020_k6": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "C_T2021_k6": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "C_T2022_k6": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  },
+  "C_T2023_k6": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  }
+ },
+ "exact_sums": "asserted for every allocation and every draw inside score_rows",
+ "years_scored": [
+  2017,
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2023
+ ],
+ "fold_wall_s": {
+  "C_T2017_k6": 16.5,
+  "C_T2018_k6": 8.4,
+  "C_T2019_k6": 9.700000000000001,
+  "C_T2020_k6": 9.8,
+  "C_T2021_k6": 9.0,
+  "C_T2022_k6": 9.0,
+  "C_T2023_k6": 8.6
+ },
+ "fit_convergence": {
+  "C_T2017_k6": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.015726264811723456,
+    "nit": 228
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.004556838859486954,
+    "nit": 320
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.004407863436171555,
+    "nit": 386
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.007839890858267352,
+    "nit": 304
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.0033557342273502783,
+    "nit": 261
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.004658864919249717,
+    "nit": 341
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.03808706425657296,
+    "nit": 491
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.0022578135386615295,
+    "nit": 203
+   }
+  },
+  "C_T2018_k6": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.025789296069652565,
+    "nit": 170
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.012633271471310409,
+    "nit": 293
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.018258268317882492,
+    "nit": 365
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.007895778608451032,
+    "nit": 259
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.021342535379412372,
+    "nit": 260
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.03270958073503638,
+    "nit": 279
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.016063310532042463,
+    "nit": 465
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.0073478485352964085,
+    "nit": 199
+   }
+  },
+  "C_T2019_k6": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.007254896969395984,
+    "nit": 220
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.009351731146602614,
+    "nit": 317
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.01859706095909343,
+    "nit": 390
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.021493315783504996,
+    "nit": 341
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.006877221563273306,
+    "nit": 288
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.020809767979249355,
+    "nit": 389
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.03898975435906821,
+    "nit": 519
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.008980463470623909,
+    "nit": 216
+   }
+  },
+  "C_T2020_k6": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.013520514494933841,
+    "nit": 227
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.004391413338993788,
+    "nit": 321
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.005083535700731334,
+    "nit": 377
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.004981993361677678,
+    "nit": 330
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.02265588631584159,
+    "nit": 297
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.05096817368267914,
+    "nit": 356
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.02370196967444324,
+    "nit": 487
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.009148778079240888,
+    "nit": 207
+   }
+  },
+  "C_T2021_k6": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.009191593477940511,
+    "nit": 213
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.01206844524942883,
+    "nit": 297
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.0038224105062364677,
+    "nit": 380
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.028626038444229174,
+    "nit": 318
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.005476186861776616,
+    "nit": 285
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.043166926448791276,
+    "nit": 367
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.05395746585354899,
+    "nit": 474
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.007930151076384562,
+    "nit": 206
+   }
+  },
+  "C_T2022_k6": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.006788935420485645,
+    "nit": 203
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.003831520733133642,
+    "nit": 295
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.004162827986481141,
+    "nit": 383
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.006203544194489652,
+    "nit": 288
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.01210668259371403,
+    "nit": 267
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.022667146899107232,
+    "nit": 345
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.010726587459216508,
+    "nit": 512
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.005275207427582338,
+    "nit": 197
+   }
+  },
+  "C_T2023_k6": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.003346239320423272,
+    "nit": 180
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.00265833138074667,
+    "nit": 276
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.0025007068747692762,
+    "nit": 334
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.0026309829085210505,
+    "nit": 282
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.019977364364159533,
+    "nit": 246
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.005757087840128627,
+    "nit": 337
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.03574478805410168,
+    "nit": 439
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.0025706025693376655,
+    "nit": 172
+   }
+  }
+ },
+ "run_wall_s": 71.8
+}
