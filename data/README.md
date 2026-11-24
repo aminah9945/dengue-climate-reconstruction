@@ -9,6 +9,35 @@ python scripts/run_pipeline.py --step data --with-cox   # + optional Cox et al. 
 
 or `notebooks/00_setup_and_data.ipynb` in Colab. Each download is cached under `DATA_DIR/raw/`, so an interrupted run continues where it stopped. Set `DATA_DIR=/path/to/folder` to keep the data elsewhere (for example on Google Drive).
 
+## Ready-made data snapshot (skip the downloads)
+
+The exact data used for every reported result are attached to the GitHub release
+[`data-v1`](https://github.com/aminah9945/dengue-climate-reconstruction/releases/tag/data-v1):
+
+| File | Contents | Size |
+|---|---|---|
+| `data_brazil_processed.zip` | Brazil processed tables (`dengue_weekly`, `climate_weekly`, ONI, `municipalities.csv`, `year_summary.csv`, timing-extension count cube): everything the models read | 28 MB |
+| `data_brazil_raw.zip` | Brazil raw downloads: InfoDengue CSVs, NASA POWER daily per municipality, IBGE/municipality metadata, ONI | 55 MB |
+| `data_mexico_processed.zip` | Mexico processed tables (32 states, 2017-2023), built by `scripts/build_mexico_data.py` | 1 MB |
+| `data_mexico_raw.zip` | Mexico raw inputs: OpenDengue V1.3.1 extract (+ Mexico subset), DGE open-data year-end snapshots 2020-2023, NASA POWER at state capitals | 64 MB |
+
+```bash
+gh release download data-v1 -R aminah9945/dengue-climate-reconstruction -D snapshot   # or download from the release page
+unzip snapshot/data_brazil_processed.zip -d data_br && unzip snapshot/data_brazil_raw.zip -d data_br
+unzip snapshot/data_mexico_processed.zip -d data_mx && unzip snapshot/data_mexico_raw.zip -d data_mx
+export DATA_DIR=$PWD/data_br                              # Brazil
+# Mexico: DENGUE_COUNTRY=MX DATA_DIR=$PWD/data_mx TIMING_TRENDS_DIR=data_snapshots/google_trends_mx
+```
+
+Google Trends snapshots are already in the repository (`data_snapshots/`). The processed Brazil tables
+contain 2024-2025 rows; the code never loads them while `RUN_FINAL_2024 = False`. All data come from the
+public sources below; cite them as listed. SHA-256 checksums are in the release notes.
+
+Mexico sources (exploratory extension): **OpenDengue V1.3.1** (Clarke et al. 2024, *Sci. Data* 11:296,
+https://opendengue.org, CC BY 4.0), Admin1 weekly "Total" cases 2017-2022; **Dirección General de
+Epidemiología (DGE), Secretaría de Salud**, dengue open data (https://www.gob.mx/salud/documentos/datos-abiertos-bases-historicas-de-enfermedades-transmitidas-por-vector),
+used to check OpenDengue and to fill 2022 weeks 33-51 and 2023; NASA POWER at state capitals.
+
 ## Sources
 
 | Source | What we use | URL | Licence / terms | How it is downloaded |
