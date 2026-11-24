@@ -1,0 +1,16 @@
+{
+ "label": "EXPLORATORY (not pre-registered)",
+ "n_folds": 1,
+ "leakage_audit_all_pass": true,
+ "test_y_all_na": true,
+ "all_fits_ok": true,
+ "years_scored": [
+  2024
+ ],
+ "no_2024": true,
+ "fold_wall_s": {
+  "A_T2024_k14": 13479.4
+ },
+ "total_fold_wall_s": 13479.4,
+ "run_wall_s": 13480.7
+}

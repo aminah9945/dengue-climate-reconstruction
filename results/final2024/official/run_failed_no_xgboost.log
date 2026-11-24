@@ -1,0 +1,17 @@
+[designA_power_300] M=300 folds=1 models=['B0', 'B1', 'B4', 'B4s', 'M1-noONI', 'M1', 'M1-short', 'M1-shufTT', 'M1-shufTest', 'M2']
+Traceback (most recent call last):
+  File "D:\dengue-climate-reconstruction\scripts\run_pipeline.py", line 192, in <module>
+    main()
+  File "D:\dengue-climate-reconstruction\scripts\run_pipeline.py", line 187, in main
+    globals()[f"step_{args.step.replace('-', '_')}"](args)
+  File "D:\dengue-climate-reconstruction\scripts\run_pipeline.py", line 130, in step_official
+    main(design=args.design, climate=args.climate, subset=args.subset,
+  File "D:\dengue-climate-reconstruction\src\dengue_recon\experiments\official.py", line 234, in main
+    P, t, rows, preds, phi, flats, log = run_fold(fold, Pfull, Xc, ey, ew, oni, models, warm, cache, seed)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\dengue-climate-reconstruction\src\dengue_recon\experiments\official.py", line 183, in run_fold
+    pr, info = fit_predict_official(
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\dengue-climate-reconstruction\src\dengue_recon\models\xgb_softmax.py", line 145, in fit_predict_official
+    import xgboost as xgb
+ModuleNotFoundError: No module named 'xgboost'

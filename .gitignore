@@ -55,3 +55,6 @@ results/extensions/mexico/**/work/
 results/extensions/mexico/designC_power_300/folds/
 results/extensions/mexico/**/R_fits.log
 results/extensions/mexico/smoke/
+# Final 2024 test: per-fold checkpoints (copies of metrics_detail) and INLA work files
+results/final2024/**/folds/
+results/final2024/**/work/

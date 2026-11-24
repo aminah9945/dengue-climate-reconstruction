@@ -1,0 +1,11 @@
+[inla designA_power_300] M=300 folds=1 variants=['base', 'clim15', 'clim20', 'trends', 'clim15trends']
+[inla designA_power_300] A_T2024_k14: 300 eval rows, 211592 obs weeks; base 3948s, clim15 2014s, clim20 2064s, trends 1848s, clim15trends 2326s; total 13479.4s; leakage pass; JSD INLA-scaled=0.0844 INLA-scaled-clim15=0.0825 INLA-scaled-clim15trends=0.0711 INLA-scaled-clim20=0.0764 INLA-scaled-trends=0.0718 INLA-seasonal-only=0.0802 INLA-unscaled=0.0844
+                             jsd  peak_err     emd  mae_counts   cov80      crps
+model                                                                           
+INLA-scaled               0.0844    4.4800  4.7179    202.5577  0.8452  137.2163
+INLA-scaled-clim15        0.0825    4.3833  4.6347    202.0447  0.8340  136.1669
+INLA-scaled-clim15trends  0.0711    3.9767  4.1048    172.4924  0.8638  118.6313
+INLA-scaled-clim20        0.0764    4.2933  4.1444    188.4347  0.8465  127.8777
+INLA-scaled-trends        0.0718    3.9567  4.1343    172.1474  0.8687  120.5358
+INLA-seasonal-only        0.0802    4.4100  4.1959    213.1201     NaN       NaN
+INLA-unscaled             0.0844    4.4800  4.7179    334.6716  0.5756  309.5855

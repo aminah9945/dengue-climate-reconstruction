@@ -1,0 +1,15 @@
+[designA_power_300] M=300 folds=1 models=['B0', 'B1', 'B4', 'B4s', 'M1-noONI', 'M1', 'M1-short', 'M1-shufTT', 'M1-shufTest', 'M2']
+[designA_power_300] A_T2024_k14: train years 2010-2023 (k=14), 300 eval rows, fit 182.5s + score 11.4s, leakage audit pass, zero-climate {'M1-noONI': 0.0, 'M1': 0.0}
+                  jsd   peak_err
+model                           
+B0           0.220153  11.796667
+B1           0.097596   5.030000
+B4           0.099786   4.806667
+B4s          0.078494   4.346667
+M1           0.076631   4.563333
+M1-noONI     0.076771   4.486667
+M1-short     0.076444   4.510000
+M1-shufTT    0.078670   4.416667
+M1-shufTest  0.081453   4.540000
+M2           0.087459   4.730000
+[run_pipeline] step 'official' finished in 195s

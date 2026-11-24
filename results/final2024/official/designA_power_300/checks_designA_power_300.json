@@ -1,0 +1,19 @@
+{
+ "n_folds": 1,
+ "leakage_audit_all_pass": true,
+ "zero_climate_maxdiff": {
+  "A_T2024_k14": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  }
+ },
+ "clim_nan": 0,
+ "years_scored": [
+  2024
+ ],
+ "no_2024": true,
+ "fold_wall_s": {
+  "A_T2024_k14": 193.9
+ },
+ "run_wall_s": 194.6
+}

@@ -1,0 +1,2 @@
+fold_id,test_year,k,h_m,centring,climatology,clim_years_ok,oni_std,train_arrays,no_future_train,no_future_in_panel
+A_T2024_k14,2024,14,True,True,True,True,True,True,True,True

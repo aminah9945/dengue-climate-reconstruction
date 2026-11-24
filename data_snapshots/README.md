@@ -22,3 +22,7 @@ A copy of all 140 files is on Google Drive (`dengue_recon_data/google_trends`).
 
 Google samples its Trends data, so a new download differs slightly. Use these
 files to reproduce the timing-model results.
+
+**2023–2025 window (added 24 Nov 2026, for the final 2024 test):** `dengue_<geo>_2023_2025.csv`
+for Brazil and the 27 states, downloaded with the same script. `load_trends` keeps the earlier
+window on ties, so 2010–2023 inputs are unchanged; checks in `results/final2024/data_checks.md`.

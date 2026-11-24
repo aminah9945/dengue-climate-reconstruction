@@ -1,0 +1,31 @@
+28 geos x 6 windows; 28 files to download into D:\dengue-climate-reconstruction\data_snapshots\google_trends
+[1/28] dengue_BR_2023_2025.csv: 107 weeks
+[2/28] dengue_BR-AC_2023_2025.csv: 107 weeks
+[3/28] dengue_BR-AL_2023_2025.csv: 107 weeks
+[4/28] dengue_BR-AM_2023_2025.csv: 107 weeks
+[5/28] dengue_BR-AP_2023_2025.csv: 107 weeks
+  BR-BA 2023-01-01 2025-01-15: TooManyRequestsError: The request failed: Google returned a response with code 429 -> wait 66s
+[6/28] dengue_BR-BA_2023_2025.csv: 107 weeks
+[7/28] dengue_BR-CE_2023_2025.csv: 107 weeks
+[8/28] dengue_BR-DF_2023_2025.csv: 107 weeks
+[9/28] dengue_BR-ES_2023_2025.csv: 107 weeks
+[10/28] dengue_BR-GO_2023_2025.csv: 107 weeks
+[11/28] dengue_BR-MA_2023_2025.csv: 107 weeks
+[12/28] dengue_BR-MG_2023_2025.csv: 107 weeks
+[13/28] dengue_BR-MS_2023_2025.csv: 107 weeks
+[14/28] dengue_BR-MT_2023_2025.csv: 107 weeks
+[15/28] dengue_BR-PA_2023_2025.csv: 107 weeks
+[16/28] dengue_BR-PB_2023_2025.csv: 107 weeks
+[17/28] dengue_BR-PE_2023_2025.csv: 107 weeks
+[18/28] dengue_BR-PI_2023_2025.csv: 107 weeks
+[19/28] dengue_BR-PR_2023_2025.csv: 107 weeks
+[20/28] dengue_BR-RJ_2023_2025.csv: 107 weeks
+[21/28] dengue_BR-RN_2023_2025.csv: 107 weeks
+[22/28] dengue_BR-RO_2023_2025.csv: 107 weeks
+[23/28] dengue_BR-RR_2023_2025.csv: 107 weeks
+[24/28] dengue_BR-RS_2023_2025.csv: 107 weeks
+[25/28] dengue_BR-SC_2023_2025.csv: 107 weeks
+[26/28] dengue_BR-SE_2023_2025.csv: 107 weeks
+[27/28] dengue_BR-SP_2023_2025.csv: 107 weeks
+[28/28] dengue_BR-TO_2023_2025.csv: 107 weeks
+done: 168 files with data, 0 empty, of 168
