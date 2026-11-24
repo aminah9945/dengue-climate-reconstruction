@@ -1,4 +1,5 @@
-"""Score the 2024 final test as fixed in docs/FINAL_TEST_2024.md.
+"""Score the 2024 final test as fixed in docs/FINAL_TEST_2024.md (Mexico: docs/FINAL_TEST_2024_MX.md,
+run with DENGUE_COUNTRY=MX).
 
 Reads the per-row metrics of the three 2024 runs (official, timing, INLA), checks that
 they score the same municipality-years, and writes
@@ -8,12 +9,15 @@ Interval: municipality bootstrap of the mean paired difference, 2,000 replicates
 from __future__ import annotations
 
 import glob
+import os
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
-R = Path("results/final2024")
+MX = os.environ.get("DENGUE_COUNTRY", "BR").upper() == "MX"
+R = Path("results/final2024_mx" if MX else "results/final2024")
+UNIT = "state" if MX else "municipality"
 N_BOOT, SEED = 2000, 1
 
 
@@ -50,16 +54,24 @@ def contrast(d, a, b, rng):
                 lo=100 * lo / mb, hi=100 * hi / mb, share_a_better=100 * (diff < 0).mean())
 
 
-CLAIMS = [  # id, a, b, rule
+CLAIMS_BR = [  # id, a, b, rule
     ("H1", "M1", "B4s", "sign"), ("C1", "S2", "B4s", "neg"), ("C2", "INLA-scaled-trends", "INLA-scaled", "neg"),
     ("C3", "S2C-noONI", "S2", "noimp"), ("C4", "M1", "M1-noONI", "pos_mean"), ("C5", "B4s", "B4", "neg"),
     ("C6", "T1", "B4s", "neg"), ("C7", "S2-wy", "S2", "pos"), ("C8", "S1", "B4s", "neg"),
 ]
-EXTRA = [("M1-noONI", "B4s"), ("M1-short", "M1"), ("M2", "B4s"), ("M1-shufTT", "M1"), ("M1-shufTest", "M1"),
+CLAIMS_MX = [
+    ("C1", "S2", "B4s", "neg"), ("C2", "INLA-scaled-trends", "INLA-scaled", "neg"), ("C3", "S1", "B4s", "neg"),
+    ("C4", "S3", "B4s", "neg"), ("C5", "T1", "B4s", "pos"), ("C6", "S3C", "S3", "pos"), ("C7", "S2-wy", "S2", "pos"),
+]
+EXTRA_MX = [("M1", "B4s"), ("M1-noONI", "B4s"), ("S2C-noONI", "S2"), ("S2C", "S2C-noONI"), ("INLA-scaled", "B4s"),
+            ("INLA-scaled-clim15trends", "INLA-scaled-trends"), ("INLA-scaled-trends", "S2"),
+            ("INLA-scaled-clim15trends", "S2"), ("S3", "S1"), ("S1-wy", "S1"), ("M1", "M1-noONI")]
+EXTRA_BR = [("M1-noONI", "B4s"), ("M1-short", "M1"), ("M2", "B4s"), ("M1-shufTT", "M1"), ("M1-shufTest", "M1"),
          ("INLA-scaled", "B4s"), ("INLA-scaled-clim15", "INLA-scaled"), ("INLA-scaled-clim20", "INLA-scaled"),
          ("INLA-scaled-clim15trends", "INLA-scaled-trends"), ("INLA-scaled-trends", "S2"), ("S2C", "S2C-noONI"),
          ("S3", "S1"), ("S3C", "S3"), ("S1", "T1"), ("S1-wy", "S1"), ("S3-wyTest", "S3"), ("S1-p50", "S1"),
          ("S1-p25", "S1"), ("S1-ns", "S1")]
+CLAIMS, EXTRA = (CLAIMS_MX, EXTRA_MX) if MX else (CLAIMS_BR, EXTRA_BR)
 
 
 def verdict(r, rule):
@@ -98,12 +110,13 @@ def main():
     reg.to_csv(R / "tables/jsd_by_region.csv")
 
     f = lambda x: f"{x:.4f}"  # noqa: E731
-    L = ["# Final test on 2024: results", "",
-         "Protocol: [`docs/FINAL_TEST_2024.md`](../../docs/FINAL_TEST_2024.md) (committed before the run). "
+    proto = "FINAL_TEST_2024_MX.md" if MX else "FINAL_TEST_2024.md"
+    L = ["# Final test on 2024" + (", Mexico" if MX else "") + ": results", "",
+         f"Protocol: [`docs/{proto}`](../../docs/{proto}) (committed before the run). "
          "Data checks: [`data_checks.md`](data_checks.md).", "",
-         f"One fold: train 2010-2023, test 2024. {rows_per_model.iloc[0]} municipality-years (annual total >= 100). "
-         "Intervals: municipality bootstrap, 2,000 replicates, seed 1. Change = relative change in mean JSD.", "",
-         "## Pre-registered check and claims", "",
+         f"One fold: train {'2017' if MX else '2010'}-2023, test 2024. {rows_per_model.iloc[0]} {UNIT}-years "
+         f"(annual total >= 100). Intervals: {UNIT} bootstrap, 2,000 replicates, seed 1. Change = relative change in mean JSD.", "",
+         "## Claims fixed before the run" if MX else "## Pre-registered check and claims", "",
          "| # | Contrast | JSD a | JSD b | Change | 95 % CI | a better in | Result |", "|---|---|---|---|---|---|---|---|"]
     for r in claims.itertuples():
         L.append(f"| {r.id} | {r.a} - {r.b} | {f(r.jsd_a)} | {f(r.jsd_b)} | {r.rel:+.1f} % | "
@@ -115,14 +128,16 @@ def main():
     L += ["", "## Other contrasts (descriptive)", "", "| Contrast | Change | 95 % CI | a better in |", "|---|---|---|---|"]
     for r in extra.itertuples():
         L.append(f"| {r.a} - {r.b} | {r.rel:+.1f} % | [{r.lo:+.1f}, {r.hi:+.1f}] | {r.share_a_better:.0f} % |")
-    keep = [m for m in ["B4s", "M1", "S2", "INLA-scaled", "INLA-scaled-trends", "S1"] if m in reg]
+    keep = [m for m in ["B4s", "M1", "S2", "INLA-scaled", "INLA-scaled-trends", "INLA-scaled-clim15trends", "S1"]
+            if m in reg]
     L += ["", "## Mean JSD by region", "", "| Region | " + " | ".join(keep) + " |", "|---" * (len(keep) + 1) + "|"]
     for g, r in reg[keep].iterrows():
         L.append(f"| {g} | " + " | ".join(f(v) for v in r) + " |")
-    L += ["", "## Consistency checks", "",
-          "- Models fitted in two runs (official and timing) give the same 2024 JSD; largest per-row difference: "
-          + ", ".join(f"{m} {v:.1e}" for m, v in agree.items()) + ".",
-          "- Every model scores the same municipality-years."]
+    L += ["", "## Consistency checks", ""]
+    if agree:
+        L.append("- Models fitted in two runs (official and timing) give the same 2024 JSD; largest per-row difference: "
+                 + ", ".join(f"{m} {v:.1e}" for m, v in agree.items()) + ".")
+    L.append(f"- Every model scores the same {UNIT}-years.")
     (R / "FINAL_TEST_2024_RESULTS.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
 

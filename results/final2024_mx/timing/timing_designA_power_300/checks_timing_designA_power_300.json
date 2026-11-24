@@ -1,0 +1,102 @@
+{
+ "n_folds": 1,
+ "status": "EXPLORATORY",
+ "official_leakage_audit_all_pass": true,
+ "feature_audit_all_pass": true,
+ "feature_audit": {
+  "A_T2024_k7": {
+   "target_not_in_pool": true,
+   "state_clim_train_only": true,
+   "trends_clim_train_only": true,
+   "shift_template_train_only": true,
+   "standardise_train_rows": true
+  }
+ },
+ "zero_coef_maxdiff": {
+  "A_T2024_k7": {
+   "S1": 0.0,
+   "S2": 0.0,
+   "S3": 0.0,
+   "S3C": 0.0,
+   "T1": 8.326672684688674e-17
+  }
+ },
+ "zero_climate_maxdiff": {
+  "A_T2024_k7": {
+   "M1-noONI": 0.0,
+   "M1": 0.0
+  }
+ },
+ "exact_sums": "asserted for every allocation and every draw inside score_rows",
+ "years_scored": [
+  2024
+ ],
+ "fold_wall_s": {
+  "A_T2024_k7": 30.0
+ },
+ "fit_convergence": {
+  "A_T2024_k7": {
+   "B4s": {
+    "success": true,
+    "grad_inf": 0.0033974534135537728,
+    "nit": 232
+   },
+   "M1-noONI": {
+    "success": true,
+    "grad_inf": 0.022444537254169325,
+    "nit": 323
+   },
+   "M1": {
+    "success": true,
+    "grad_inf": 0.005658684439962147,
+    "nit": 400
+   },
+   "S1": {
+    "success": true,
+    "grad_inf": 0.031015623949770088,
+    "nit": 291
+   },
+   "S2": {
+    "success": true,
+    "grad_inf": 0.006414606262090672,
+    "nit": 261
+   },
+   "S3": {
+    "success": true,
+    "grad_inf": 0.041558490929061054,
+    "nit": 371
+   },
+   "S3C": {
+    "success": true,
+    "grad_inf": 0.02201734544905798,
+    "nit": 518
+   },
+   "T1": {
+    "success": true,
+    "grad_inf": 0.012001892224302299,
+    "nit": 210
+   },
+   "S1-wy": {
+    "success": true,
+    "grad_inf": 0.006962986046239683,
+    "nit": 212
+   },
+   "S2-wy": {
+    "success": true,
+    "grad_inf": 0.009842878759448725,
+    "nit": 179
+   },
+   "S2C": {
+    "success": true,
+    "grad_inf": 0.028671819107322083,
+    "nit": 428
+   },
+   "S2C-noONI": {
+    "success": true,
+    "grad_inf": 0.020301554545589906,
+    "nit": 332
+   }
+  }
+ },
+ "run_wall_s": 30.9
+}

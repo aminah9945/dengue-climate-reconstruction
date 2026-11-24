@@ -1,0 +1,43 @@
+33 geos x 6 windows; 33 files to download into data_snapshots\google_trends_mx
+  MX 2023-01-01 2025-01-15: TooManyRequestsError: The request failed: Google returned a response with code 429 -> wait 61s
+[1/33] dengue_MX_2023_2025.csv: 107 weeks
+[2/33] dengue_MX-AGU_2023_2025.csv: 107 weeks
+[3/33] dengue_MX-BCN_2023_2025.csv: 107 weeks
+[4/33] dengue_MX-BCS_2023_2025.csv: 107 weeks
+  MX-CAM 2023-01-01 2025-01-15: TooManyRequestsError: The request failed: Google returned a response with code 429 -> wait 63s
+[5/33] dengue_MX-CAM_2023_2025.csv: 107 weeks
+[6/33] dengue_MX-CHH_2023_2025.csv: 107 weeks
+  MX-CHP 2023-01-01 2025-01-15: TooManyRequestsError: The request failed: Google returned a response with code 429 -> wait 62s
+  MX-CHP 2023-01-01 2025-01-15: TooManyRequestsError: The request failed: Google returned a response with code 429 -> wait 121s
+  MX-CHP 2023-01-01 2025-01-15: TooManyRequestsError: The request failed: Google returned a response with code 429 -> wait 247s
+[7/33] dengue_MX-CHP_2023_2025.csv: 107 weeks
+[8/33] dengue_MX-DIF_2023_2025.csv: 107 weeks
+  MX-COA 2023-01-01 2025-01-15: TooManyRequestsError: The request failed: Google returned a response with code 429 -> wait 67s
+  MX-COA 2023-01-01 2025-01-15: TooManyRequestsError: The request failed: Google returned a response with code 429 -> wait 122s
+[9/33] dengue_MX-COA_2023_2025.csv: 107 weeks
+[10/33] dengue_MX-COL_2023_2025.csv: 107 weeks
+[11/33] dengue_MX-DUR_2023_2025.csv: 107 weeks
+[12/33] dengue_MX-GRO_2023_2025.csv: 107 weeks
+[13/33] dengue_MX-GUA_2023_2025.csv: 107 weeks
+[14/33] dengue_MX-HID_2023_2025.csv: 107 weeks
+[15/33] dengue_MX-JAL_2023_2025.csv: 107 weeks
+[16/33] dengue_MX-MEX_2023_2025.csv: 107 weeks
+[17/33] dengue_MX-MIC_2023_2025.csv: 107 weeks
+[18/33] dengue_MX-MOR_2023_2025.csv: 107 weeks
+  MX-NAY 2023-01-01 2025-01-15: TooManyRequestsError: The request failed: Google returned a response with code 429 -> wait 63s
+[19/33] dengue_MX-NAY_2023_2025.csv: 107 weeks
+[20/33] dengue_MX-NLE_2023_2025.csv: 107 weeks
+[21/33] dengue_MX-OAX_2023_2025.csv: 107 weeks
+[22/33] dengue_MX-PUE_2023_2025.csv: 107 weeks
+[23/33] dengue_MX-QUE_2023_2025.csv: 107 weeks
+[24/33] dengue_MX-ROO_2023_2025.csv: 107 weeks
+[25/33] dengue_MX-SIN_2023_2025.csv: 107 weeks
+[26/33] dengue_MX-SLP_2023_2025.csv: 107 weeks
+[27/33] dengue_MX-SON_2023_2025.csv: 107 weeks
+[28/33] dengue_MX-TAB_2023_2025.csv: 107 weeks
+[29/33] dengue_MX-TAM_2023_2025.csv: 107 weeks
+[30/33] dengue_MX-TLA_2023_2025.csv: 107 weeks
+[31/33] dengue_MX-VER_2023_2025.csv: 107 weeks
+[32/33] dengue_MX-YUC_2023_2025.csv: 107 weeks
+[33/33] dengue_MX-ZAC_2023_2025.csv: 107 weeks
+done: 197 files with data, 1 empty, of 198

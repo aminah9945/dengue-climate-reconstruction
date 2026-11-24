@@ -58,3 +58,5 @@ results/extensions/mexico/smoke/
 # Final 2024 test: per-fold checkpoints (copies of metrics_detail) and INLA work files
 results/final2024/**/folds/
 results/final2024/**/work/
+results/final2024_mx/**/folds/
+results/final2024_mx/**/work/
