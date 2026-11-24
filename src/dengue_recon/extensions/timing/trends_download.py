@@ -41,6 +41,9 @@ WINDOWS = [
     (2016, 2019, "2016-01-01 2019-12-31"),
     (2019, 2022, "2019-01-01 2022-12-31"),
     (2022, 2024, "2022-01-01 2024-01-15"),
+    # added for the single 2024 final test (downloaded Nov 2026). For 2010-2023 nothing changes:
+    # load_trends keeps the earlier window on ties, so 2023 still comes from the 2022-2024 file.
+    (2023, 2025, "2023-01-01 2025-01-15"),
 ]
 
 

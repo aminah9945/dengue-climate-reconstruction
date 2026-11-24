@@ -62,7 +62,9 @@ LIM_MASK_PATH = Path(os.environ.get("LIM_MASK_PATH", LIM_DIR / "masks" / "inla_d
 LIM_TARGET_TABLE = LIM_DIR / "CV_tab1_cv_performance_disaggregation.csv"
 
 # ---------------------------------------------------------------- study design (Step 6)
-RUN_FINAL_2024 = False          # 2024 stays untouched in the pilot (never set True here)
+# 2024 stays locked. The single final test (docs/FINAL_TEST_2024.md) is run with the
+# environment variable DENGUE_RUN_FINAL_2024=1; the default (and every test) keeps it False.
+RUN_FINAL_2024 = os.environ.get("DENGUE_RUN_FINAL_2024", "0") == "1"
 LOYO_YEARS = list(range(2010, 2024))   # 14 leave-one-year-out folds
 FINAL_TEST_YEAR = 2024
 MIN_TOTAL_TRAIN = 20            # training rows: annual total >= 20
