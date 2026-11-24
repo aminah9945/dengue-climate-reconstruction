@@ -68,7 +68,8 @@ STATES = {
     31: ("YUCATAN", "YUC", "South-Southeast", "Merida", 20.9674, -89.5926),
     32: ("ZACATECAS", "ZAC", "West", "Zacatecas", 22.7709, -102.5832),
 }
-YEARS = list(range(2017, 2024))
+OD_YEARS = list(range(2017, 2023))  # OpenDengue weeks used (2023 has none)
+YEARS = list(range(2017, 2024))     # extended to 2024 with --last-year 2024 (final test only)
 
 
 def meta() -> pd.DataFrame:
@@ -83,7 +84,7 @@ def opendengue_cases(path, cal) -> tuple[pd.DataFrame, set]:
     od = od[(od.S_res == "Admin1") & (od.T_res == "Week")].copy()
     od["week_start"] = pd.to_datetime(od.calendar_start_date)
     od = od.merge(cal[["week_start", "epi_year", "epi_week"]], on="week_start", how="inner")
-    od = od[od.epi_year.isin(YEARS[:-1])]
+    od = od[od.epi_year.isin(OD_YEARS)]
     assert (od.case_definition_standardised == "Total").all()
     code = {v[0]: k for k, v in STATES.items()}
     assert set(od.adm_1_name) <= set(code), set(od.adm_1_name) - set(code)
@@ -97,7 +98,10 @@ def dge_cases(folder, cal) -> pd.DataFrame:
     rows = []
     for f in sorted(glob.glob(str(Path(folder) / "*" / "*.csv"))):
         d = pd.read_csv(f, dtype=str, encoding="latin-1", usecols=["ENTIDAD_ASIG", "FECHA_SIGN_SINTOMAS"])
-        d["onset"] = pd.to_datetime(d.FECHA_SIGN_SINTOMAS, errors="coerce")
+        # 2020-2023 snapshots write ISO dates, the 2024 snapshot writes dd/mm/yyyy: parse both strictly
+        iso = pd.to_datetime(d.FECHA_SIGN_SINTOMAS, format="%Y-%m-%d", errors="coerce")
+        d["onset"] = iso.fillna(pd.to_datetime(d.FECHA_SIGN_SINTOMAS, format="%d/%m/%Y", errors="coerce"))
+        assert d.onset.notna().mean() > 0.999, f"{f}: unparsed onset dates"
         d["week_start"] = d.onset - pd.to_timedelta((d.onset.dt.day_of_week + 1) % 7, unit="D")  # Sunday weeks
         d["geocode"] = pd.to_numeric(d.ENTIDAD_ASIG, errors="coerce")
         d = d[d.geocode.between(1, 32)]
@@ -118,7 +122,13 @@ def main():
     ap.add_argument("--dge", required=True, help="folder with one unzipped DGE snapshot per subfolder")
     ap.add_argument("--oni-from", required=True, help="Brazil DATA_DIR holding oni_weekly.parquet / oni_monthly.csv")
     ap.add_argument("--skip-power", action="store_true")
+    ap.add_argument("--last-year", type=int, default=2023,
+                    help="2024 only for the final test (docs/FINAL_TEST_2024_MX.md); needs DENGUE_RUN_FINAL_2024=1")
     a = ap.parse_args()
+    global YEARS
+    assert a.last_year in (2023, 2024)
+    assert a.last_year <= C.max_loaded_year(), "2024 is locked: set DENGUE_RUN_FINAL_2024=1"
+    YEARS = list(range(2017, a.last_year + 1))
     from dengue_recon.data import build_dataset as BDS, download as DL
     from dengue_recon.data.epiweeks import calendar
 
@@ -173,7 +183,7 @@ def main():
             "capital"]
     g = g[cols].sort_values(["geocode", "epi_year", "epi_week"]).reset_index(drop=True)
 
-    tot = ys.groupby("geocode").year_total.sum().rename("total_cases_2017_2023")
+    tot = ys[ys.epi_year <= 2023].groupby("geocode").year_total.sum().rename("total_cases_2017_2023")  # never 2024
     m = m.merge(tot, on="geocode")
     g.to_parquet(out / "dengue_weekly.parquet", index=False)
     clim.to_parquet(out / "climate_weekly.parquet", index=False)

@@ -8,7 +8,7 @@
 4. Plausibility: correlation of each state's 2024 search shares with the state's
    weekly case shares (study municipalities summed), compared with 2019-2023.
 
-Writes ``results/final2024/data_checks.md``. Run with DATA_DIR, TIMING_TRENDS_DIR and
+Writes ``results/final2024/data_checks.md`` (``results/final2024_mx/data_checks.md`` with DENGUE_COUNTRY=MX). Run with DATA_DIR, TIMING_TRENDS_DIR and
 PYTHONPATH=src; 2024 must be unlocked (DENGUE_RUN_FINAL_2024=1) for checks 3-4.
 """
 from __future__ import annotations
@@ -22,7 +22,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-OUT = Path("results/final2024/data_checks.md")
+CTRY = os.environ.get("DENGUE_COUNTRY", "BR").upper()
+OUT = Path("results/final2024/data_checks.md" if CTRY == "BR" else "results/final2024_mx/data_checks.md")
 
 
 def jsd(p, q):
@@ -44,8 +45,8 @@ def load(trends_dir, final):
 
 def main():
     src = Path(os.environ["TIMING_TRENDS_DIR"])
-    new = sorted(src.glob("dengue_BR*_2023_2025.csv"))
-    lines = ["# 2024 data checks (Google Trends)", "",
+    new = sorted(src.glob(f"dengue_{CTRY}*_2023_2025.csv"))
+    lines = [f"# 2024 data checks (Google Trends, {CTRY})", "",
              f"New window files: {len(new)} (`dengue_<geo>_2023_2025.csv`).", ""]
 
     # 1. unchanged 2010-2023
@@ -64,6 +65,8 @@ def main():
     rows = []
     for f in new:
         geo = f.name.split("_")[1]
+        if not (src / f"dengue_{geo}_2022_2024.csv").exists():   # no searches in the old window
+            continue
         a = pd.read_csv(src / f"dengue_{geo}_2022_2024.csv")
         b = pd.read_csv(f)
         m = a.merge(b, on="date", suffixes=("_old", "_new"))
@@ -96,8 +99,8 @@ def main():
     # 4. plausibility vs cases
     import dengue_recon.config as C
     d = pd.read_parquet(C.DATA_DIR / "dengue_weekly.parquet", columns=["uf", "epi_year", "epi_week", "cases"])
-    d = d[d.epi_year.between(2019, 2024)].groupby(["uf", "epi_year", "epi_week"]).cases.sum().reset_index()
-    d["geo"] = "BR-" + d.uf
+    d = d[d.epi_year.between(2019 if CTRY == "BR" else 2017, 2024)].groupby(["uf", "epi_year", "epi_week"]).cases.sum().reset_index()
+    d["geo"] = f"{CTRY}-" + d.uf
     m = d.merge(tr, on=["geo", "epi_year", "epi_week"])
     cor = m.groupby(["geo", "epi_year"]).apply(
         lambda z: np.corrcoef(z.cases, z.value)[0, 1] if z.value.std() > 0 and z.cases.std() > 0 else np.nan,
