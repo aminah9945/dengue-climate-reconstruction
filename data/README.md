@@ -35,7 +35,7 @@ public sources below; cite them as listed. SHA-256 checksums are in the release 
 
 Mexico sources (exploratory extension): **OpenDengue V1.3.1** (Clarke et al. 2024, *Sci. Data* 11:296,
 https://opendengue.org, CC BY 4.0), Admin1 weekly "Total" cases 2017-2022; **Dirección General de
-Epidemiología (DGE), Secretaría de Salud**, dengue open data (https://www.gob.mx/salud/documentos/datos-abiertos-bases-historicas-de-enfermedades-transmitidas-por-vector),
+Epidemiología (DGE), Secretaría de Salud**, dengue open data (year-end snapshots from `https://datosabiertos.salud.gob.mx/gobmx/salud/datos_abiertos/etv/historicos/<year>/`),
 used to check OpenDengue and to fill 2022 weeks 33-51 and 2023; NASA POWER at state capitals.
 
 ## Sources
