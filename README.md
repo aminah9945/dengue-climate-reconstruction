@@ -6,7 +6,7 @@
 
 **Status: final 2024 test pending.**
 
-**Author:** Aminah, FAST-NUCES Islamabad (MS research paper).
+**Author:** Aminah, FAST-NUCES Islamabad .
 
 This repository reproduces a published Dirichlet-multinomial disaggregation model (Lim et al. 2026) and extends it with lagged climate anomalies. The aim is to reconstruct weekly dengue notification curves of Brazilian municipalities from their known annual totals. Everything runs on an ordinary CPU, locally or in Google Colab.
 
